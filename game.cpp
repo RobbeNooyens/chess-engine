@@ -9,8 +9,8 @@ Game::Game() {}
 
 Game::~Game() {}
 
-// Zet het bord klaar; voeg de stukken op de jusite plaats toe
 void Game::setStartBord() {
+    // Load initial game state
     const char initialSetup[8][8] =
             {{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
              {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
@@ -22,30 +22,32 @@ void Game::setStartBord() {
              {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}};
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            this->setPiece(i, j, pieceFromCharacter(initialSetup[i][j]));
+            this->setPiece(i, j, pieceFromCharacter(initialSetup[i][j], i, j));
 }
 
-SchaakStuk* Game::pieceFromCharacter(char c){
+SchaakStuk* Game::pieceFromCharacter(char c, int r, int k){
+    // Create chesspieces based on their character representation in the initialSetup 2D array
     zw color = std::islower(c) ? zwart : wit;
     switch (std::tolower(c)) {
         case 'r':
-            return new Toren(color);
+            return new Toren(color, r, k);
         case 'n':
-            return new Paard(color);
+            return new Paard(color, r, k);
         case 'b':
-            return new Loper(color);
+            return new Loper(color, r, k);
         case 'q':
-            return new Koningin(color);
+            return new Koningin(color, r, k);
         case 'k':
-            return new Koning(color);
+            return new Koning(color, r, k);
         case 'p':
-            return new Pion(color, std::islower(c) ? up : down);
+            return new Pion(color, r, k, std::islower(c) ? up : down);
         default:
             return nullptr;
     }
 }
 
 bool Game::isValidMove(SchaakStuk * s, int r, int k) {
+    // Checks if there's a match in the vector of possible moves
     std::vector<std::pair<int, int>> moves = s->valid_moves(this);
     for(const auto &move: moves){
         if(move.first == r && move.second == k){
@@ -63,6 +65,9 @@ void Game::onTileClick(ChessBoard* scene, int r, int k) {
         else if(selectedPieceOwner(pieceOnTarget) == turn){
             scene->setTileSelect(r, k, true);
             selectedPiece = pieceOnTarget;
+            updateFocusTiles(scene);
+            scene->update();
+            turn = (turn == black) ? white : black;
         }
     } else {
         move(selectedPiece, r, k);
@@ -77,7 +82,7 @@ void Game::updateFocusTiles(ChessBoard *scene) {
         if(getPiece(move.first, move.second) == nullptr)
             scene->setTileFocus(move.first, move.second, true);
         else
-            scene->setTileThreat(move.first, move.second, true);
+            scene->setPieceThreat(move.first, move.second, true);
     }
 }
 

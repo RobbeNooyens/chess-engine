@@ -24,7 +24,7 @@ public:
     bool pat(zw);
     void setStartBord();
 
-    SchaakStuk* getPiece(int r, int k) {return bord[r][k];}
+    SchaakStuk* getPiece(int r, int k) const {return bord[r][k];}
     void setPiece(int r, int k, SchaakStuk* s) { bord[r][k] = s; }
 
     void onTileClick(ChessBoard* scene, int r, int k);
@@ -36,7 +36,7 @@ private:
     SchaakStuk* selectedPiece = nullptr;
     bool isValidMove(SchaakStuk*, int, int);
     static player selectedPieceOwner(SchaakStuk*) ;
-    static SchaakStuk* pieceFromCharacter(char);
+    static SchaakStuk* pieceFromCharacter(char c, int r, int k);
 };
 
 

@@ -11,13 +11,21 @@
 enum zw{zwart,wit};
 enum direction{up, down};
 
+struct Direction {
+    int rowRelative;
+    int columnRelative;
+    Direction(int r, int c) : rowRelative(r), columnRelative(c){}
+};
+
 class Game;
 class SchaakStuk {
 public:
-    SchaakStuk(zw kleur): kleur(kleur) {}
+    SchaakStuk(zw kleur, int row, int column): kleur(kleur), row(row), column(column) {}
 
     virtual Piece piece() const=0;
-    virtual std::vector<std::pair<int,int>> valid_moves(Game* game) const= 0;
+    virtual std::vector<std::pair<int,int>> valid_moves(const Game* game) const= 0;
+
+    std::vector<std::pair<int, int>> moves_from_directions(const Game* game, const std::vector<Direction>& directions) const;
 
     zw getKleur() const {return kleur;}
 
@@ -25,8 +33,8 @@ public:
     int getColumn() const {return column;}
     void updatePosition(int r, int c);
 
-    bool canMoveTo(Game* game, int r, int c) const;
-    bool canTakeAt(Game* game, int r, int c) const;
+    bool canMoveTo(const Game* game, int r, int c) const;
+    bool canTakeAt(const Game* game, int r, int c) const;
 
 protected:
     int row;
@@ -38,13 +46,13 @@ private:
 
 class Pion:public SchaakStuk {
 public:
-    Pion(zw kleur, direction dir): SchaakStuk(kleur), moveDirection(dir) {}
+    Pion(zw kleur, int row, int column, direction dir): SchaakStuk(kleur, row, column), moveDirection(dir) {}
 
     Piece piece() const override {
         return {Piece::Pawn,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 
 private:
     direction moveDirection;
@@ -52,57 +60,57 @@ private:
 
 class Toren:public SchaakStuk {
 public:
-    Toren(zw kleur):SchaakStuk(kleur) {}
+    Toren(zw kleur, int row, int column):SchaakStuk(kleur, row, column) {}
 
     Piece piece() const override {
         return {Piece::Rook,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 };
 
 class Paard:public SchaakStuk {
 public:
-    Paard(zw kleur):SchaakStuk(kleur) {}
+    Paard(zw kleur, int row, int column):SchaakStuk(kleur, row, column) {}
 
     Piece piece() const override {
         return {Piece::Knight,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 };
 
 class Loper:public SchaakStuk {
 public:
-    Loper(zw kleur):SchaakStuk(kleur) {}
+    Loper(zw kleur, int row, int column):SchaakStuk(kleur, row, column) {}
 
     Piece piece() const override {
         return {Piece::Bishop,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 };
 
 class Koning:public SchaakStuk {
 public:
-    Koning(zw kleur):SchaakStuk(kleur) {}
+    Koning(zw kleur, int row, int column):SchaakStuk(kleur, row, column) {}
 
     Piece piece() const override {
         return {Piece::King,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 };
 
 class Koningin:public SchaakStuk {
 public:
-    Koningin(zw kleur):SchaakStuk(kleur) {}
+    Koningin(zw kleur, int row, int column):SchaakStuk(kleur, row, column) {}
 
     Piece piece() const override {
         return {Piece::Queen,getKleur()==wit?Piece::White:Piece::Black};
     }
 
-    std::vector<std::pair<int,int>> valid_moves(Game* game) const override;
+    std::vector<std::pair<int,int>> valid_moves(const Game* game) const override;
 };
 
 #endif //SCHAKEN_SCHAAKSTUK_H
