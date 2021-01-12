@@ -11,22 +11,22 @@ void SchaakStuk::updatePosition(int r, int c) {
     this->column = c;
 }
 
-bool SchaakStuk::canMoveTo(Game &game, int r, int c) const{
+bool SchaakStuk::canMoveTo(Game* game, int r, int c) const{
     if(r < 0 || r >= 8 || c < 0 || c >= 8)
         return false;
-    return game.getPiece(r, c) != nullptr;
+    return game->getPiece(r, c) != nullptr;
 }
 
-bool SchaakStuk::canTakeAt(Game &game, int r, int c) const{
+bool SchaakStuk::canTakeAt(Game* game, int r, int c) const{
     if(r < 0 || r >= 8 || c < 0 || c >= 8)
         return false;
-    SchaakStuk* piece = game.getPiece(r, c);
+    SchaakStuk* piece = game->getPiece(r, c);
     if(piece == nullptr)
         return false;
     return piece->getKleur() != kleur;
 }
 
-std::vector<std::pair<int,int>> Pion::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Pion::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     int dirRelative = moveDirection == up ? -1 : 1;
     int nextRow = row + dirRelative;
@@ -48,27 +48,27 @@ std::vector<std::pair<int,int>> Pion::valid_moves(Game &game) const {
     return moves;
 }
 
-std::vector<std::pair<int,int>> Toren::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Toren::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     return moves;
 }
 
-std::vector<std::pair<int,int>> Paard::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Paard::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     return moves;
 }
 
-std::vector<std::pair<int,int>> Loper::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Loper::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     return moves;
 }
 
-std::vector<std::pair<int,int>> Koningin::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Koningin::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     return moves;
 }
 
-std::vector<std::pair<int,int>> Koning::valid_moves(Game &game) const {
+std::vector<std::pair<int,int>> Koning::valid_moves(Game* game) const {
     std::vector<std::pair<int,int>> moves;
     return moves;
 }

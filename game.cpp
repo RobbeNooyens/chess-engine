@@ -45,11 +45,56 @@ SchaakStuk* Game::pieceFromCharacter(char c){
     }
 }
 
+bool Game::isValidMove(SchaakStuk * s, int r, int k) {
+    std::vector<std::pair<int, int>> moves = s->valid_moves(this);
+    for(const auto &move: moves){
+        if(move.first == r && move.second == k){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Game::onTileClick(ChessBoard* scene, int r, int k) {
+    SchaakStuk* pieceOnTarget = getPiece(r, k);
+    if(selectedPiece == nullptr){
+        if(pieceOnTarget == nullptr)
+            return;
+        else if(selectedPieceOwner(pieceOnTarget) == turn){
+            scene->setTileSelect(r, k, true);
+            selectedPiece = pieceOnTarget;
+        }
+    } else {
+        move(selectedPiece, r, k);
+        scene->removeAllMarking();
+        selectedPiece = nullptr;
+    }
+}
+
+void Game::updateFocusTiles(ChessBoard *scene) {
+    std::vector<std::pair<int,int>> moves = selectedPiece->valid_moves(this);
+    for(const auto &move: moves){
+        if(getPiece(move.first, move.second) == nullptr)
+            scene->setTileFocus(move.first, move.second, true);
+        else
+            scene->setTileThreat(move.first, move.second, true);
+    }
+}
+
+player Game::selectedPieceOwner(SchaakStuk* s) { return s->getKleur() == zwart ? black : white; }
+
 // Verplaats stuk s naar positie (r,k)
 // Als deze move niet mogelijk is, wordt false teruggegeven
 // en verandert er niets aan het schaakbord.
 // Anders wordt de move uitgevoerd en wordt true teruggegeven
 bool Game::move(SchaakStuk* s, int r, int k) {
+    if(!isValidMove(s, r, k))
+        return false;
+    SchaakStuk* pieceOnTarget = getPiece(r, k);
+    delete pieceOnTarget;
+    setPiece(s->getRow(), s->getColumn(), nullptr);
+    setPiece(r, k, s);
+    s->updatePosition(r, k);
     return true;
 }
 

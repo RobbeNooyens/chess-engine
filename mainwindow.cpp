@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 // geklikt wordt. x,y geeft de positie aan waar er geklikt
 // werd; r is de 0-based rij, k de 0-based kolom
 void MainWindow::clicked(int r, int k) {
+    g.onTileClick(scene, r, k);
 }
 
 // Wat hier staat is slechts een voorbeeldje dat wordt afgespeeld ter illustratie.
