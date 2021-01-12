@@ -17,26 +17,31 @@ public:
     Game();
     ~Game();
 
-    bool move(SchaakStuk* s,int r, int k); // Verplaats stuk s naar rij r en kolom k
+    bool move(SchaakStuk*,int, int);
 
+    // Game state checks
     bool schaak(zw);
     bool schaakmat(zw);
     bool pat(zw);
     void setStartBord();
 
+    // Getter and setter for a piece on the board
     SchaakStuk* getPiece(int r, int k) const {return bord[r][k];}
     void setPiece(int r, int k, SchaakStuk* s) { bord[r][k] = s; }
 
-    void onTileClick(ChessBoard* scene, int r, int k);
-    void updateFocusTiles(ChessBoard* scene);
+    // Events
+    void onTileClick(ChessBoard*, int, int);
 
 private:
+    // Private members
     SchaakStuk* bord[8][8];
     player turn = white;
     SchaakStuk* selectedPiece = nullptr;
+    // Helper methods
     bool isValidMove(SchaakStuk*, int, int);
+    void updateFocusTiles(ChessBoard* scene);
     static player selectedPieceOwner(SchaakStuk*) ;
-    static SchaakStuk* pieceFromCharacter(char c, int r, int k);
+    static SchaakStuk* pieceFromCharacter(char, int, int);
 };
 
 

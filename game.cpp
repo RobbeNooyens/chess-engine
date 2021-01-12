@@ -59,18 +59,24 @@ bool Game::isValidMove(SchaakStuk * s, int r, int k) {
 
 void Game::onTileClick(ChessBoard* scene, int r, int k) {
     SchaakStuk* pieceOnTarget = getPiece(r, k);
-    if(selectedPiece == nullptr){
-        if(pieceOnTarget == nullptr)
-            return;
-        else if(selectedPieceOwner(pieceOnTarget) == turn){
-            scene->setTileSelect(r, k, true);
-            selectedPiece = pieceOnTarget;
-            updateFocusTiles(scene);
-            scene->update();
-            turn = (turn == black) ? white : black;
-        }
-    } else {
-        move(selectedPiece, r, k);
+    // Player selected one of his own pieces so make it the current selected piece
+    if(pieceOnTarget != nullptr && selectedPieceOwner(pieceOnTarget) == turn){
+        // TODO: Check for stalemate
+        // Update the scene with visual information
+        scene->removeAllMarking();
+        scene->setTileSelect(r, k, true);
+        selectedPiece = pieceOnTarget;
+        updateFocusTiles(scene);
+        return;
+    }
+    // No piece has been selected and neither did the player, so nothing can happen
+    if(selectedPiece == nullptr)
+        return;
+    // Try to move the selected piece to the clicked tile
+    if(move(selectedPiece, r, k)){
+        // Update the scene in case the move was succesfully executed
+        turn = (turn == black) ? white : black;
+        scene->update();
         scene->removeAllMarking();
         selectedPiece = nullptr;
     }

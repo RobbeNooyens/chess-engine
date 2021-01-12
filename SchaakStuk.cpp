@@ -62,8 +62,11 @@ std::vector<std::pair<int, int>> SchaakStuk::moves_from_directions(const Game* g
         int rowAbsolute = row + direction.rowRelative;
         int columnAbsolute = column + direction.columnRelative;
         // Add tiles until it hits another piece
-        while(this->canMoveTo(game, rowAbsolute, columnAbsolute))
+        while(this->canMoveTo(game, rowAbsolute, columnAbsolute)){
             moves.emplace_back(rowAbsolute, columnAbsolute);
+            rowAbsolute += direction.rowRelative;
+            columnAbsolute += direction.columnRelative;
+        }
         if(this->canTakeAt(game, rowAbsolute, columnAbsolute))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
@@ -71,12 +74,23 @@ std::vector<std::pair<int, int>> SchaakStuk::moves_from_directions(const Game* g
 }
 
 std::vector<std::pair<int,int>> Toren::valid_moves(const Game* game) const {
-    // Directions: down, up, right, left
+    // Directions: down, up, right,
+    // | | |X| | |
+    // | | |X| | |
+    // |X|X|R|X|X|
+    // | | |X| | |
+    // | | |X| | |
     std::vector<Direction> directions = {Direction(1,0), Direction(-1,0), Direction(0,1), Direction(0,-1)};
     return moves_from_directions(game, directions);
 }
 
 std::vector<std::pair<int,int>> Paard::valid_moves(const Game* game) const {
+    // Directions specific to the Knight: 2 to one axis, 1 to the other axis
+    // | |X| |X| |
+    // |X| | | |X|
+    // | | |K| | |
+    // |X| | | |X|
+    // | |X| |X| |
     std::vector<std::pair<int,int>> moves;
     std::vector<Direction> directions = {Direction(-2, 1), Direction(-1, 2), Direction(1, 2), Direction(2, 1),
                                          Direction(2, -1), Direction(1,-2), Direction(-1, -2), Direction(-2, -1),};
@@ -91,17 +105,33 @@ std::vector<std::pair<int,int>> Paard::valid_moves(const Game* game) const {
 
 std::vector<std::pair<int,int>> Loper::valid_moves(const Game* game) const {
     // Directions: down-right, down-left, up-left, up-right
+    // |X| | | |X|
+    // | |X| |X| |
+    // | | |B| | |
+    // | |X| |X| |
+    // |X| | | |X|
     std::vector<Direction> directions = {Direction(1,1), Direction(1,-1), Direction(-1,-1), Direction(-1,1)};
     return moves_from_directions(game, directions);
 }
 
 std::vector<std::pair<int,int>> Koningin::valid_moves(const Game* game) const {
     // Directions: down, up, right, left, down-right, down-left, up-left, up-right
+    // |X| |X| |X|
+    // | |X|X|X| |
+    // |X|X|Q|X|X|
+    // | |X|X|X| |
+    // |X| |X| |X|
     std::vector<Direction> directions = {Direction(1,0), Direction(-1,0), Direction(0,1), Direction(0,-1), Direction(1,1), Direction(1,-1), Direction(-1,-1), Direction(-1,1)};
     return moves_from_directions(game, directions);
 }
 
 std::vector<std::pair<int,int>> Koning::valid_moves(const Game* game) const {
+    // Directions: Square around the current tile
+    // | | | | | |
+    // | |X|X|X| |
+    // | |X|K|X| |
+    // | |X|X|X| |
+    // | | | | | |
     std::vector<std::pair<int,int>> moves;
     std::vector<Direction> directions = {Direction(0, 1), Direction(1, 1), Direction(1, 0), Direction(1, -1),
                                          Direction(0, -1), Direction(-1,-1), Direction(-1, 0), Direction(-1, 1)};
