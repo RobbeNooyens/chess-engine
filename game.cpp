@@ -26,7 +26,7 @@ void Game::setStartBord() {
 }
 
 SchaakStuk* Game::pieceFromCharacter(char c){
-    zw color = std::isupper(c) ? zwart : wit;
+    zw color = std::islower(c) ? zwart : wit;
     switch (std::tolower(c)) {
         case 'r':
             return new Toren(color);
@@ -39,7 +39,7 @@ SchaakStuk* Game::pieceFromCharacter(char c){
         case 'k':
             return new Koning(color);
         case 'p':
-            return new Pion(color);
+            return new Pion(color, std::islower(c) ? up : down);
         default:
             return nullptr;
     }

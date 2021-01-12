@@ -7,6 +7,7 @@
 
 #include <QtWidgets>
 #include <QPixmap>
+#include <iostream>
 
 
 ChessBoard::ChessBoard(QObject *parent) :

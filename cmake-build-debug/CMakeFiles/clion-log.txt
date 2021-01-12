@@ -4,7 +4,7 @@ CMake Warning (dev) at C:/Qt64/5.15.2/mingw81_64/lib/cmake/Qt5Core/Qt5CoreMacros
   6.
 Call Stack (most recent call first):
   C:/Qt64/5.15.2/mingw81_64/lib/cmake/Qt5Core/Qt5CoreMacros.cmake:431 (_qt5_warn_deprecated)
-  CMakeLists.txt:48 (qt5_use_modules)
+  CMakeLists.txt:25 (qt5_use_modules)
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- Configuring done

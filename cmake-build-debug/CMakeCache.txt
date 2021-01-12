@@ -244,6 +244,9 @@ CMAKE_STRIP:FILEPATH=C:/MinGW64/mingw64/bin/strip.exe
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//The directory containing a CMake configuration file for Qt5Svg.
+Qt5Svg_DIR:PATH=C:/Qt64/5.15.2/mingw81_64/lib/cmake/Qt5Svg
+
 //Value Computed by CMake
 schaken_BINARY_DIR:STATIC=C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug
 
