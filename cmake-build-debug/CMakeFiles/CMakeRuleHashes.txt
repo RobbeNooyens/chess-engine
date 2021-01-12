@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+a27a1b06fd3583710b343f32bfb49900 CMakeFiles/schaken_autogen
