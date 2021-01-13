@@ -12,13 +12,21 @@ Game::Game() {}
 Game::~Game() {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            if(bord[i][j] != nullptr)
-                delete bord[i][j];
+            if(bord_[i][j] != nullptr)
+                delete bord_[i][j];
         }
     }
 }
 
-void Game::setStartBord() {
+SchaakStuk* Game::get_piece(Tile position) const {
+    return bord_[position.first][position.second];
+}
+
+void Game::set_piece(Tile position, SchaakStuk*s) {
+    bord_[position.first][position.second] = s;
+}
+
+void Game::set_start_board() {
     // Load initial game state
     const char initialSetup[8][8] =
             {{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
@@ -31,10 +39,10 @@ void Game::setStartBord() {
              {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}};
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            this->setPiece(tile(i, j), pieceFromCharacter(initialSetup[i][j], tile(i, j)));
+            this->set_piece(Tile(i, j), piece_from_character(initialSetup[i][j], Tile(i, j)));
 }
 
-SchaakStuk* Game::pieceFromCharacter(char c, tile position) const{
+SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     int r = position.first, k = position.second;
     // Create chesspieces based on their character representation in the initialSetup 2D array
     ZW color = std::islower(c) ? zwart : wit;
@@ -56,76 +64,68 @@ SchaakStuk* Game::pieceFromCharacter(char c, tile position) const{
     }
 }
 
-bool Game::is_valid_move(SchaakStuk* s, tile position) {
-    // Checks if there's a match in the vector of possible moves
-    tiles moves = s->validMoves(this);
-    std::any_of(moves.begin(), moves.end(), [position](tile &move){
+bool Game::is_valid_move(SchaakStuk* s, Tile position) {
+    Tiles moves = s->valid_moves(this);
+    return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){
         return move.first == position.first && move.second == position.second;
     });
-//    for(const auto &move: s->validMoves(this)){
-//        if(move.first == position.first && move.second == position.second){
-//            return true;
-//        }
-//    }
-    return false;
 }
 
-void Game::onTileClick(ChessBoard* scene, tile position) {
-    SchaakStuk* pieceOnTarget = getPiece(position);
+void Game::on_tile_click(ChessBoard* scene, Tile position) {
+    SchaakStuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
-    if(pieceOnTarget != nullptr && selectedPieceOwner(pieceOnTarget) == turn){
+    if(pieceOnTarget != nullptr && selected_piece_owner(pieceOnTarget) == turn_){
         // TODO: Check for stalemate
         // Update the scene with visual information
         scene->removeAllMarking();
         scene->setTileSelect(position.first, position.second, true);
-        selectedPiece = pieceOnTarget;
-        updateFocusTiles(scene);
+        selectedPiece_ = pieceOnTarget;
+        update_tiles(scene);
         return;
     }
     // No piece has been selected and neither did the player, so nothing can happen
-    if(selectedPiece == nullptr)
+    if(selectedPiece_ == nullptr)
         return;
-    // Try to move the selected piece to the clicked tile
-    if(move(selectedPiece, position)){
+    // Try to move the selected piece to the clicked Tile
+    if(move(selectedPiece_, position)){
         // Update the scene in case the move was succesfully executed
-        turn = (turn == black) ? white : black;
+        turn_ = (turn_ == black) ? white : black;
         scene->update();
         scene->removeAllMarking();
-        selectedPiece = nullptr;
+        selectedPiece_ = nullptr;
     }
 }
 
-void Game::updateFocusTiles(ChessBoard *scene) {
-    tiles moves = selectedPiece->geldige_zetten(this);
-    // TODO: remove pinned moves
-    //    selectedPiece->removePinnedMoves(this, moves);
-    // Set for every possible move the corresponding tile to a focus state
+void Game::update_tiles(ChessBoard *scene) {
+    Tiles moves = selectedPiece_->valid_moves(this);
     for(const auto &move: moves)
         scene->setTileFocus(move.first, move.second, true);
 }
 
-player Game::selectedPieceOwner(const SchaakStuk* s) const { return s->getKleur() == zwart ? black : white; }
+player Game::selected_piece_owner(const SchaakStuk* s) const {
+    return s->get_color() == zwart ? black : white;
+}
 
-bool Game::move(SchaakStuk* s, tile position) {
+bool Game::move(SchaakStuk* s, Tile position) {
     // Checks if the move is valid. If not, return false
     if(!is_valid_move(s, position))
         return false;
     // Delete de piece on the target spot from memory
-    SchaakStuk* pieceOnTarget = getPiece(position);
+    SchaakStuk* pieceOnTarget = get_piece(position);
     delete pieceOnTarget;
-    // Set the current tile to a nullptr and the destination to the current piece
-    setPiece(tile(s->getRow(), s->getColumn()), nullptr);
-    setPiece(position, s);
+    // Set the current Tile to a nullptr and the destination to the current piece
+    set_piece(Tile(s->get_row(), s->get_column()), nullptr);
+    set_piece(position, s);
     // Update the piece's member variables row and column
-    s->setPosition(position);
+    s->set_position(position);
     return true;
 }
 
-SchaakStuk* Game::findKing(ZW color) const{
+SchaakStuk* Game::find_king(ZW color) const{
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = getPiece(tile(i, j));
-            if(piece->getKleur() == color && piece->piece().type() == piece->piece().King){
+            SchaakStuk* piece = get_piece(Tile(i, j));
+            if(piece->get_color() == color && piece->piece().type() == piece->piece().King){
                 return piece;
             }
         }
@@ -133,25 +133,25 @@ SchaakStuk* Game::findKing(ZW color) const{
     return nullptr;
 }
 
-bool Game::schaak(ZW color) const {
-    SchaakStuk* king = findKing(color);
+bool Game::check(ZW color) const {
+    SchaakStuk* king = find_king(color);
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = getPiece(tile(i, j));
-            if(piece == nullptr || piece->getKleur() == color)
+            SchaakStuk* piece = get_piece(Tile(i, j));
+            if(piece == nullptr || piece->get_color() == color)
                 continue;
-            if(piece->canTakeAt(this, tile(king->getRow(), king->getColumn())))
+            if(piece->can_take_at(this, Tile(king->get_row(), king->get_column())))
                 return true;
         }
     }
     return false;
 }
 
-bool Game::schaakmat(ZW kleur) {
+bool Game::checkmate(ZW) {
     return false;
 }
 
-bool Game::pat(ZW kleur) {
+bool Game::draw(ZW) {
     return false;
 }
 #pragma clang diagnostic pop

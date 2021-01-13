@@ -23,12 +23,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 // geklikt wordt. x,y geeft de positie aan waar er geklikt
 // werd; r is de 0-based rij, k de 0-based kolom
 void MainWindow::clicked(int r, int k) {
-    g.onTileClick(scene, r, k);
+    g.on_tile_click(scene, std::make_pair(r, k));
     update();
 }
 
 void MainWindow::newGame() {
-    this->g.setStartBord();
+    this->g.set_start_board();
     this->update();
 }
 
@@ -127,7 +127,7 @@ void MainWindow::update() {
     scene->clearBoard();        // Alle stukken weg
     for(int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            SchaakStuk* schaakStuk = g.getPiece(i, j);
+            SchaakStuk* schaakStuk = g.get_piece(Tile(i, j));
             if(schaakStuk != nullptr){
                 scene->setItem(i, j, schaakStuk->piece());
             }

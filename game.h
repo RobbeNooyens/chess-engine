@@ -8,8 +8,8 @@
 
 #include "SchaakStuk.h"
 
-typedef std::vector<std::pair<int,int>> tiles;
-typedef std::pair<int,int> tile;
+typedef std::vector<std::pair<int,int>> Tiles;
+typedef std::pair<int,int> Tile;
 
 enum player{black, white};
 
@@ -20,34 +20,33 @@ public:
     Game();
     ~Game();
 
-    bool move(SchaakStuk*, tile);
+    // Getters
+    SchaakStuk* get_piece(Tile) const;
 
-    Game* copy() const;
+    // Setters
+    void set_start_board();
+    void set_piece(Tile, SchaakStuk*);
 
     // Game state checks
-    bool schaak(ZW) const;
-    bool schaakmat(ZW);
-    bool pat(ZW);
-    void setStartBord();
-
-    // Getter and setter for a piece on the board
-    SchaakStuk* getPiece(tile) const {return bord[r][k];}
-    void setPiece(tile, SchaakStuk* s) { bord[r][k] = s; }
+    bool check(ZW) const;
+    bool checkmate(ZW);
+    bool draw(ZW);
 
     // Events
-    void onTileClick(ChessBoard*, tile);
+    void on_tile_click(ChessBoard*, Tile);
+    bool move(SchaakStuk*, Tile);
 
 private:
     // Private members
-    SchaakStuk* bord[8][8];
-    player turn = white;
-    SchaakStuk* selectedPiece = nullptr;
+    SchaakStuk* bord_[8][8];
+    player turn_ = white;
+    SchaakStuk* selectedPiece_ = nullptr;
     // Helper methods
-    bool is_valid_move(SchaakStuk*, tile);
-    void updateFocusTiles(ChessBoard* scene);
-    player selectedPieceOwner(const SchaakStuk*) const;
-    SchaakStuk* pieceFromCharacter(char, tile) const;
-    SchaakStuk* findKing(ZW color) const;
+    bool is_valid_move(SchaakStuk*, Tile);
+    void update_tiles(ChessBoard* scene);
+    player selected_piece_owner(const SchaakStuk*) const;
+    SchaakStuk* piece_from_character(char, Tile) const;
+    SchaakStuk* find_king(ZW color) const;
 };
 
 

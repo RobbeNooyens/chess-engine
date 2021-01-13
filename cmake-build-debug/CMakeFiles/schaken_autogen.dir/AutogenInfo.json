@@ -15,11 +15,6 @@
 			"EWIEGA46WW/moc_SchaakStuk.cpp"
 		],
 		[
-			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/Tile.h",
-			"Mu",
-			"EWIEGA46WW/moc_Tile.cpp"
-		],
-		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h",
 			"Mu",
 			"EWIEGA46WW/moc_chessboard.cpp"
@@ -94,10 +89,6 @@
 	[
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp",
-			"Mu"
-		],
-		[
-			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/Tile.cpp",
 			"Mu"
 		],
 		[
