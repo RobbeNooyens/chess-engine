@@ -28,7 +28,6 @@ void MainWindow::clicked(int r, int k) {
 }
 
 void MainWindow::newGame() {
-    this->g = Game();
     this->g.setStartBord();
     this->update();
 }

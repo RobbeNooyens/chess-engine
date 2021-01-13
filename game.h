@@ -19,10 +19,12 @@ public:
 
     bool move(SchaakStuk*,int, int);
 
+    Game* copy() const;
+
     // Game state checks
-    bool schaak(zw);
-    bool schaakmat(zw);
-    bool pat(zw);
+    bool schaak(ZW) const;
+    bool schaakmat(ZW);
+    bool pat(ZW);
     void setStartBord();
 
     // Getter and setter for a piece on the board
@@ -38,10 +40,11 @@ private:
     player turn = white;
     SchaakStuk* selectedPiece = nullptr;
     // Helper methods
-    bool isValidMove(SchaakStuk*, int, int);
+    bool isValidMove(SchaakStuk*, int, int) const;
     void updateFocusTiles(ChessBoard* scene);
-    static player selectedPieceOwner(SchaakStuk*) ;
-    static SchaakStuk* pieceFromCharacter(char, int, int);
+    player selectedPieceOwner(const SchaakStuk*) const;
+    SchaakStuk* pieceFromCharacter(char, int, int) const;
+    SchaakStuk* findKing(ZW color) const;
 };
 
 

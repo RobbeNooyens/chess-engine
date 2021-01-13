@@ -32,31 +32,9 @@ bool SchaakStuk::canTakeAt(const Game* game, int r, int c) const{
     return piece->getKleur() != kleur;
 }
 
-std::vector<std::pair<int,int>> Pion::valid_moves(const Game* game) const {
-    std::vector<std::pair<int,int>> moves;
-    int dirRelative = ((moveDirection == up) ? -1 : 1);
-    int nextRow = row + dirRelative;
-
-    // Check if move forward is possible
-    if (this->canMoveTo(game, nextRow, column))
-        moves.emplace_back(nextRow, column);
-
-    // Check if pawn can take a piece sideways
-    if(this->canTakeAt(game, nextRow, column-1))
-        moves.emplace_back(nextRow, column-1);
-    if(this->canTakeAt(game, nextRow, column+1))
-        moves.emplace_back(nextRow, column+1);
-
-    // Check if pawn can move two squares
-    if(row == (moveDirection == up ? 6 : 1) && this->canMoveTo(game, nextRow + dirRelative, column))
-        moves.emplace_back(nextRow + dirRelative, column);
-
-    return moves;
-}
-
 std::vector<std::pair<int, int>> SchaakStuk::moves_from_directions(const Game* game, const std::vector<Direction>& directions) const{
     std::vector<std::pair<int,int>> moves;
-    // For every directions, start from current pos and follow the direction until it can no longer move further
+    // For every directions, start from current pos and follow the PawnDirection until it can no longer move further
     for(const auto direction: directions){
         // Start from the current tile with the directions being added once
         int rowAbsolute = row + direction.rowRelative;
@@ -67,9 +45,69 @@ std::vector<std::pair<int, int>> SchaakStuk::moves_from_directions(const Game* g
             rowAbsolute += direction.rowRelative;
             columnAbsolute += direction.columnRelative;
         }
+        // Check if the piece can take the piece it ended on
         if(this->canTakeAt(game, rowAbsolute, columnAbsolute))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
+    removePinnedMoves(game, moves);
+    return moves;
+}
+
+bool SchaakStuk::isPinned(Game* game, int r, int c) {
+    // Backup
+    SchaakStuk* pieceOnTarget = game->getPiece(r, c);
+    int backupRow = row;
+    int backupColumn = column;
+    // Simulate move
+    game->setPiece(backupRow, backupColumn, nullptr);
+    game->setPiece(r, c, this);
+    updatePosition(r, c);
+    bool pin = game->schaak(kleur);
+    // Reset state
+    game->setPiece(r, c, pieceOnTarget);
+    game->setPiece(backupRow, backupColumn, this);
+    updatePosition(backupRow, backupColumn);
+    return pin;
+}
+
+void SchaakStuk::removePinnedMoves(const Game* game, std::vector<std::pair<int,int>>& moves) const {
+    Game* moveSimulation = game->copy();
+    SchaakStuk* pieceSimulation = moveSimulation->getPiece(row, column);
+    auto it = moves.begin();
+    while(it != moves.end()){
+        if(pieceSimulation->isPinned(moveSimulation, it->first, it->second))
+            it = moves.erase(it);
+        else
+            it++;
+    }
+    delete moveSimulation;
+}
+
+
+// VALID_MOVES FOR EVERY PIECE
+std::vector<std::pair<int,int>> Pion::valid_moves(const Game* game) const {
+    std::vector<std::pair<int,int>> moves;
+    int dirRelative = ((moveDirection == up) ? -1 : 1);
+    int nextRow = row + dirRelative;
+
+    // Check if move forward is possible
+    if (this->canMoveTo(game, nextRow, column)) {
+        moves.emplace_back(nextRow, column);
+        // Check if pawn can move two squares
+        if (row == (moveDirection == up ? 6 : 1) && this->canMoveTo(game, nextRow + dirRelative, column))
+            moves.emplace_back(nextRow + dirRelative, column);
+    }
+
+    // Check if pawn can take a piece sideways
+    if(this->canTakeAt(game, nextRow, column-1)) {
+        moves.emplace_back(nextRow, column-1);
+    }
+    if(this->canTakeAt(game, nextRow, column+1)) {
+        moves.emplace_back(nextRow, column+1);
+    }
+
+    removePinnedMoves(game, moves);
+
     return moves;
 }
 
@@ -88,7 +126,7 @@ std::vector<std::pair<int,int>> Paard::valid_moves(const Game* game) const {
     // Directions specific to the Knight: 2 to one axis, 1 to the other axis
     // | |X| |X| |
     // |X| | | |X|
-    // | | |K| | |
+    // | | |N| | |
     // |X| | | |X|
     // | |X| |X| |
     std::vector<std::pair<int,int>> moves;

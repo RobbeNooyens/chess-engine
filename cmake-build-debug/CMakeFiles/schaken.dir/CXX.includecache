@@ -794,19 +794,15 @@ QtGui/qtguiglobal.h
 QtWidgets/qtwidgets-config.h
 -
 
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp
-vector
--
-SchaakStuk.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
-game.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
-
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
 chessboard.h
 -
 vector
 -
+
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
+game.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 SchaakStuk.h

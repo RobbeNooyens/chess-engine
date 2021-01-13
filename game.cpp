@@ -1,5 +1,5 @@
-//  Student:
-//  Rolnummer:
+//  Student: Robbe Nooyens
+//  Rolnummer: 20201010
 //  Opmerkingen: (bvb aanpassingen van de opgave)
 //
 
@@ -7,7 +7,14 @@
 
 Game::Game() {}
 
-Game::~Game() {}
+Game::~Game() {
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            if(bord[i][j] != nullptr)
+                delete bord[i][j];
+        }
+    }
+}
 
 void Game::setStartBord() {
     // Load initial game state
@@ -25,9 +32,9 @@ void Game::setStartBord() {
             this->setPiece(i, j, pieceFromCharacter(initialSetup[i][j], i, j));
 }
 
-SchaakStuk* Game::pieceFromCharacter(char c, int r, int k){
+SchaakStuk* Game::pieceFromCharacter(char c, int r, int k) const{
     // Create chesspieces based on their character representation in the initialSetup 2D array
-    zw color = std::islower(c) ? zwart : wit;
+    ZW color = std::islower(c) ? zwart : wit;
     switch (std::tolower(c)) {
         case 'r':
             return new Toren(color, r, k);
@@ -46,10 +53,9 @@ SchaakStuk* Game::pieceFromCharacter(char c, int r, int k){
     }
 }
 
-bool Game::isValidMove(SchaakStuk * s, int r, int k) {
+bool Game::isValidMove(SchaakStuk * s, int r, int k) const {
     // Checks if there's a match in the vector of possible moves
-    std::vector<std::pair<int, int>> moves = s->valid_moves(this);
-    for(const auto &move: moves){
+    for(const auto &move: s->valid_moves(this)){
         if(move.first == r && move.second == k){
             return true;
         }
@@ -84,44 +90,71 @@ void Game::onTileClick(ChessBoard* scene, int r, int k) {
 
 void Game::updateFocusTiles(ChessBoard *scene) {
     std::vector<std::pair<int,int>> moves = selectedPiece->valid_moves(this);
-    for(const auto &move: moves){
-        if(getPiece(move.first, move.second) == nullptr)
-            scene->setTileFocus(move.first, move.second, true);
-        else
-            scene->setPieceThreat(move.first, move.second, true);
-    }
+    // TODO: remove pinned moves
+    //    selectedPiece->removePinnedMoves(this, moves);
+    // Set for every possible move the corresponding tile to a focus state
+    for(const auto &move: moves)
+        scene->setTileFocus(move.first, move.second, true);
 }
 
-player Game::selectedPieceOwner(SchaakStuk* s) { return s->getKleur() == zwart ? black : white; }
+player Game::selectedPieceOwner(const SchaakStuk* s) const { return s->getKleur() == zwart ? black : white; }
 
-// Verplaats stuk s naar positie (r,k)
-// Als deze move niet mogelijk is, wordt false teruggegeven
-// en verandert er niets aan het schaakbord.
-// Anders wordt de move uitgevoerd en wordt true teruggegeven
 bool Game::move(SchaakStuk* s, int r, int k) {
+    // Checks if the move is valid. If not, return false
     if(!isValidMove(s, r, k))
         return false;
+    // Delete de piece on the target spot from memory
     SchaakStuk* pieceOnTarget = getPiece(r, k);
     delete pieceOnTarget;
+    // Set the current tile to a nullptr and the destination to the current piece
     setPiece(s->getRow(), s->getColumn(), nullptr);
     setPiece(r, k, s);
+    // Update the piece's member variables row and column
     s->updatePosition(r, k);
     return true;
 }
 
-// Geeft true als kleur schaak staat
-bool Game::schaak(zw kleur) {
+SchaakStuk* Game::findKing(ZW color) const{
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            SchaakStuk* piece = getPiece(i, j);
+            if(piece->getKleur() == color && piece->piece().type() == piece->piece().King){
+                return piece;
+            }
+        }
+    }
+    return nullptr;
+}
+
+Game* Game::copy() const {
+    Game* game = new Game();
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            if(bord[i][j] != nullptr)
+                game->bord[i][j] = bord[i][j]->copy();
+        }
+    }
+    return game;
+}
+
+bool Game::schaak(ZW color) const {
+    SchaakStuk* king = findKing(color);
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            SchaakStuk* piece = getPiece(i, j);
+            if(piece == nullptr || piece->getKleur() == color)
+                continue;
+            if(piece->canTakeAt(this, king->getRow(), king->getColumn()))
+                return true;
+        }
+    }
     return false;
 }
 
-// Geeft true als kleur schaakmat staat
-bool Game::schaakmat(zw kleur) {
+bool Game::schaakmat(ZW kleur) {
     return false;
 }
 
-// Geeft true als kleur pat staat
-// (pat = geen geldige zet mogelijk, maar kleur staat niet schaak;
-// dit resulteert in een gelijkspel)
-bool Game::pat(zw kleur) {
+bool Game::pat(ZW kleur) {
     return false;
 }
