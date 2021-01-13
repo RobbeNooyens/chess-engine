@@ -8,21 +8,39 @@
 #include "SchaakStuk.h"
 #include "game.h"
 
-void SchaakStuk::updatePosition(int r, int c) {
-    this->row = r;
-    this->column = c;
+ZW SchaakStuk::getKleur() const {
+    return kleur;
 }
 
-bool SchaakStuk::canMoveTo(const Game* game, int r, int c) const{
+int SchaakStuk::getRow() const {
+    return row;
+}
+
+int SchaakStuk::getColumn() const {
+    return column;
+}
+
+tile SchaakStuk::getPosition() const {
+    return std::make_pair(row, column);
+}
+
+void SchaakStuk::setPosition(tile position) {
+    this->row = position.first;
+    this->column = position.second;
+}
+
+bool SchaakStuk::canMoveTo(const Game* game, tile position) const{
     // Check if piece is off the board
+    int r = position.first; int c = position.second;
     if(r < 0 || r >= 8 || c < 0 || c >= 8)
         return false;
     // Check if the tile at the specified coordinates is empty
     return game->getPiece(r, c) == nullptr;
 }
 
-bool SchaakStuk::canTakeAt(const Game* game, int r, int c) const{
+bool SchaakStuk::canTakeAt(const Game* game, tile position) const{
     // Check if piece is off the board
+    int r = position.first; int c = position.second;
     if(r < 0 || r >= 8 || c < 0 || c >= 8)
         return false;
     // Get the piece at the specified coordinates
@@ -32,24 +50,35 @@ bool SchaakStuk::canTakeAt(const Game* game, int r, int c) const{
     return piece->getKleur() != kleur;
 }
 
-std::vector<std::pair<int, int>> SchaakStuk::moves_from_directions(const Game* game, const std::vector<Direction>& directions) const{
-    std::vector<std::pair<int,int>> moves;
+tiles SchaakStuk::moves_from_directions(const Game* game, const std::vector<Direction>& directions) const{
+    tiles moves;
     // For every directions, start from current pos and follow the PawnDirection until it can no longer move further
     for(const auto direction: directions){
         // Start from the current tile with the directions being added once
         int rowAbsolute = row + direction.rowRelative;
         int columnAbsolute = column + direction.columnRelative;
         // Add tiles until it hits another piece
-        while(this->canMoveTo(game, rowAbsolute, columnAbsolute)){
+        while(this->canMoveTo(game, std::make_pair(rowAbsolute, columnAbsolute))){
             moves.emplace_back(rowAbsolute, columnAbsolute);
             rowAbsolute += direction.rowRelative;
             columnAbsolute += direction.columnRelative;
         }
         // Check if the piece can take the piece it ended on
-        if(this->canTakeAt(game, rowAbsolute, columnAbsolute))
+        if(this->canTakeAt(game, std::make_pair(rowAbsolute, columnAbsolute)))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
-    removePinnedMoves(game, moves);
+    return moves;
+}
+
+tiles SchaakStuk::moves_from_positions(const Game *game,
+                                                                  const std::vector<Direction> &directions) const {
+    tiles moves;
+    for(const auto &direction: directions){
+        int rowAbsolute = row + direction.rowRelative;
+        int columnAbsolute = column + direction.columnRelative;
+        if(canMoveTo(game, std::make_pair(rowAbsolute, columnAbsolute)) || canTakeAt(game, std::make_pair(rowAbsolute, columnAbsolute)))
+            moves.emplace_back(rowAbsolute, columnAbsolute);
+    }
     return moves;
 }
 
@@ -61,32 +90,29 @@ bool SchaakStuk::isPinned(Game* game, int r, int c) {
     // Simulate move
     game->setPiece(backupRow, backupColumn, nullptr);
     game->setPiece(r, c, this);
-    updatePosition(r, c);
+    setPosition(tile(r, c));
     bool pin = game->schaak(kleur);
     // Reset state
     game->setPiece(r, c, pieceOnTarget);
     game->setPiece(backupRow, backupColumn, this);
-    updatePosition(backupRow, backupColumn);
+    setPosition(tile(backupRow, backupColumn));
     return pin;
 }
 
-void SchaakStuk::removePinnedMoves(const Game* game, std::vector<std::pair<int,int>>& moves) const {
-    Game* moveSimulation = game->copy();
-    SchaakStuk* pieceSimulation = moveSimulation->getPiece(row, column);
+void SchaakStuk::removePinnedMoves(Game* game, tiles& moves) {
     auto it = moves.begin();
     while(it != moves.end()){
-        if(pieceSimulation->isPinned(moveSimulation, it->first, it->second))
+        if(isPinned(game, it->first, it->second))
             it = moves.erase(it);
         else
             it++;
     }
-    delete moveSimulation;
 }
 
 
 // VALID_MOVES FOR EVERY PIECE
-std::vector<std::pair<int,int>> Pion::valid_moves(const Game* game) const {
-    std::vector<std::pair<int,int>> moves;
+tiles Pion::geldige_zetten(const Game* game) const {
+    tiles moves;
     int dirRelative = ((moveDirection == up) ? -1 : 1);
     int nextRow = row + dirRelative;
 
@@ -111,7 +137,7 @@ std::vector<std::pair<int,int>> Pion::valid_moves(const Game* game) const {
     return moves;
 }
 
-std::vector<std::pair<int,int>> Toren::valid_moves(const Game* game) const {
+tiles Toren::geldige_zetten(const Game* game) const {
     // Directions: down, up, right,
     // | | |X| | |
     // | | |X| | |
@@ -122,14 +148,14 @@ std::vector<std::pair<int,int>> Toren::valid_moves(const Game* game) const {
     return moves_from_directions(game, directions);
 }
 
-std::vector<std::pair<int,int>> Paard::valid_moves(const Game* game) const {
+tiles Paard::geldige_zetten(const Game* game) const {
     // Directions specific to the Knight: 2 to one axis, 1 to the other axis
     // | |X| |X| |
     // |X| | | |X|
     // | | |N| | |
     // |X| | | |X|
     // | |X| |X| |
-    std::vector<std::pair<int,int>> moves;
+    tiles moves;
     std::vector<Direction> directions = {Direction(-2, 1), Direction(-1, 2), Direction(1, 2), Direction(2, 1),
                                          Direction(2, -1), Direction(1,-2), Direction(-1, -2), Direction(-2, -1),};
     for(const auto &direction: directions){
@@ -141,7 +167,7 @@ std::vector<std::pair<int,int>> Paard::valid_moves(const Game* game) const {
     return moves;
 }
 
-std::vector<std::pair<int,int>> Loper::valid_moves(const Game* game) const {
+tiles Loper::geldige_zetten(const Game* game) const {
     // Directions: down-right, down-left, up-left, up-right
     // |X| | | |X|
     // | |X| |X| |
@@ -152,7 +178,7 @@ std::vector<std::pair<int,int>> Loper::valid_moves(const Game* game) const {
     return moves_from_directions(game, directions);
 }
 
-std::vector<std::pair<int,int>> Koningin::valid_moves(const Game* game) const {
+tiles Koningin::geldige_zetten(const Game* game) const {
     // Directions: down, up, right, left, down-right, down-left, up-left, up-right
     // |X| |X| |X|
     // | |X|X|X| |
@@ -163,21 +189,16 @@ std::vector<std::pair<int,int>> Koningin::valid_moves(const Game* game) const {
     return moves_from_directions(game, directions);
 }
 
-std::vector<std::pair<int,int>> Koning::valid_moves(const Game* game) const {
+tiles Koning::geldige_zetten(const Game* game) const {
     // Directions: Square around the current tile
     // | | | | | |
     // | |X|X|X| |
     // | |X|K|X| |
     // | |X|X|X| |
     // | | | | | |
-    std::vector<std::pair<int,int>> moves;
+    tiles moves;
     std::vector<Direction> directions = {Direction(0, 1), Direction(1, 1), Direction(1, 0), Direction(1, -1),
                                          Direction(0, -1), Direction(-1,-1), Direction(-1, 0), Direction(-1, 1)};
-    for(const auto &direction: directions){
-        int rowAbsolute = row + direction.rowRelative;
-        int columnAbsolute = column + direction.columnRelative;
-        if(canMoveTo(game, rowAbsolute, columnAbsolute) || canTakeAt(game, rowAbsolute, columnAbsolute))
-            moves.emplace_back(rowAbsolute, columnAbsolute);
-    }
+
     return moves;
 }

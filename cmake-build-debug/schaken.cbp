@@ -120,6 +120,12 @@
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h">
 			<Option target="schaken"/>
 		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/Tile.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/Tile.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp">
 			<Option target="schaken"/>
 		</Unit>

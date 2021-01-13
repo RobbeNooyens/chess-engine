@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/schaken_autogen.dir/ParseCache.txt"
   "schaken_autogen"
   "CMakeFiles/schaken.dir/SchaakStuk.cpp.obj"
+  "CMakeFiles/schaken.dir/Tile.cpp.obj"
   "CMakeFiles/schaken.dir/chessboard.cpp.obj"
   "CMakeFiles/schaken.dir/game.cpp.obj"
   "CMakeFiles/schaken.dir/main.cpp.obj"

@@ -182,6 +182,33 @@ SchaakStuk.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/SchaakStuk.cpp.s
 .PHONY : SchaakStuk.cpp.s
 
+Tile.obj: Tile.cpp.obj
+
+.PHONY : Tile.obj
+
+# target to build an object file
+Tile.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/Tile.cpp.obj
+.PHONY : Tile.cpp.obj
+
+Tile.i: Tile.cpp.i
+
+.PHONY : Tile.i
+
+# target to preprocess a source file
+Tile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/Tile.cpp.i
+.PHONY : Tile.cpp.i
+
+Tile.s: Tile.cpp.s
+
+.PHONY : Tile.s
+
+# target to generate assembly for a file
+Tile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/Tile.cpp.s
+.PHONY : Tile.cpp.s
+
 chessboard.obj: chessboard.cpp.obj
 
 .PHONY : chessboard.obj
@@ -330,6 +357,9 @@ help:
 	@echo ... SchaakStuk.obj
 	@echo ... SchaakStuk.i
 	@echo ... SchaakStuk.s
+	@echo ... Tile.obj
+	@echo ... Tile.i
+	@echo ... Tile.s
 	@echo ... chessboard.obj
 	@echo ... chessboard.i
 	@echo ... chessboard.s
