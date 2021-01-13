@@ -83,17 +83,17 @@ Tiles SchaakStuk::moves_from_positions(const Game *game, const std::vector<Direc
     return moves;
 }
 
-bool SchaakStuk::is_pinned(Game* game, Tile position) {
+bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
     // Backup
-    SchaakStuk* pieceOnTarget = game->get_piece(position);
-    Tile initPosition = position;
+    SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
+    Tile initPosition = get_position();
     // Simulate move
     game->set_piece(initPosition, nullptr);
-    game->set_piece(position, this);
-    set_position(position);
+    game->set_piece(targetPos, this);
+    set_position(targetPos);
     bool pin = game->check(kleur);
     // Reset state
-    game->set_piece(position, pieceOnTarget);
+    game->set_piece(targetPos, pieceOnTarget);
     game->set_piece(initPosition, this);
     set_position(initPosition);
     return pin;
@@ -123,7 +123,7 @@ Tiles Pion::geldige_zetten(const Game* game) const {
     int nextRow = row + dirRelative;
 
     // Check if move forward is possible
-    if (this->can_move_to(game, Tile(row, column))) {
+    if (this->can_move_to(game, Tile(nextRow, column))) {
         moves.emplace_back(nextRow, column);
         // Check if pawn can move two squares
         if (row == (moveDirection == up ? 6 : 1) && this->can_move_to(game, Tile(nextRow + dirRelative, column)))

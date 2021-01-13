@@ -64,8 +64,9 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     }
 }
 
-bool Game::is_valid_move(SchaakStuk* s, Tile position) {
-    Tiles moves = s->valid_moves(this);
+bool Game::is_valid_move(const Tile position, const Tiles& moves) const{
+    if(moves.empty())
+        return false;
     return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){
         return move.first == position.first && move.second == position.second;
     });
@@ -108,7 +109,7 @@ player Game::selected_piece_owner(const SchaakStuk* s) const {
 
 bool Game::move(SchaakStuk* s, Tile position) {
     // Checks if the move is valid. If not, return false
-    if(!is_valid_move(s, position))
+    if(!is_valid_move(position, s->valid_moves(this)))
         return false;
     // Delete de piece on the target spot from memory
     SchaakStuk* pieceOnTarget = get_piece(position);
@@ -125,6 +126,8 @@ SchaakStuk* Game::find_king(ZW color) const{
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             SchaakStuk* piece = get_piece(Tile(i, j));
+            if(piece == nullptr)
+                continue;
             if(piece->get_color() == color && piece->piece().type() == piece->piece().King){
                 return piece;
             }
@@ -140,7 +143,7 @@ bool Game::check(ZW color) const {
             SchaakStuk* piece = get_piece(Tile(i, j));
             if(piece == nullptr || piece->get_color() == color)
                 continue;
-            if(piece->can_take_at(this, Tile(king->get_row(), king->get_column())))
+            if(is_valid_move(king->get_position(), piece->geldige_zetten(this)))
                 return true;
         }
     }

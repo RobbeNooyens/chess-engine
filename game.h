@@ -42,7 +42,7 @@ private:
     player turn_ = white;
     SchaakStuk* selectedPiece_ = nullptr;
     // Helper methods
-    bool is_valid_move(SchaakStuk*, Tile);
+    bool is_valid_move(const Tile, const Tiles&) const;
     void update_tiles(ChessBoard* scene);
     player selected_piece_owner(const SchaakStuk*) const;
     SchaakStuk* piece_from_character(char, Tile) const;
