@@ -10,6 +10,7 @@
 
 typedef std::vector<std::pair<int,int>> Tiles;
 typedef std::pair<int,int> Tile;
+typedef std::vector<SchaakStuk*> Pieces;
 
 enum player{black, white};
 
@@ -22,6 +23,8 @@ public:
 
     // Getters
     SchaakStuk* get_piece(Tile) const;
+    Pieces get_pieces_on_board() const;
+    Pieces get_pieces_of_color(ZW) const;
 
     // Setters
     void set_start_board();
@@ -42,7 +45,7 @@ private:
     player turn_ = white;
     SchaakStuk* selectedPiece_ = nullptr;
     // Helper methods
-    bool is_valid_move(const Tile, const Tiles&) const;
+    bool is_valid_move(Tile, const Tiles&) const;
     void update_tiles(ChessBoard* scene);
     player selected_piece_owner(const SchaakStuk*) const;
     SchaakStuk* piece_from_character(char, Tile) const;

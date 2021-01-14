@@ -137,24 +137,41 @@ SchaakStuk* Game::find_king(ZW color) const{
 }
 
 bool Game::check(ZW color) const {
+    // Find the King of the specified color
     SchaakStuk* king = find_king(color);
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = get_piece(Tile(i, j));
-            if(piece == nullptr || piece->get_color() == color)
-                continue;
-            if(is_valid_move(king->get_position(), piece->geldige_zetten(this)))
-                return true;
-        }
-    }
+    // Iterate over all pieces with the other color
+    for(const auto &piece: get_pieces_of_color(color == zwart ? wit : zwart))
+        // If at least one piece can take the King, it's check
+        if(is_valid_move(king->get_position(), piece->geldige_zetten(this)))
+            return true;
+        // None of the enemy pieces can take the King
     return false;
 }
 
-bool Game::checkmate(ZW) {
+bool Game::checkmate(ZW color) {
+
     return false;
 }
 
 bool Game::draw(ZW) {
     return false;
+}
+
+Pieces Game::get_pieces_on_board() const {
+    Pieces pieces;
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            SchaakStuk* piece = get_piece(Tile(i, j));
+            if(piece != nullptr)
+                pieces.push_back(piece);
+        }
+    }
+    return pieces;
+}
+
+Pieces Game::get_pieces_of_color(ZW color) const {
+    Pieces pieces = get_pieces_on_board();
+    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [color](SchaakStuk* piece){return piece->get_color() != color;}), pieces.end());
+    return pieces;
 }
 #pragma clang diagnostic pop
