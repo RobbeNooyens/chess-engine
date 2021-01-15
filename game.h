@@ -34,7 +34,6 @@ public:
     bool checkmate(ZW);
     bool stalemate(ZW color);
     bool move_prevents_checkmate(SchaakStuk*, Tile);
-    Tiles get_check_tiles(ZW);
 
     // Events
     void on_tile_click(ChessBoard*, Tile);

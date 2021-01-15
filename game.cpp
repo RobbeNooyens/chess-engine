@@ -62,17 +62,14 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
 }
 
 bool Game::is_valid_move(const Tile position, const Tiles& moves) const{
-    return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){
-//        return move == position;
-        return move.first == position.first && move.second == position.second;
-    });
+    // Check if position is in moves
+    return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){ return move == position; });
 }
 
 void Game::on_tile_click(ChessBoard* scene, Tile position) {
     SchaakStuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
     if(pieceOnTarget != nullptr && selected_piece_owner(pieceOnTarget) == turn_){
-        // TODO: Check for stalemate
         // Update the scene with visual information
         scene->removeAllMarking();
         scene->setTileSelect(position.first, position.second, true);
@@ -121,19 +118,17 @@ bool Game::move(SchaakStuk* s, Tile position) {
     // Set the current Tile to a nullptr and the destination to the current piece
     set_piece(Tile(s->get_row(), s->get_column()), nullptr);
     set_piece(position, s);
-    // Update the piece's member variables row and column
+    // Update the piece's member variables row_ and column_
     s->set_position(position);
     return true;
 }
 
 SchaakStuk* Game::find_king(ZW color) const {
-//    Pieces p = get_pieces_of_color(color);
-//    return (SchaakStuk *) std::find_if(p.begin(), p.end(), []() {}).base();
-    for(const auto &piece: get_pieces_of_color(color)) {
-        if(piece->piece().type() == piece->piece().King) {
+    // Iterate over own pieces
+    for(const auto &piece: get_pieces_of_color(color))
+        if(piece->piece().type() == piece->piece().King)
             return piece;
-        }
-    }
+    // There should always be a black and a white king on the board
     throw KingNotFoundException(color);
 }
 

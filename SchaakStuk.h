@@ -23,8 +23,7 @@ struct Direction {
         int column = start.second > dest.second ? -1 : (start.second < dest.second ? 1 : 0);
         return {row, column};
     }
-    bool operator==(const Direction& other) const
-    {
+    bool operator==(const Direction& other) const {
         return rowRelative == other.rowRelative && columnRelative == other.columnRelative;
     }
 };
@@ -33,7 +32,7 @@ class Game;
 class SchaakStuk {
 public:
     // Constructor
-    SchaakStuk(ZW kleur, int row, int column): kleur(kleur), row(row), column(column) {}
+    SchaakStuk(ZW kleur, int row, int column): kleur_(kleur), row_(row), column_(column) {}
 
     // Getters
     ZW get_color() const;
@@ -55,15 +54,15 @@ public:
     Tiles valid_moves(Game*);
     Tiles moves_from_directions(const Game* game, const std::vector<Direction>& directions) const;
     Tiles moves_from_positions(const Game* game, const std::vector<Direction>& directions) const;
-    Tiles path_to_target(const Game*, const Tile, const std::vector<Direction>&) const;
-
+    Tiles path_to_target(const Game*, Tile, const std::vector<Direction>&) const;
     virtual Tiles geldige_zetten(const Game*) const= 0;
+
     // Wrappers
     virtual Piece piece() const=0;
 private:
-    int row;
-    int column;
-    ZW kleur;
+    int row_;
+    int column_;
+    ZW kleur_;
 
 };
 

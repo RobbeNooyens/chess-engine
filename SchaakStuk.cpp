@@ -11,24 +11,24 @@
 #include "game.h"
 
 ZW SchaakStuk::get_color() const {
-    return kleur;
+    return kleur_;
 }
 
 int SchaakStuk::get_row() const {
-    return row;
+    return row_;
 }
 
 int SchaakStuk::get_column() const {
-    return column;
+    return column_;
 }
 
 Tile SchaakStuk::get_position() const {
-    return {row, column};
+    return {row_, column_};
 }
 
 void SchaakStuk::set_position(Tile position) {
-    this->row = position.first;
-    this->column = position.second;
+    this->row_ = position.first;
+    this->column_ = position.second;
 }
 
 bool SchaakStuk::can_move_to(const Game* game, Tile position) const{
@@ -49,7 +49,7 @@ bool SchaakStuk::can_take_at(const Game* game, Tile position) const{
     SchaakStuk* piece = game->get_piece(position);
     if(piece == nullptr)
         return false;
-    return piece->get_color() != kleur;
+    return piece->get_color() != kleur_;
 }
 
 Tiles SchaakStuk::moves_from_directions(const Game* game, const std::vector<Direction>& directions) const{
@@ -57,8 +57,8 @@ Tiles SchaakStuk::moves_from_directions(const Game* game, const std::vector<Dire
     // For every directions, start from current pos and follow the PawnDirection until it can no longer move further
     for(const auto direction: directions){
         // Start from the current Tile with the directions being added once
-        int rowAbsolute = row + direction.rowRelative;
-        int columnAbsolute = column + direction.columnRelative;
+        int rowAbsolute = row_ + direction.rowRelative;
+        int columnAbsolute = column_ + direction.columnRelative;
         // Add Tiles until it hits another piece
         while(this->can_move_to(game, Tile(rowAbsolute, columnAbsolute))){
             moves.emplace_back(rowAbsolute, columnAbsolute);
@@ -75,8 +75,8 @@ Tiles SchaakStuk::moves_from_directions(const Game* game, const std::vector<Dire
 Tiles SchaakStuk::moves_from_positions(const Game *game, const std::vector<Direction> &directions) const {
     Tiles moves;
     for(const auto &direction: directions){
-        int rowAbsolute = row + direction.rowRelative;
-        int columnAbsolute = column + direction.columnRelative;
+        int rowAbsolute = row_ + direction.rowRelative;
+        int columnAbsolute = column_ + direction.columnRelative;
         if(can_move_to(game, Tile(rowAbsolute, columnAbsolute)) || can_take_at(game, Tile(rowAbsolute, columnAbsolute)))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
@@ -86,7 +86,7 @@ Tiles SchaakStuk::moves_from_positions(const Game *game, const std::vector<Direc
 Tiles SchaakStuk::path_to_target(const Game* game, const Tile target, const std::vector<Direction> &directions) const {
     // Add own position to the Tiles
     Tiles path = {get_position()};
-    // Figure out the relative direction with row, column elements of {-1, 0, 1}
+    // Figure out the relative direction with row_, column_ elements of {-1, 0, 1}
     Direction direction = Direction::relative_direction(get_position(), target);
     // Check if direction is a move for this piece
     if(std::find_if(directions.begin(), directions.end(), [direction](Direction move){return direction == move;}) == directions.end())
@@ -111,7 +111,7 @@ bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
     game->set_piece(initPosition, nullptr);
     game->set_piece(targetPos, this);
     set_position(targetPos);
-    bool pin = game->check(kleur);
+    bool pin = game->check(kleur_);
     // Reset state
     game->set_piece(targetPos, pieceOnTarget);
     game->set_piece(initPosition, this);
@@ -131,6 +131,7 @@ void SchaakStuk::remove_pinned_moves(Game* game, Tiles& moves) {
  */
 Tiles SchaakStuk::valid_moves(Game* game) {
     Tiles moves = this->geldige_zetten(game);
+    // Filters out all moves that will lead to check
     remove_pinned_moves(game, moves);
     return moves;
 }
