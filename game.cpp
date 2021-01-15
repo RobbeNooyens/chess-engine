@@ -8,6 +8,7 @@
 #include <iostream>
 #include <exceptions/KingNotFoundException.h>
 #include "game.h"
+#include "config.h"
 
 
 Game::Game() {}
@@ -30,32 +31,16 @@ void Game::set_piece(Tile position, SchaakStuk*s) {
 }
 
 void Game::set_start_board() {
-    // Load initial game state
-//    const char initialSetup[8][8] =
-//            {{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
-//             {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-//             {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-//             {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}};
-    const char initialSetup[8][8] =
-            {{' ', ' ', ' ', 'Q', 'K', 'Q', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {' ', ' ', ' ', ' ', 'k', ' ', ' ', ' '}};
+    // Load game state
+    const BoardLayout& setup = GameConfig().getSetup();
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            this->set_piece(Tile(i, j), piece_from_character(initialSetup[i][j], Tile(i, j)));
+            this->set_piece(Tile(i, j), piece_from_character(setup[i][j], Tile(i, j)));
 }
 
 SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     int r = position.first, k = position.second;
+    GameConfig config = GameConfig();
     // Create chesspieces based on their character representation in the initialSetup 2D array
     ZW color = std::islower(c) ? zwart : wit;
     switch (std::tolower(c)) {
@@ -77,9 +62,8 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
 }
 
 bool Game::is_valid_move(const Tile position, const Tiles& moves) const{
-    if(moves.empty())
-        return false;
     return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){
+//        return move == position;
         return move.first == position.first && move.second == position.second;
     });
 }
@@ -105,12 +89,12 @@ void Game::on_tile_click(ChessBoard* scene, Tile position) {
         scene->update();
         scene->removeAllMarking();
         selectedPiece_ = nullptr;
-        // Check for checkmate, check and draw
+        // Check for checkmate, check and stalemate
         if(checkmate(turn_ == black ? wit : zwart))
             std::cout << (turn_ == black ? "Black" : "White") << " wins!" << std::endl;
         if(check(turn_ == black ? wit : zwart))
             std::cout << "Check!" << std::endl;
-        if(draw(turn_ == black ? wit : zwart))
+        if(stalemate(turn_ == black ? wit : zwart))
             std::cout << "Draw!" << std::endl;
         // Switch turn
         turn_ = (turn_ == black) ? white : black;
@@ -223,8 +207,8 @@ bool Game::move_prevents_checkmate(SchaakStuk* piece, Tile position) {
     return !stillCheck;
 }
 
-bool Game::draw(ZW color) {
-    // It cannot be draw if the king is checked
+bool Game::stalemate(ZW color) {
+    // It cannot be stalemate if the king is checked
     if(check(color))
         return false;
     // Check if at least one piece can still move

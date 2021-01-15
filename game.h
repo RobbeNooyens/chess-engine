@@ -11,6 +11,7 @@
 typedef std::vector<std::pair<int,int>> Tiles;
 typedef std::pair<int,int> Tile;
 typedef std::vector<SchaakStuk*> Pieces;
+typedef char BoardLayout[8][8];
 
 enum Player{black, white};
 
@@ -31,7 +32,7 @@ public:
     // Game state checks
     bool check(ZW) const;
     bool checkmate(ZW);
-    bool draw(ZW);
+    bool stalemate(ZW color);
     bool move_prevents_checkmate(SchaakStuk*, Tile);
     Tiles get_check_tiles(ZW);
 

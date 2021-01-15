@@ -656,6 +656,7 @@ CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
+CMakeFiles/schaken.dir/game.cpp.obj: ../config.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.cpp
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.h
 

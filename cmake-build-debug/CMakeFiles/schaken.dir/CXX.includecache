@@ -808,6 +808,12 @@ QtGui/qtguiglobal.h
 QtWidgets/qtwidgets-config.h
 -
 
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
+SchaakStuk.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
+game.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
 iostream
 -
@@ -815,6 +821,8 @@ exceptions/KingNotFoundException.h
 -
 game.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+config.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 SchaakStuk.h

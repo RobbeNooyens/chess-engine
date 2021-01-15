@@ -543,3 +543,4 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/main.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
