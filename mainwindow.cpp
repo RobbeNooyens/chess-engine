@@ -189,8 +189,8 @@ void MainWindow::createActions() {
     display_kills->setChecked(true);
     connect(display_kills, &QAction::triggered, this, &MainWindow::visualizationChange);
 
-    display_threats= new QAction(tr("threathed &player"), this);
-    display_threats->setStatusTip(tr("Highlight threathened pieces (player)"));
+    display_threats= new QAction(tr("threathed &Player"), this);
+    display_threats->setStatusTip(tr("Highlight threathened pieces (Player)"));
     display_threats->setCheckable(true);
     display_threats->setChecked(true);
     connect(display_threats, &QAction::triggered, this, &MainWindow::visualizationChange);

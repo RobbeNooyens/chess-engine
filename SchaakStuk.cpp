@@ -1,7 +1,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
-//  Student:
-//  Rolnummer:
+//  Student: Robbe Nooyens
+//  Rolnummer: 20201010
 //  Opmerkingen: (bvb aanpassingen van de opgave)
 //
 
@@ -83,6 +83,26 @@ Tiles SchaakStuk::moves_from_positions(const Game *game, const std::vector<Direc
     return moves;
 }
 
+Tiles SchaakStuk::path_to_target(const Game* game, const Tile target, const std::vector<Direction> &directions) const {
+    // Add own position to the Tiles
+    Tiles path = {get_position()};
+    // Figure out the relative direction with row, column elements of {-1, 0, 1}
+    Direction direction = Direction::relative_direction(get_position(), target);
+    // Check if direction is a move for this piece
+    if(std::find_if(directions.begin(), directions.end(), [direction](Direction move){return direction == move;}) == directions.end())
+        return path;
+    int rowAbsolute = get_row() + direction.rowRelative;
+    int columnAbsolute = get_column() + direction.columnRelative;
+    // Move in the direction until onather piece has been reached
+    while(can_move_to(game, Tile(rowAbsolute, columnAbsolute))){
+        path.emplace_back(rowAbsolute, columnAbsolute);
+        rowAbsolute += direction.rowRelative;
+        columnAbsolute += direction.columnRelative;
+    }
+    // Return the path if the tile it ended on is the target
+    return (Tile(rowAbsolute, columnAbsolute) == target) ? path : Tiles();
+}
+
 bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
     // Backup
     SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
@@ -100,22 +120,21 @@ bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
 }
 
 void SchaakStuk::remove_pinned_moves(Game* game, Tiles& moves) {
-    auto it = moves.begin();
-    while(it != moves.end()){
-        if(is_pinned(game, Tile(it->first, it->second)))
-            it = moves.erase(it);
-        else
-            it++;
-    }
+    // Remove moves that lead to check
+    moves.erase(std::remove_if(moves.begin(), moves.end(), [this, game](Tile move){return is_pinned(game, move);}), moves.end());
 }
 
+/**
+ * Returns all valid moves with pin check
+ * @param game
+ * @return
+ */
 Tiles SchaakStuk::valid_moves(Game* game) {
     Tiles moves = this->geldige_zetten(game);
     remove_pinned_moves(game, moves);
     return moves;
 }
-
-// RETURNS NAIVE POSSIBLE MOVES FOR EVERY PIECE
+// Returns naive possible moves without pin check
 Tiles Pion::geldige_zetten(const Game* game) const {
     int row = this->get_row(), column = this->get_column();
     Tiles moves;
@@ -145,8 +164,7 @@ Tiles Toren::geldige_zetten(const Game* game) const {
     // |X|X|R|X|X|
     // | | |X| | |
     // | | |X| | |
-    std::vector<Direction> directions = {Direction(1,0), Direction(-1,0), Direction(0,1), Direction(0,-1)};
-    return moves_from_directions(game, directions);
+    return moves_from_directions(game, directions_);
 }
 Tiles Paard::geldige_zetten(const Game* game) const {
     // Directions specific to the Knight: 2 to one axis, 1 to the other axis
@@ -155,10 +173,7 @@ Tiles Paard::geldige_zetten(const Game* game) const {
     // | | |N| | |
     // |X| | | |X|
     // | |X| |X| |
-    Tiles moves;
-    std::vector<Direction> directions = {Direction(-2, 1), Direction(-1, 2), Direction(1, 2), Direction(2, 1),
-                                         Direction(2, -1), Direction(1,-2), Direction(-1, -2), Direction(-2, -1),};
-    return moves_from_positions(game, directions);
+    return moves_from_positions(game, directions_);
 }
 Tiles Loper::geldige_zetten(const Game* game) const {
     // Directions: down-right, down-left, up-left, up-right
@@ -167,8 +182,7 @@ Tiles Loper::geldige_zetten(const Game* game) const {
     // | | |B| | |
     // | |X| |X| |
     // |X| | | |X|
-    std::vector<Direction> directions = {Direction(1,1), Direction(1,-1), Direction(-1,-1), Direction(-1,1)};
-    return moves_from_directions(game, directions);
+    return moves_from_directions(game, directions_);
 }
 Tiles Koningin::geldige_zetten(const Game* game) const {
     // Directions: down, up, right, left, down-right, down-left, up-left, up-right
@@ -177,8 +191,7 @@ Tiles Koningin::geldige_zetten(const Game* game) const {
     // |X|X|Q|X|X|
     // | |X|X|X| |
     // |X| |X| |X|
-    std::vector<Direction> directions = {Direction(1,0), Direction(-1,0), Direction(0,1), Direction(0,-1), Direction(1,1), Direction(1,-1), Direction(-1,-1), Direction(-1,1)};
-    return moves_from_directions(game, directions);
+    return moves_from_directions(game, directions_);
 }
 Tiles Koning::geldige_zetten(const Game* game) const {
     // Directions: Square around the current Tile
@@ -187,9 +200,16 @@ Tiles Koning::geldige_zetten(const Game* game) const {
     // | |X|K|X| |
     // | |X|X|X| |
     // | | | | | |
-    Tiles moves;
-    std::vector<Direction> directions = {Direction(0, 1), Direction(1, 1), Direction(1, 0), Direction(1, -1),
-                                         Direction(0, -1), Direction(-1,-1), Direction(-1, 0), Direction(-1, 1)};
-    return moves_from_positions(game, directions);
+    return moves_from_positions(game, directions_);
 }
+
+// Get path to the king
+Tiles Pion::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
+Tiles Paard::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
+Tiles Koning::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
+Tiles Toren::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
+Tiles Loper::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
+Tiles Koningin::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
+
+
 #pragma clang diagnostic pop

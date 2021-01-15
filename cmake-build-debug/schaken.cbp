@@ -129,6 +129,9 @@
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/schaken_autogen/mocs_compilation.cpp">
 			<Option target="schaken"/>
 		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp">
 			<Option target="schaken"/>
 		</Unit>

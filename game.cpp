@@ -5,7 +5,10 @@
 //  Opmerkingen: (bvb aanpassingen van de opgave)
 //
 
+#include <iostream>
+#include <exceptions/KingNotFoundException.h>
 #include "game.h"
+
 
 Game::Game() {}
 
@@ -28,15 +31,24 @@ void Game::set_piece(Tile position, SchaakStuk*s) {
 
 void Game::set_start_board() {
     // Load initial game state
+//    const char initialSetup[8][8] =
+//            {{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
+//             {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+//             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+//             {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+//             {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}};
     const char initialSetup[8][8] =
-            {{'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
-             {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+            {{' ', ' ', ' ', 'Q', 'K', 'Q', ' ', ' '},
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-             {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-             {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}};
+             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+             {' ', ' ', ' ', ' ', 'k', ' ', ' ', ' '}};
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
             this->set_piece(Tile(i, j), piece_from_character(initialSetup[i][j], Tile(i, j)));
@@ -84,16 +96,24 @@ void Game::on_tile_click(ChessBoard* scene, Tile position) {
         update_tiles(scene);
         return;
     }
-    // No piece has been selected and neither did the player, so nothing can happen
+    // No piece has been selected and neither did the Player, so nothing can happen
     if(selectedPiece_ == nullptr)
         return;
     // Try to move the selected piece to the clicked Tile
     if(move(selectedPiece_, position)){
         // Update the scene in case the move was succesfully executed
-        turn_ = (turn_ == black) ? white : black;
         scene->update();
         scene->removeAllMarking();
         selectedPiece_ = nullptr;
+        // Check for checkmate, check and draw
+        if(checkmate(turn_ == black ? wit : zwart))
+            std::cout << (turn_ == black ? "Black" : "White") << " wins!" << std::endl;
+        if(check(turn_ == black ? wit : zwart))
+            std::cout << "Check!" << std::endl;
+        if(draw(turn_ == black ? wit : zwart))
+            std::cout << "Draw!" << std::endl;
+        // Switch turn
+        turn_ = (turn_ == black) ? white : black;
     }
 }
 
@@ -103,7 +123,7 @@ void Game::update_tiles(ChessBoard *scene) {
         scene->setTileFocus(move.first, move.second, true);
 }
 
-player Game::selected_piece_owner(const SchaakStuk* s) const {
+Player Game::selected_piece_owner(const SchaakStuk* s) const {
     return s->get_color() == zwart ? black : white;
 }
 
@@ -122,18 +142,15 @@ bool Game::move(SchaakStuk* s, Tile position) {
     return true;
 }
 
-SchaakStuk* Game::find_king(ZW color) const{
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = get_piece(Tile(i, j));
-            if(piece == nullptr)
-                continue;
-            if(piece->get_color() == color && piece->piece().type() == piece->piece().King){
-                return piece;
-            }
+SchaakStuk* Game::find_king(ZW color) const {
+//    Pieces p = get_pieces_of_color(color);
+//    return (SchaakStuk *) std::find_if(p.begin(), p.end(), []() {}).base();
+    for(const auto &piece: get_pieces_of_color(color)) {
+        if(piece->piece().type() == piece->piece().King) {
+            return piece;
         }
     }
-    return nullptr;
+    throw KingNotFoundException(color);
 }
 
 bool Game::check(ZW color) const {
@@ -144,17 +161,77 @@ bool Game::check(ZW color) const {
         // If at least one piece can take the King, it's check
         if(is_valid_move(king->get_position(), piece->geldige_zetten(this)))
             return true;
-        // None of the enemy pieces can take the King
+    // None of the enemy pieces can take the King
     return false;
 }
 
 bool Game::checkmate(ZW color) {
-
-    return false;
+    // Return if none of the opponents' pieces attacks the king
+    if(!check(color)) {
+        return false;
+    }
+    SchaakStuk* koning = find_king(color);
+    // Check if king can move to a safe place
+    if(!koning->valid_moves(this).empty())
+        return false;
+    Tiles threats;
+    // Iterate over the opponents' pieces
+    for(const auto &piece: get_pieces_of_color(color == zwart ? wit : zwart)){
+        Tiles positions = piece->get_path_to(this, koning->get_position());
+        if(positions.empty()) {
+            continue;
+        }
+        // Add threat positions to the threats Tiles
+        for(const auto &position: positions) {
+            threats.push_back(position);
+        }
+    }
+    // Iterate over own pieces
+    for(const auto &piece: get_pieces_of_color(color)) {
+        if(piece->piece().type() == piece->piece().King) {
+            continue;
+        }
+        // Iterate over every own pieces' moves
+        for (const auto &move: piece->valid_moves(this)) {
+            // Return if the piece can't be placed in between the mating piece and the king.
+            if (!std::any_of(threats.begin(), threats.end(), [move](Tile threat) { return move == threat; })) {
+                continue;
+            }
+            // Check if the piece can block the check
+            if (move_prevents_checkmate(piece, move)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
-bool Game::draw(ZW) {
-    return false;
+bool Game::move_prevents_checkmate(SchaakStuk* piece, Tile position) {
+    // Backup
+    SchaakStuk* backupPiece = get_piece(position);
+    Tile backupPosition = piece->get_position();
+    // Set pieces to simulation positions
+    set_piece(backupPosition, nullptr);
+    set_piece(position, piece);
+    piece->set_position(position);
+    // Check if it's still check
+    bool stillCheck = check(piece->get_color());
+    // Reset to initial positions
+    set_piece(position, backupPiece);
+    set_piece(backupPosition, piece);
+    piece->set_position(backupPosition);
+    return !stillCheck;
+}
+
+bool Game::draw(ZW color) {
+    // It cannot be draw if the king is checked
+    if(check(color))
+        return false;
+    // Check if at least one piece can still move
+    for(const auto &piece: get_pieces_of_color(color))
+        if(!piece->valid_moves(this).empty())
+            return false;
+    return true;
 }
 
 Pieces Game::get_pieces_on_board() const {

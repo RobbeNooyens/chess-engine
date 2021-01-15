@@ -6,8 +6,22 @@
 
 #IncludeRegexTransform: 
 
+../SchaakStuk.h
+chessboard.h
+-
+vector
+-
+
 ../chessboard.h
 QGraphicsScene
+-
+
+../exceptions/KingNotFoundException.h
+exception
+-
+string
+-
+SchaakStuk.h
 -
 
 C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
@@ -794,13 +808,11 @@ QtGui/qtguiglobal.h
 QtWidgets/qtwidgets-config.h
 -
 
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
-chessboard.h
--
-vector
--
-
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
+iostream
+-
+exceptions/KingNotFoundException.h
+-
 game.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 

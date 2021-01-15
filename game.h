@@ -12,11 +12,9 @@ typedef std::vector<std::pair<int,int>> Tiles;
 typedef std::pair<int,int> Tile;
 typedef std::vector<SchaakStuk*> Pieces;
 
-enum player{black, white};
+enum Player{black, white};
 
 class Game {
-// variabelen om de status van het spel/bord te bewaren
-
 public:
     Game();
     ~Game();
@@ -34,6 +32,8 @@ public:
     bool check(ZW) const;
     bool checkmate(ZW);
     bool draw(ZW);
+    bool move_prevents_checkmate(SchaakStuk*, Tile);
+    Tiles get_check_tiles(ZW);
 
     // Events
     void on_tile_click(ChessBoard*, Tile);
@@ -42,12 +42,13 @@ public:
 private:
     // Private members
     SchaakStuk* bord_[8][8];
-    player turn_ = white;
+    Player turn_ = white;
     SchaakStuk* selectedPiece_ = nullptr;
+
     // Helper methods
     bool is_valid_move(Tile, const Tiles&) const;
     void update_tiles(ChessBoard* scene);
-    player selected_piece_owner(const SchaakStuk*) const;
+    Player selected_piece_owner(const SchaakStuk*) const;
     SchaakStuk* piece_from_character(char, Tile) const;
     SchaakStuk* find_king(ZW color) const;
 };

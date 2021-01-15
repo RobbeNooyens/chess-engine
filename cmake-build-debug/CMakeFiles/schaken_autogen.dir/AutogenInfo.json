@@ -20,6 +20,11 @@
 			"EWIEGA46WW/moc_chessboard.cpp"
 		],
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h",
+			"Mu",
+			"RHBJBCZP5P/moc_KingNotFoundException.cpp"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h",
 			"Mu",
 			"EWIEGA46WW/moc_game.cpp"

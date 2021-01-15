@@ -569,7 +569,9 @@ CMakeFiles/schaken.dir/chessboard.cpp.obj: ../chessboard.cpp
 CMakeFiles/schaken.dir/chessboard.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/chessboard.cpp.obj: ../resources.h
 
+CMakeFiles/schaken.dir/game.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../chessboard.h
+CMakeFiles/schaken.dir/game.cpp.obj: ../exceptions/KingNotFoundException.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qarraydata.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic.h
@@ -654,7 +656,6 @@ CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
-CMakeFiles/schaken.dir/game.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.cpp
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.h
 
