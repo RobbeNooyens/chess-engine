@@ -23,11 +23,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 // geklikt wordt. x,y geeft de positie aan waar er geklikt
 // werd; r is de 0-based rij, k de 0-based kolom
 void MainWindow::clicked(int r, int k) {
-    g.on_tile_click(scene, std::make_pair(r, k));
+    g.on_tile_click(scene, std::make_pair(r, k), options);
     update();
 }
 
 void MainWindow::newGame() {
+    options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
     this->g.set_start_board();
     this->update();
 }
@@ -114,10 +115,15 @@ void MainWindow::redo() {}
 
 
 void MainWindow::visualizationChange() {
-    QMessageBox box;
-    QString visstring = QString(display_moves->isChecked()?"T":"F")+(display_kills->isChecked()?"T":"F")+(display_threats->isChecked()?"T":"F");
-    box.setText(QString("Visualization changed : ")+visstring);
-    box.exec();
+//    QMessageBox box;
+//    QString visstring = QString(display_moves->isChecked()?"T":"F")+(display_kills->isChecked()?"T":"F")+(display_threats->isChecked()?"T":"F");
+//    box.setText(QString("VisualOptions changed : ")+visstring);
+//    box.exec();
+    options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
+    scene->removeAllMarking();
+    g.update_tiles(scene, options);
+    if(display_threats->isChecked())
+        g.update_threatened_pieces(scene);
 }
 
 

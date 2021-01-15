@@ -8,6 +8,13 @@
 class ChessBoard;
 class QSettings;
 
+struct VisualOptions{
+    bool moves;
+    bool threats;
+    bool threatenedPieces;
+    VisualOptions(bool m, bool t, bool tP): moves(m), threats(t), threatenedPieces(tP){}
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -15,10 +22,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     void update();
+    const VisualOptions getOptions() {return options;}
 
 private:
     ChessBoard *scene;
     Game g;
+    VisualOptions options = VisualOptions(false, false, false);
 private slots:
     void clicked(int x, int y);
     void newGame();

@@ -48,12 +48,13 @@ public:
     bool can_move_to(const Game*, Tile) const;
     bool can_take_at(const Game*, Tile) const;
     bool is_pinned(Game*, Tile);
+    bool is_safe_move(Game*, Tile);
 
     // Helper methods
     void remove_pinned_moves(Game*, Tiles&);
     Tiles valid_moves(Game*);
-    Tiles moves_from_directions(const Game* game, const std::vector<Direction>& directions) const;
-    Tiles moves_from_positions(const Game* game, const std::vector<Direction>& directions) const;
+    Tiles moves_from_directions(const Game*, const std::vector<Direction>&) const;
+    Tiles moves_from_positions(const Game*, const std::vector<Direction>&) const;
     Tiles path_to_target(const Game*, Tile, const std::vector<Direction>&) const;
     virtual Tiles geldige_zetten(const Game*) const= 0;
 
@@ -71,6 +72,7 @@ public:
     Pion(ZW kleur, int row, int column, PawnDirection dir): SchaakStuk(kleur, row, column), moveDirection(dir) {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+    Tiles get_threats(const Game* game);
     Piece piece() const override {
         return {Piece::Pawn, get_color() == wit ? Piece::White : Piece::Black};
     }

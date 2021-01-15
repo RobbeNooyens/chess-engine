@@ -15,6 +15,7 @@ typedef char BoardLayout[8][8];
 
 enum Player{black, white};
 
+class VisualOptions;
 class Game {
 public:
     Game();
@@ -24,6 +25,7 @@ public:
     SchaakStuk* get_piece(Tile) const;
     Pieces get_pieces_on_board() const;
     Pieces get_pieces_of_color(ZW) const;
+    Tiles get_threatening_tiles(ZW);
 
     // Setters
     void set_start_board();
@@ -36,9 +38,13 @@ public:
     bool move_prevents_checkmate(SchaakStuk*, Tile);
 
     // Events
-    void on_tile_click(ChessBoard*, Tile);
+    void on_tile_click(ChessBoard*, Tile, VisualOptions);
     bool move(SchaakStuk*, Tile);
 
+    // Helper methods
+    bool vector_contains_tile(const Tiles&, Tile) const;
+    void update_tiles(ChessBoard*, VisualOptions);
+    void update_threatened_pieces(ChessBoard*);
 private:
     // Private members
     SchaakStuk* bord_[8][8];
@@ -46,8 +52,6 @@ private:
     SchaakStuk* selectedPiece_ = nullptr;
 
     // Helper methods
-    bool is_valid_move(Tile, const Tiles&) const;
-    void update_tiles(ChessBoard* scene);
     Player selected_piece_owner(const SchaakStuk*) const;
     SchaakStuk* piece_from_character(char, Tile) const;
     SchaakStuk* find_king(ZW color) const;

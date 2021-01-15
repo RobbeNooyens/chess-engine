@@ -124,6 +124,22 @@ void SchaakStuk::remove_pinned_moves(Game* game, Tiles& moves) {
     moves.erase(std::remove_if(moves.begin(), moves.end(), [this, game](Tile move){return is_pinned(game, move);}), moves.end());
 }
 
+bool SchaakStuk::is_safe_move(Game* game, Tile targetPos) {
+    // Backup
+    SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
+    Tile initPosition = get_position();
+    // Simulate move
+    game->set_piece(initPosition, nullptr);
+    game->set_piece(targetPos, this);
+    set_position(targetPos);
+    bool safe = !game->vector_contains_tile(game->get_threatening_tiles(get_color() == zwart ? wit : zwart), targetPos);
+    // Reset state
+    game->set_piece(targetPos, pieceOnTarget);
+    game->set_piece(initPosition, this);
+    set_position(initPosition);
+    return safe;
+}
+
 /**
  * Returns all valid moves with pin check
  * @param game
@@ -133,6 +149,18 @@ Tiles SchaakStuk::valid_moves(Game* game) {
     Tiles moves = this->geldige_zetten(game);
     // Filters out all moves that will lead to check
     remove_pinned_moves(game, moves);
+    return moves;
+}
+Tiles Pion::get_threats(const Game *game) {
+    int row = this->get_row(), column = this->get_column();
+    Tiles moves;
+    int dirRelative = ((moveDirection == up) ? -1 : 1);
+    int nextRow = row + dirRelative;
+    // Check if pawn can take a piece sideways
+    if(this->can_take_at(game, Tile(nextRow, column - 1)))
+        moves.emplace_back(nextRow, column-1);
+    if(this->can_take_at(game, Tile(nextRow, column + 1)))
+        moves.emplace_back(nextRow, column+1);
     return moves;
 }
 // Returns naive possible moves without pin check

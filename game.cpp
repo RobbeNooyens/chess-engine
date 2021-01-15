@@ -9,6 +9,7 @@
 #include <exceptions/KingNotFoundException.h>
 #include "game.h"
 #include "config.h"
+#include "mainwindow.h"
 
 
 Game::Game() {}
@@ -61,12 +62,12 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     }
 }
 
-bool Game::is_valid_move(const Tile position, const Tiles& moves) const{
+bool Game::vector_contains_tile(const Tiles &moves, Tile position) const{
     // Check if position is in moves
     return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){ return move == position; });
 }
 
-void Game::on_tile_click(ChessBoard* scene, Tile position) {
+void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options) {
     SchaakStuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
     if(pieceOnTarget != nullptr && selected_piece_owner(pieceOnTarget) == turn_){
@@ -74,7 +75,7 @@ void Game::on_tile_click(ChessBoard* scene, Tile position) {
         scene->removeAllMarking();
         scene->setTileSelect(position.first, position.second, true);
         selectedPiece_ = pieceOnTarget;
-        update_tiles(scene);
+        update_tiles(scene, options);
         return;
     }
     // No piece has been selected and neither did the Player, so nothing can happen
@@ -95,13 +96,46 @@ void Game::on_tile_click(ChessBoard* scene, Tile position) {
             std::cout << "Draw!" << std::endl;
         // Switch turn
         turn_ = (turn_ == black) ? white : black;
+        // Update threatened pieces
+        if(options.threatenedPieces)
+            update_threatened_pieces(scene);
     }
 }
 
-void Game::update_tiles(ChessBoard *scene) {
+Tiles Game::get_threatening_tiles(ZW color) {
+    Tiles positions;
+    for(auto &piece: get_pieces_of_color(color)){
+        Tiles moves = piece->valid_moves(this);
+        if(piece->piece().type() == piece->piece().Pawn)
+            moves = ((Pion*) piece)->get_threats(this);
+        for(const auto &move: moves)
+            if(!vector_contains_tile(positions, move))
+                positions.push_back(move);
+    }
+
+    return positions;
+}
+
+void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
+    if(selectedPiece_ == nullptr)
+        return;
     Tiles moves = selectedPiece_->valid_moves(this);
-    for(const auto &move: moves)
-        scene->setTileFocus(move.first, move.second, true);
+    Tiles threats = get_threatening_tiles(turn_ == black ? wit : zwart);
+    for(const auto &move: moves){
+        if(options.threats && !selectedPiece_->is_safe_move(this, move)){
+            scene->setTileFocus(move.first, move.second, true);
+            scene->setTileThreat(move.first, move.second, true);
+        } else if(options.moves){
+            scene->setTileFocus(move.first, move.second, true);
+        }
+    }
+}
+
+void Game::update_threatened_pieces(ChessBoard *scene) {
+    Tiles threats = get_threatening_tiles(turn_ == black ? wit : zwart);
+    for(const auto &piece: get_pieces_of_color(turn_ == black ? zwart : wit))
+        if(vector_contains_tile(threats, piece->get_position()))
+            scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
 }
 
 Player Game::selected_piece_owner(const SchaakStuk* s) const {
@@ -110,13 +144,13 @@ Player Game::selected_piece_owner(const SchaakStuk* s) const {
 
 bool Game::move(SchaakStuk* s, Tile position) {
     // Checks if the move is valid. If not, return false
-    if(!is_valid_move(position, s->valid_moves(this)))
+    if(!vector_contains_tile(s->valid_moves(this), position))
         return false;
     // Delete de piece on the target spot from memory
     SchaakStuk* pieceOnTarget = get_piece(position);
     delete pieceOnTarget;
     // Set the current Tile to a nullptr and the destination to the current piece
-    set_piece(Tile(s->get_row(), s->get_column()), nullptr);
+    set_piece(s->get_position(), nullptr);
     set_piece(position, s);
     // Update the piece's member variables row_ and column_
     s->set_position(position);
@@ -138,7 +172,7 @@ bool Game::check(ZW color) const {
     // Iterate over all pieces with the other color
     for(const auto &piece: get_pieces_of_color(color == zwart ? wit : zwart))
         // If at least one piece can take the King, it's check
-        if(is_valid_move(king->get_position(), piece->geldige_zetten(this)))
+        if(vector_contains_tile(piece->geldige_zetten(this), king->get_position()))
             return true;
     // None of the enemy pieces can take the King
     return false;
