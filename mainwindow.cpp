@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "SchaakStuk.h"
+#include "schaakstuk.h"
 #include <QMessageBox>
 #include <QtWidgets>
 #include <iostream>
@@ -122,8 +122,7 @@ void MainWindow::visualizationChange() {
     options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
     scene->removeAllMarking();
     g.update_tiles(scene, options);
-    if(display_threats->isChecked())
-        g.update_threatened_pieces(scene);
+    g.update_threatened_pieces(scene, options);
 }
 
 
@@ -133,7 +132,7 @@ void MainWindow::update() {
     scene->clearBoard();        // Alle stukken weg
     for(int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            SchaakStuk* schaakStuk = g.get_piece(Tile(i, j));
+            schaakstuk* schaakStuk = g.get_piece(Tile(i, j));
             if(schaakStuk != nullptr){
                 scene->setItem(i, j, schaakStuk->piece());
             }

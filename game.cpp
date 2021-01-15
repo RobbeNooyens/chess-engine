@@ -10,6 +10,7 @@
 #include "game.h"
 #include "config.h"
 #include "mainwindow.h"
+#include "schaakstuk.h"
 
 
 Game::Game() {}
@@ -23,11 +24,11 @@ Game::~Game() {
     }
 }
 
-SchaakStuk* Game::get_piece(Tile position) const {
+schaakstuk* Game::get_piece(Tile position) const {
     return bord_[position.first][position.second];
 }
 
-void Game::set_piece(Tile position, SchaakStuk*s) {
+void Game::set_piece(Tile position, schaakstuk*s) {
     bord_[position.first][position.second] = s;
 }
 
@@ -39,7 +40,7 @@ void Game::set_start_board() {
             this->set_piece(Tile(i, j), piece_from_character(setup[i][j], Tile(i, j)));
 }
 
-SchaakStuk* Game::piece_from_character(char c, Tile position) const{
+schaakstuk* Game::piece_from_character(char c, Tile position) const{
     int r = position.first, k = position.second;
     GameConfig config = GameConfig();
     // Create chesspieces based on their character representation in the initialSetup 2D array
@@ -62,15 +63,10 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     }
 }
 
-bool Game::vector_contains_tile(const Tiles &moves, Tile position) const{
-    // Check if position is in moves
-    return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){ return move == position; });
-}
-
 void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options) {
-    SchaakStuk* pieceOnTarget = get_piece(position);
+    schaakstuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
-    if(pieceOnTarget != nullptr && selected_piece_owner(pieceOnTarget) == turn_){
+    if(pieceOnTarget != nullptr && pieceOnTarget->get_color() == turn_){
         // Update the scene with visual information
         scene->removeAllMarking();
         scene->setTileSelect(position.first, position.second, true);
@@ -88,17 +84,17 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
         scene->removeAllMarking();
         selectedPiece_ = nullptr;
         // Check for checkmate, check and stalemate
-        if(checkmate(turn_ == black ? wit : zwart))
-            std::cout << (turn_ == black ? "Black" : "White") << " wins!" << std::endl;
-        if(check(turn_ == black ? wit : zwart))
+        if(checkmate(opposite(turn_)))
+            std::cout << (turn_ == zwart ? "Black" : "White") << " wins!" << std::endl;
+        if(check(opposite(turn_)))
             std::cout << "Check!" << std::endl;
-        if(stalemate(turn_ == black ? wit : zwart))
+        if(stalemate(opposite(turn_)))
             std::cout << "Draw!" << std::endl;
         // Switch turn
-        turn_ = (turn_ == black) ? white : black;
+        turn_ = opposite(turn_);
         // Update threatened pieces
         if(options.threatenedPieces)
-            update_threatened_pieces(scene);
+            update_threatened_pieces(scene, options);
     }
 }
 
@@ -120,7 +116,7 @@ void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
     if(selectedPiece_ == nullptr)
         return;
     Tiles moves = selectedPiece_->valid_moves(this);
-    Tiles threats = get_threatening_tiles(turn_ == black ? wit : zwart);
+    Tiles threats = get_threatening_tiles(opposite(turn_));
     for(const auto &move: moves){
         if(options.threats && !selectedPiece_->is_safe_move(this, move)){
             scene->setTileFocus(move.first, move.second, true);
@@ -131,23 +127,21 @@ void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
     }
 }
 
-void Game::update_threatened_pieces(ChessBoard *scene) {
-    Tiles threats = get_threatening_tiles(turn_ == black ? wit : zwart);
-    for(const auto &piece: get_pieces_of_color(turn_ == black ? zwart : wit))
+void Game::update_threatened_pieces(ChessBoard *scene, VisualOptions options) {
+    if(!options.threatenedPieces)
+        return;
+    Tiles threats = get_threatening_tiles(opposite(turn_));
+    for(const auto &piece: get_pieces_of_color(turn_))
         if(vector_contains_tile(threats, piece->get_position()))
             scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
 }
 
-Player Game::selected_piece_owner(const SchaakStuk* s) const {
-    return s->get_color() == zwart ? black : white;
-}
-
-bool Game::move(SchaakStuk* s, Tile position) {
+bool Game::move(schaakstuk* s, Tile position) {
     // Checks if the move is valid. If not, return false
     if(!vector_contains_tile(s->valid_moves(this), position))
         return false;
     // Delete de piece on the target spot from memory
-    SchaakStuk* pieceOnTarget = get_piece(position);
+    schaakstuk* pieceOnTarget = get_piece(position);
     delete pieceOnTarget;
     // Set the current Tile to a nullptr and the destination to the current piece
     set_piece(s->get_position(), nullptr);
@@ -157,7 +151,7 @@ bool Game::move(SchaakStuk* s, Tile position) {
     return true;
 }
 
-SchaakStuk* Game::find_king(ZW color) const {
+schaakstuk* Game::find_king(ZW color) const {
     // Iterate over own pieces
     for(const auto &piece: get_pieces_of_color(color))
         if(piece->piece().type() == piece->piece().King)
@@ -168,9 +162,9 @@ SchaakStuk* Game::find_king(ZW color) const {
 
 bool Game::check(ZW color) const {
     // Find the King of the specified color
-    SchaakStuk* king = find_king(color);
+    schaakstuk* king = find_king(color);
     // Iterate over all pieces with the other color
-    for(const auto &piece: get_pieces_of_color(color == zwart ? wit : zwart))
+    for(const auto &piece: get_pieces_of_color(opposite(color)))
         // If at least one piece can take the King, it's check
         if(vector_contains_tile(piece->geldige_zetten(this), king->get_position()))
             return true;
@@ -183,13 +177,13 @@ bool Game::checkmate(ZW color) {
     if(!check(color)) {
         return false;
     }
-    SchaakStuk* koning = find_king(color);
+    schaakstuk* koning = find_king(color);
     // Check if king can move to a safe place
     if(!koning->valid_moves(this).empty())
         return false;
     Tiles threats;
     // Iterate over the opponents' pieces
-    for(const auto &piece: get_pieces_of_color(color == zwart ? wit : zwart)){
+    for(const auto &piece: get_pieces_of_color(opposite(color))){
         Tiles positions = piece->get_path_to(this, koning->get_position());
         if(positions.empty()) {
             continue;
@@ -219,9 +213,9 @@ bool Game::checkmate(ZW color) {
     return true;
 }
 
-bool Game::move_prevents_checkmate(SchaakStuk* piece, Tile position) {
+bool Game::move_prevents_checkmate(schaakstuk* piece, Tile position) {
     // Backup
-    SchaakStuk* backupPiece = get_piece(position);
+    schaakstuk* backupPiece = get_piece(position);
     Tile backupPosition = piece->get_position();
     // Set pieces to simulation positions
     set_piece(backupPosition, nullptr);
@@ -251,7 +245,7 @@ Pieces Game::get_pieces_on_board() const {
     Pieces pieces;
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = get_piece(Tile(i, j));
+            schaakstuk* piece = get_piece(Tile(i, j));
             if(piece != nullptr)
                 pieces.push_back(piece);
         }
@@ -261,7 +255,16 @@ Pieces Game::get_pieces_on_board() const {
 
 Pieces Game::get_pieces_of_color(ZW color) const {
     Pieces pieces = get_pieces_on_board();
-    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [color](SchaakStuk* piece){return piece->get_color() != color;}), pieces.end());
+    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [color](schaakstuk* piece){return piece->get_color() != color;}), pieces.end());
     return pieces;
+}
+
+bool Game::vector_contains_tile(const Tiles &moves, Tile position) const{
+    // Check if position is in moves
+    return std::any_of(moves.begin(), moves.end(), [position](const Tile &move){ return move == position; });
+}
+
+ZW Game::opposite(ZW color) const {
+    return color == zwart ? wit : zwart;
 }
 #pragma clang diagnostic pop

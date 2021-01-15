@@ -10,11 +10,6 @@
 	"HEADERS" : 
 	[
 		[
-			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h",
-			"Mu",
-			"EWIEGA46WW/moc_SchaakStuk.cpp"
-		],
-		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h",
 			"Mu",
 			"EWIEGA46WW/moc_chessboard.cpp"
@@ -43,6 +38,16 @@
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h",
 			"Mu",
 			"EWIEGA46WW/moc_resources.cpp"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/schaakstuk.h",
+			"Mu",
+			"EWIEGA46WW/moc_schaakstuk.cpp"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h",
+			"Mu",
+			"EWIEGA46WW/moc_sharedtypes.cpp"
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -98,10 +103,6 @@
 	"SOURCES" : 
 	[
 		[
-			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp",
-			"Mu"
-		],
-		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp",
 			"Mu"
 		],
@@ -115,6 +116,10 @@
 		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp",
+			"Mu"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/schaakstuk.cpp",
 			"Mu"
 		]
 	],

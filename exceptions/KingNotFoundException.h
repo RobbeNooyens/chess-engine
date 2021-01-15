@@ -8,7 +8,7 @@
 
 #include <exception>
 #include <string>
-#include <SchaakStuk.h>
+#include <schaakstuk.h>
 
 class KingNotFoundException: public std::exception {
 public:

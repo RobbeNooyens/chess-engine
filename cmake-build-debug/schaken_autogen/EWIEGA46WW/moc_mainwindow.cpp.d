@@ -250,7 +250,6 @@ C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/cmake-build-debug/s
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qmatrix.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpaintdevice.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpalette.h \
-  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpen.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixelformat.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixmap.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpolygon.h \
@@ -264,15 +263,12 @@ C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/cmake-build-debug/s
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qvector2d.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h \
-  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow \
-  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h \
-  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/SchaakStuk.h \
-  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/chessboard.h \
-  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/game.h
+  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/game.h \
+  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/sharedtypes.h

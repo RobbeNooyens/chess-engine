@@ -86,9 +86,10 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtW
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
-CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../SchaakStuk.cpp
-CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../game.h
+CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../schaakstuk.cpp
+CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../schaakstuk.h
+CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../sharedtypes.h
 
 CMakeFiles/schaken.dir/chessboard.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtANGLE/GLES2/gl2.h
 CMakeFiles/schaken.dir/chessboard.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtANGLE/GLES2/gl2platform.h
@@ -569,7 +570,6 @@ CMakeFiles/schaken.dir/chessboard.cpp.obj: ../chessboard.cpp
 CMakeFiles/schaken.dir/chessboard.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/chessboard.cpp.obj: ../resources.h
 
-CMakeFiles/schaken.dir/game.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../exceptions/KingNotFoundException.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
@@ -686,8 +686,9 @@ CMakeFiles/schaken.dir/game.cpp.obj: ../config.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.cpp
 CMakeFiles/schaken.dir/game.cpp.obj: ../game.h
 CMakeFiles/schaken.dir/game.cpp.obj: ../mainwindow.h
+CMakeFiles/schaken.dir/game.cpp.obj: ../schaakstuk.h
+CMakeFiles/schaken.dir/game.cpp.obj: ../sharedtypes.h
 
-CMakeFiles/schaken.dir/main.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qarraydata.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic.h
@@ -779,7 +780,6 @@ CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qke
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qmatrix.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpaintdevice.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpalette.h
-CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpen.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixelformat.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixmap.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpolygon.h
@@ -794,21 +794,19 @@ CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qve
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QApplication
-CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qapplication.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdesktopwidget.h
-CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/schaken.dir/main.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
-CMakeFiles/schaken.dir/main.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/main.cpp.obj: ../game.h
 CMakeFiles/schaken.dir/main.cpp.obj: ../main.cpp
 CMakeFiles/schaken.dir/main.cpp.obj: ../mainwindow.h
+CMakeFiles/schaken.dir/main.cpp.obj: ../sharedtypes.h
 
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtANGLE/GLES2/gl2.h
@@ -1288,15 +1286,16 @@ CMakeFiles/schaken.dir/mainwindow.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtW
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidgetaction.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwizard.h
-CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../game.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../mainwindow.cpp
 CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../mainwindow.h
+CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../schaakstuk.h
+CMakeFiles/schaken.dir/mainwindow.cpp.obj: ../sharedtypes.h
 
-CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: ../chessboard.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: ../game.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: ../mainwindow.h
+CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: ../sharedtypes.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qarraydata.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic.h

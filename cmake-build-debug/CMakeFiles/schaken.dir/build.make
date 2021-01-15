@@ -146,19 +146,19 @@ CMakeFiles/schaken.dir/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/schaken.dir/game.cpp.s"
 	C:\MinGW64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\game.cpp" -o CMakeFiles\schaken.dir\game.cpp.s
 
-CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: CMakeFiles/schaken.dir/flags.make
-CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: CMakeFiles/schaken.dir/includes_CXX.rsp
-CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../SchaakStuk.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/schaken.dir/SchaakStuk.cpp.obj"
-	C:\MinGW64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\schaken.dir\SchaakStuk.cpp.obj -c "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\SchaakStuk.cpp"
+CMakeFiles/schaken.dir/schaakstuk.cpp.obj: CMakeFiles/schaken.dir/flags.make
+CMakeFiles/schaken.dir/schaakstuk.cpp.obj: CMakeFiles/schaken.dir/includes_CXX.rsp
+CMakeFiles/schaken.dir/schaakstuk.cpp.obj: ../schaakstuk.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/schaken.dir/schaakstuk.cpp.obj"
+	C:\MinGW64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\schaken.dir\schaakstuk.cpp.obj -c "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\schaakstuk.cpp"
 
-CMakeFiles/schaken.dir/SchaakStuk.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/schaken.dir/SchaakStuk.cpp.i"
-	C:\MinGW64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\SchaakStuk.cpp" > CMakeFiles\schaken.dir\SchaakStuk.cpp.i
+CMakeFiles/schaken.dir/schaakstuk.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/schaken.dir/schaakstuk.cpp.i"
+	C:\MinGW64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\schaakstuk.cpp" > CMakeFiles\schaken.dir\schaakstuk.cpp.i
 
-CMakeFiles/schaken.dir/SchaakStuk.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/schaken.dir/SchaakStuk.cpp.s"
-	C:\MinGW64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\SchaakStuk.cpp" -o CMakeFiles\schaken.dir\SchaakStuk.cpp.s
+CMakeFiles/schaken.dir/schaakstuk.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/schaken.dir/schaakstuk.cpp.s"
+	C:\MinGW64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\robbe\Documents\University\Bachelor 1\IP\C++\Chess\schaakstuk.cpp" -o CMakeFiles\schaken.dir\schaakstuk.cpp.s
 
 # Object files for target schaken
 schaken_OBJECTS = \
@@ -167,7 +167,7 @@ schaken_OBJECTS = \
 "CMakeFiles/schaken.dir/mainwindow.cpp.obj" \
 "CMakeFiles/schaken.dir/chessboard.cpp.obj" \
 "CMakeFiles/schaken.dir/game.cpp.obj" \
-"CMakeFiles/schaken.dir/SchaakStuk.cpp.obj"
+"CMakeFiles/schaken.dir/schaakstuk.cpp.obj"
 
 # External object files for target schaken
 schaken_EXTERNAL_OBJECTS =
@@ -177,7 +177,7 @@ schaken.exe: CMakeFiles/schaken.dir/main.cpp.obj
 schaken.exe: CMakeFiles/schaken.dir/mainwindow.cpp.obj
 schaken.exe: CMakeFiles/schaken.dir/chessboard.cpp.obj
 schaken.exe: CMakeFiles/schaken.dir/game.cpp.obj
-schaken.exe: CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
+schaken.exe: CMakeFiles/schaken.dir/schaakstuk.cpp.obj
 schaken.exe: CMakeFiles/schaken.dir/build.make
 schaken.exe: C:/Qt64/5.15.2/mingw81_64/lib/libQt5Widgets.a
 schaken.exe: C:/Qt64/5.15.2/mingw81_64/lib/libQt5Gui.a

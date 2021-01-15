@@ -19,7 +19,7 @@ find_package( Qt5Gui REQUIRED )
 
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCE_FILES main.cpp mainwindow.cpp mainwindow.h chessboard.cpp chessboard.h game.cpp game.h schaakStuk.cpp schaakStuk.h resources.h exceptions/KingNotFoundException.h config.h)
+set(SOURCE_FILES main.cpp mainwindow.cpp mainwindow.h chessboard.cpp chessboard.h game.cpp game.h schaakstuk.cpp schaakstuk.h resources.h exceptions/KingNotFoundException.h config.h sharedtypes.h)
 add_executable(schaken ${SOURCE_FILES})
 
 qt5_use_modules(schaken Core Widgets Gui)

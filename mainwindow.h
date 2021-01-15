@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "game.h"
-#include "SchaakStuk.h"
 #include <QCloseEvent>
+#include "game.h"
+
 class ChessBoard;
 class QSettings;
 
@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     void update();
-    const VisualOptions getOptions() {return options;}
+    VisualOptions getOptions() {return options;}
 
 private:
     ChessBoard *scene;

@@ -5,9 +5,6 @@
 #ifndef SCHAKEN_CONFIG_H
 #define SCHAKEN_CONFIG_H
 
-#include "SchaakStuk.h"
-#include "game.h"
-
 typedef char BoardLayout[8][8];
 
 enum BoardLayoutType{standard, endgame, promote, rokade};
