@@ -194,7 +194,7 @@ bool Koning::safe_at(const Game* game, Tile position) const {
 
 std::pair<bool, Tile> Koning::can_rokade(const Game* game, const Toren* rook) const {
     // King has already moved or king and rook aren't on the same row
-    if(moved_ || get_row() != rook->get_row())
+    if(game->king_moved(get_color()) || get_row() != rook->get_row())
         return {false, {-1, -1}};
     // Rook should be in the leftmost or rightmost column
     if(!(rook->get_column() == 0 || rook->get_column() == 7))
@@ -211,14 +211,6 @@ std::pair<bool, Tile> Koning::can_rokade(const Game* game, const Toren* rook) co
             return {false, {-1, -1}};
     }
     return {true, {get_row(), get_column() + 2 * (direction.columnRelative)}};
-}
-
-bool Koning::has_moved() const {
-    return has_moved();
-}
-
-void Koning::set_moved(bool moved) {
-    moved_ = moved;
 }
 
 // Returns naive possible moves without pin check

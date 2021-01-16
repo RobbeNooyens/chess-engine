@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <exceptions/KingNotFoundException.h>
+#include <sstream>
 #include "game.h"
 #include "mainwindow.h"
 #include "chessboard.h"
@@ -19,13 +20,19 @@ Game::Game() {
 Game::~Game() { recycle(); }
 
 void Game::recycle() {
+    recycle_board();
     selectedPiece_ = nullptr;
-    for(auto &i: bord_)
-        for(auto &j: i)
-            delete j;
     turn_ = wit;
     enpassantWhite_ = {-1, -1};
     enpassantBlack_ = {-1, -1};
+    whiteKingMoved_ = false;
+    blackKingMoved_ = false;
+}
+
+void Game::recycle_board() {
+    for(auto &i: bord_)
+        for(auto &j: i)
+            delete j;
 }
 
 SchaakStuk* Game::get_piece(Tile position) const {
@@ -38,6 +45,17 @@ void Game::set_piece(Tile position, SchaakStuk*s) {
 
 void Game::update_options(VisualOptions options) {
     this->options_ = options;
+}
+
+void Game::set_king_moved(ZW color, bool moved) {
+    if(color == zwart)
+        blackKingMoved_ = moved;
+    else
+        whiteKingMoved_ = moved;
+}
+
+bool Game::king_moved(ZW color) const {
+    return color == zwart ? blackKingMoved_ : whiteKingMoved_;
 }
 
 Tile Game::get_enpassant_tile(ZW color) const { return color == zwart ? enpassantBlack_ : enpassantWhite_;}
@@ -53,12 +71,12 @@ void Game::set_start_board() {
     const BoardLayout& setup = config_.getBoardSetup();
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            this->set_piece({i, j}, piece_from_character(setup[i][j], {i, j}));
+            this->set_piece({i, j}, character_to_piece(setup[i][j], {i, j}));
 }
 
-SchaakStuk* Game::piece_from_character(char c, Tile position) const{
+SchaakStuk* Game::character_to_piece(char c, Tile position) const{
     // Create chesspieces based on their character representation in the initialSetup 2D array
-    ZW color = std::islower(c) ? zwart : wit;
+    ZW color = std::isupper(c) ? zwart : wit;
     switch (std::tolower(c)) {
         case 'r':
             return new Toren(color, position);
@@ -75,6 +93,33 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
         default:
             return nullptr;
     }
+}
+
+char Game::piece_to_character(SchaakStuk* s) const {
+    char character;
+    switch (s->type()) {
+        case pawn:
+            character = 'p';
+            break;
+        case rook:
+            character = 'r';
+            break;
+        case knight:
+            character = 'n';
+            break;
+        case bishop:
+            character = 'b';
+            break;
+        case queen:
+            character = 'q';
+            break;
+        case king:
+            character = 'k';
+            break;
+        default:
+            character = '.';
+    }
+    return s->get_color() == wit ? character : toupper(character, std::locale());
 }
 
 void Game::promote_piece_selected(PieceType type, ChessBoard* scene, Tile promoteTile) {
@@ -210,7 +255,7 @@ bool Game::move(SchaakStuk* s, Tile position) {
     }
     // Check king
     if(s->type() == king){
-        ((Koning*) s)->set_moved(true);
+        set_king_moved(s->get_color(), true);
         // Check if king rokades
         if(std::abs(s->get_column() - position.second) == 2){
             SchaakStuk* rook = get_piece({s->get_row(), s->get_column() < position.second ? 7 : 0});
@@ -343,6 +388,104 @@ bool Game::vector_contains_tile(const Tiles &moves, Tile position) const{
 
 ZW Game::opposite(ZW color) const {
     return color == zwart ? wit : zwart;
+}
+
+std::string Game::saveBoard() const {
+    std::string output;
+    for(const auto &row: bord_)
+        for(const auto &piece: row)
+            if(piece != nullptr)
+                output.push_back(piece_to_character(piece));
+            else
+                output.push_back('.');
+    return output;
+}
+
+void Game::loadBoard(std::string &s) {
+    recycle_board();
+    std::stringstream input;
+    input.str(s);
+    int r = 0, c = 0;
+    for(const auto character: s){
+        Tile tile = {r, c};
+        SchaakStuk* piece = character_to_piece(character, tile);
+        set_piece(tile, piece);
+        c++;
+        if(c == 8){
+            c = 0;
+            r++;
+        }
+        if(r == 8)
+            break;
+    }
+}
+
+std::string Game::save() const {
+    std::map<std::string, std::string> save;
+    save.insert({"board", saveBoard()});
+    save.insert({"turn", turn_ == wit ? "white":"black"});
+    save.insert({"EPW", tile_to_string(enpassantWhite_)});
+    save.insert({"EPB", tile_to_string(enpassantBlack_)});
+    save.insert({"WKM", whiteKingMoved_ ? "true" : "false"});
+    save.insert({"BKM", blackKingMoved_ ? "true" : "false"});
+    return map_to_string(save);
+}
+
+void Game::load(std::string &input) {
+    recycle();
+    JSON data = string_to_map(input);
+    if(data.count("board"))
+        loadBoard(data["board"]);
+    else
+        set_start_board();
+    turn_ = data.count("turn") ? (data["turn"] == "white" ? wit : zwart) : wit;
+    enpassantWhite_ = data.count("EPW") ?  string_to_tile(data["EPW"]) : Tile(-1, -1);
+    enpassantBlack_ = data.count("EPB") ?  string_to_tile(data["EPB"]) : Tile(-1, -1);
+    whiteKingMoved_ = data.count("WKM") != 0 && data["WKM"] == "true";
+    blackKingMoved_ = data.count("BKM") != 0 && data["BKM"] == "true";
+    selectedPiece_ = nullptr;
+}
+
+std::string Game::tile_to_string(Tile tile) const {
+    return std::to_string(tile.first) + std::to_string(tile.second);
+}
+
+Tile Game::string_to_tile(std::string &tile) const {
+    return (tile == "-1-1") ? Tile(-1, -1) : Tile(tile.at(0)-'0', tile.at(1)-'0');
+}
+
+std::string Game::map_to_string(JSON &map) const {
+    std::string output;
+    std::string convrt;
+    std::string result;
+    for (const auto & it : map)
+        output += (it.first) + ":" + it.second + ",";
+    return result;
+}
+
+JSON Game::string_to_map(std::string &input) const {
+    std::map<std::string, std::string> output;
+    std::string key;
+    std::string value;
+    bool writeToKey = true;
+    for(const auto c: input){
+        if(c == ':'){
+            writeToKey = false;
+            continue;
+        }
+        if(c == ','){
+            writeToKey = true;
+            output.insert({key, value});
+            key.clear();
+            value.clear();
+            continue;
+        }
+        if(writeToKey)
+            key.push_back(c);
+        else
+            value.push_back(c);
+    }
+    return output;
 }
 
 void Game::fill_board_with_nullpointers() {

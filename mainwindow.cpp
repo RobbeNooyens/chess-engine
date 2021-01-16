@@ -44,6 +44,7 @@ void MainWindow::newGame() {
 }
 
 void MainWindow::save() {
+    std::cout << g.save() << std::endl;
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save game"), "",
                                                     tr("Chess File (*.chs);;All Files (*)"));
