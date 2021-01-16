@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     void update();
+    void initialize_game();
     VisualOptions getOptions() {return options;}
 
 private:

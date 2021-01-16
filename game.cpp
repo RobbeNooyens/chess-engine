@@ -15,11 +15,16 @@
 
 Game::Game() {}
 
-Game::~Game() {
+Game::~Game() { recycle(); }
+
+void Game::recycle() {
     selectedPiece_ = nullptr;
-    for(auto &i : bord_)
+    for(auto &i: bord_)
         for(auto &j: i)
             delete j;
+    turn_ = wit;
+    enpassantWhite = {-1, -1};
+    enpassantBlack = {-1, -1};
 }
 
 SchaakStuk* Game::get_piece(Tile position) const {
@@ -43,7 +48,7 @@ void Game::set_start_board() {
     const BoardLayout& setup = GameConfig().getSetup();
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            this->set_piece(Tile(i, j), piece_from_character(setup[i][j], Tile(i, j)));
+            this->set_piece({i, j}, piece_from_character(setup[i][j], {i, j}));
 }
 
 SchaakStuk* Game::piece_from_character(char c, Tile position) const{
@@ -151,7 +156,7 @@ bool Game::move(SchaakStuk* s, Tile position) {
     SchaakStuk* pieceOnTarget = get_piece(position);
     // Delete the en passant piece
     if(pieceOnTarget == nullptr && s->type() == pawn && s->get_column() != position.second){
-        Tile enpassantTile = Tile(s->get_row(), position.second);
+        Tile enpassantTile = {s->get_row(), position.second};
         set_piece(enpassantTile, nullptr);
         delete get_piece(enpassantTile);
     }
@@ -270,13 +275,10 @@ bool Game::stalemate(ZW color) {
 
 Pieces Game::get_pieces_on_board() const {
     Pieces pieces;
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            SchaakStuk* piece = get_piece(Tile(i, j));
-            if(piece != nullptr)
-                pieces.push_back(piece);
-        }
-    }
+    for(auto &i: bord_)
+        for(auto &j: i)
+            if(j != nullptr)
+                pieces.push_back(j);
     return pieces;
 }
 
@@ -293,5 +295,11 @@ bool Game::vector_contains_tile(const Tiles &moves, Tile position) const{
 
 ZW Game::opposite(ZW color) const {
     return color == zwart ? wit : zwart;
+}
+
+void Game::fill_board_with_nullpointers() {
+    for(int i = 0; i < 8; i++)
+        for(int j = 0; j < 8; j++)
+            bord_[i][j] = nullptr;
 }
 #pragma clang diagnostic pop

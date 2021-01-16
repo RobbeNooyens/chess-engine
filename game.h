@@ -14,6 +14,7 @@ class Game {
 public:
     Game();
     ~Game();
+    void recycle();
 
     // Getters
     SchaakStuk* get_piece(Tile) const;
@@ -48,6 +49,7 @@ public:
     Koning* find_king(ZW) const;
     std::vector<Toren*> find_rooks(ZW) const;
     ZW opposite(ZW) const;
+    void fill_board_with_nullpointers();
 private:
     // Private members
     SchaakStuk* bord_[8][8];

@@ -68,13 +68,13 @@ Tiles SchaakStuk::moves_from_directions(const Game* game, Directions &directions
         int rowAbsolute = get_row() + direction.rowRelative;
         int columnAbsolute = get_column() + direction.columnRelative;
         // Add Tiles until it hits another piece
-        while(this->can_move_to(game, Tile(rowAbsolute, columnAbsolute))){
+        while(this->can_move_to(game, {rowAbsolute, columnAbsolute})){
             moves.emplace_back(rowAbsolute, columnAbsolute);
             rowAbsolute += direction.rowRelative;
             columnAbsolute += direction.columnRelative;
         }
         // Check if the piece can take the piece it ended on
-        if(this->can_take_at(game, Tile(rowAbsolute, columnAbsolute)))
+        if(this->can_take_at(game, {rowAbsolute, columnAbsolute}))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
     return moves;
@@ -85,7 +85,7 @@ Tiles SchaakStuk::moves_from_positions(const Game *game, Directions &directions)
     for(const auto &direction: directions){
         int rowAbsolute = get_row() + direction.rowRelative;
         int columnAbsolute = get_column() + direction.columnRelative;
-        if(can_move_to(game, Tile(rowAbsolute, columnAbsolute)) || can_take_at(game, Tile(rowAbsolute, columnAbsolute)))
+        if(can_move_to(game, {rowAbsolute, columnAbsolute}) || can_take_at(game, {rowAbsolute, columnAbsolute}))
             moves.emplace_back(rowAbsolute, columnAbsolute);
     }
     return moves;
@@ -102,7 +102,7 @@ Tiles SchaakStuk::path_to_target(const Game* game, const Tile target, Directions
     int rowAbsolute = get_row() + direction.rowRelative;
     int columnAbsolute = get_column() + direction.columnRelative;
     // Move in the direction until onather piece has been reached
-    while(can_move_to(game, Tile(rowAbsolute, columnAbsolute))){
+    while(can_move_to(game, {rowAbsolute, columnAbsolute})){
         path.emplace_back(rowAbsolute, columnAbsolute);
         rowAbsolute += direction.rowRelative;
         columnAbsolute += direction.columnRelative;
@@ -177,9 +177,9 @@ Tiles Pion::get_threats(const Game *game) {
     int dirRelative = ((moveDirection == up) ? -1 : 1);
     int nextRow = row + dirRelative;
     // Check if pawn can take a piece sideways
-    if(this->can_take_at(game, Tile(nextRow, column - 1)))
+    if(this->can_take_at(game, {nextRow, column - 1}))
         moves.emplace_back(nextRow, column-1);
-    if(this->can_take_at(game, Tile(nextRow, column + 1)))
+    if(this->can_take_at(game, {nextRow, column + 1}))
         moves.emplace_back(nextRow, column+1);
     return moves;
 }
@@ -206,7 +206,7 @@ std::pair<bool, Tile> Koning::can_rokade(const Game* game, const Toren* rook) co
     int columnDifference = std::abs(get_column()-rook->get_column());
     // Check if the rokade tiles are empty and safe
     for(int i = 1; i <= columnDifference-1; i++){
-        Tile position = Tile(get_row(), get_column() + i * (direction.columnRelative));
+        Tile position = {get_row(), get_column() + i * (direction.columnRelative)};
         if(!can_move_to(game, position) || (i <= 2 && !safe_at(game, position)))
             return {false, {-1, -1}};
     }
@@ -229,18 +229,18 @@ Tiles Pion::geldige_zetten(const Game* game) const {
     int nextRow = row + dirRelative;
 
     // Check if move forward is possible
-    if (this->can_move_to(game, Tile(nextRow, column))) {
+    if (this->can_move_to(game, {nextRow, column})) {
         moves.emplace_back(nextRow, column);
         // Check if pawn can move two squares
-        if (row == (moveDirection == up ? 6 : 1) && this->can_move_to(game, Tile(nextRow + dirRelative, column)))
+        if (row == (moveDirection == up ? 6 : 1) && this->can_move_to(game, {nextRow + dirRelative, column}))
             moves.emplace_back(nextRow + dirRelative, column);
     }
 
     // Check if pawn can take a piece sideways or en passant
     Tile enpassantTile = game->get_enpassant_tile(game->opposite(get_color()));
-    if(this->can_take_at(game, Tile(nextRow, column - 1)) || Tile(row, column-1) == enpassantTile)
+    if(this->can_take_at(game, {nextRow, column - 1}) || Tile(row, column-1) == enpassantTile)
         moves.emplace_back(nextRow, column-1);
-    if(this->can_take_at(game, Tile(nextRow, column + 1)) || Tile(row, column+1) == enpassantTile)
+    if(this->can_take_at(game, {nextRow, column + 1}) || Tile(row, column+1) == enpassantTile)
         moves.emplace_back(nextRow, column+1);
 
     return moves;

@@ -12,6 +12,7 @@ class SchaakStuk {
 public:
     // Constructor
     SchaakStuk(ZW, Tile);
+    virtual ~SchaakStuk() {};
 
     // Getters
     ZW get_color() const;
@@ -48,6 +49,7 @@ private:
 class Pion:public SchaakStuk {
 public:
     Pion(ZW, Tile, PawnDirection);
+    ~Pion() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Tiles get_threats(const Game* game);
@@ -60,6 +62,7 @@ private:
 class Toren:public SchaakStuk {
 public:
     Toren(ZW, Tile);
+    ~Toren() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;
@@ -71,6 +74,7 @@ private:
 class Paard:public SchaakStuk {
 public:
     Paard(ZW, Tile);
+    ~Paard() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;
@@ -82,6 +86,7 @@ private:
 class Loper:public SchaakStuk {
 public:
     Loper(ZW, Tile);
+    ~Loper() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;
@@ -93,6 +98,7 @@ private:
 class Koning:public SchaakStuk {
 public:
     Koning(ZW, Tile);
+    ~Koning() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;
@@ -109,6 +115,7 @@ private:
 class Koningin:public SchaakStuk {
 public:
     Koningin(ZW, Tile);
+    ~Koningin() override {}
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;

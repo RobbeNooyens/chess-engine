@@ -16,9 +16,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     createActions();
     createMenus();
 
+    initialize_game();
     newGame();
 }
 
+
+void MainWindow::initialize_game(){
+    options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
+    g.fill_board_with_nullpointers();
+}
 
 // Deze functie wordt opgeroepen telkens er op het schaakbord
 // geklikt wordt. x,y geeft de positie aan waar er geklikt
@@ -29,10 +35,10 @@ void MainWindow::clicked(int r, int k) {
 }
 
 void MainWindow::newGame() {
-    options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
-//    this->g = Game();
-    this->g.set_start_board();
-    this->update();
+    g.recycle();
+    g.set_start_board();
+    update();
+    scene->removeAllMarking();
 }
 
 void MainWindow::save() {
