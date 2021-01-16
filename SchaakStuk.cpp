@@ -112,6 +112,9 @@ Tiles SchaakStuk::path_to_target(const Game* game, const Tile target, Directions
 }
 
 bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
+    // Piece isn't pinned if it can take the opponents king first
+    if(game->find_king(game->opposite(get_color()))->get_position() == targetPos)
+        return false;
     // Backup
     SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
     Tile initPosition = get_position();
@@ -140,7 +143,7 @@ bool SchaakStuk::is_safe_move(Game* game, Tile targetPos) {
     game->set_piece(initPosition, nullptr);
     game->set_piece(targetPos, this);
     set_position(targetPos);
-    bool safe = !game->vector_contains_tile(game->get_threatening_tiles(get_color() == zwart ? wit : zwart), targetPos);
+    bool safe = !game->vector_contains_tile(game->get_threatened_tiles(get_color() == zwart ? wit : zwart), targetPos);
     // Reset state
     game->set_piece(targetPos, pieceOnTarget);
     game->set_piece(initPosition, this);
@@ -155,6 +158,15 @@ bool SchaakStuk::is_safe_move(Game* game, Tile targetPos) {
  */
 Tiles SchaakStuk::valid_moves(Game* game) {
     Tiles moves = this->geldige_zetten(game);
+    // Check for rokade
+    if(type() == king){
+        for(const auto &rook: game->find_rooks(get_color())){
+            std::pair<bool, Tile> rokade = ((Koning*) this)->can_rokade(game, rook);
+            if(rokade.first) {
+                moves.push_back(rokade.second);
+            }
+        }
+    }
     // Filters out all moves that will lead to check
     remove_pinned_moves(game, moves);
     return moves;
@@ -171,6 +183,44 @@ Tiles Pion::get_threats(const Game *game) {
         moves.emplace_back(nextRow, column+1);
     return moves;
 }
+
+bool Koning::safe_at(const Game* game, Tile position) const {
+    Pieces p = game->get_pieces_of_color(game->opposite(get_color()));
+    // Check if king is safe for all opponent's pieces
+    return std::all_of(p.begin(), p.end(), [game, position](SchaakStuk* piece){
+        return !game->vector_contains_tile(piece->geldige_zetten(game), position);
+    });
+}
+
+std::pair<bool, Tile> Koning::can_rokade(const Game* game, const Toren* rook) const {
+    // King has already moved or king and rook aren't on the same row
+    if(moved_ || get_row() != rook->get_row())
+        return {false, {-1, -1}};
+    // Rook should be in the leftmost or rightmost column
+    if(!(rook->get_column() == 0 || rook->get_column() == 7))
+        return {false, {-1, -1}};
+    // King shouldn't be attacked
+    if(!safe_at(game, get_position()))
+        return {false, {-1, -1}};
+    Direction direction = Direction::relative_direction(get_position(), rook->get_position());
+    int columnDifference = std::abs(get_column()-rook->get_column());
+    // Check if the rokade tiles are empty and safe
+    for(int i = 1; i <= columnDifference-1; i++){
+        Tile position = Tile(get_row(), get_column() + i * (direction.columnRelative));
+        if(!can_move_to(game, position) || (i <= 2 && !safe_at(game, position)))
+            return {false, {-1, -1}};
+    }
+    return {true, {get_row(), get_column() + 2 * (direction.columnRelative)}};
+}
+
+bool Koning::has_moved() const {
+    return has_moved();
+}
+
+void Koning::set_moved(bool moved) {
+    moved_ = moved;
+}
+
 // Returns naive possible moves without pin check
 Tiles Pion::geldige_zetten(const Game* game) const {
     int row = this->get_row(), column = this->get_column();
@@ -244,7 +294,7 @@ Tiles Koning::geldige_zetten(const Game* game) const {
 // Get path to the king
 Tiles Pion::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
 Tiles Paard::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
-Tiles Koning::get_path_to(const Game* game, Tile position) const { return {get_position()}; }
 Tiles Toren::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
 Tiles Loper::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
 Tiles Koningin::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
+Tiles Koning::get_path_to(const Game* game, Tile position) const {return {get_position()}; }

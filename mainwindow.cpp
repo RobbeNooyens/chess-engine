@@ -30,6 +30,7 @@ void MainWindow::clicked(int r, int k) {
 
 void MainWindow::newGame() {
     options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
+//    this->g = Game();
     this->g.set_start_board();
     this->update();
 }

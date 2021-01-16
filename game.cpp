@@ -16,6 +16,7 @@
 Game::Game() {}
 
 Game::~Game() {
+    selectedPiece_ = nullptr;
     for(auto &i : bord_)
         for(auto &j: i)
             delete j;
@@ -106,7 +107,7 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
     }
 }
 
-Tiles Game::get_threatening_tiles(ZW color) {
+Tiles Game::get_threatened_tiles(ZW color) {
     Tiles positions;
     for(auto &piece: get_pieces_of_color(color)){
         Tiles moves = piece->valid_moves(this);
@@ -116,7 +117,6 @@ Tiles Game::get_threatening_tiles(ZW color) {
             if(!vector_contains_tile(positions, move))
                 positions.push_back(move);
     }
-
     return positions;
 }
 
@@ -124,7 +124,7 @@ void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
     if(selectedPiece_ == nullptr)
         return;
     Tiles moves = selectedPiece_->valid_moves(this);
-    Tiles threats = get_threatening_tiles(opposite(turn_));
+    Tiles threats = get_threatened_tiles(opposite(turn_));
     for(const auto &move: moves){
         if(options.threats && !selectedPiece_->is_safe_move(this, move)){
             scene->setTileFocus(move.first, move.second, true);
@@ -138,7 +138,7 @@ void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
 void Game::update_threatened_pieces(ChessBoard *scene, VisualOptions options) {
     if(!options.threatenedPieces)
         return;
-    Tiles threats = get_threatening_tiles(opposite(turn_));
+    Tiles threats = get_threatened_tiles(opposite(turn_));
     for(const auto &piece: get_pieces_of_color(turn_))
         if(vector_contains_tile(threats, piece->get_position()))
             scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
@@ -155,6 +155,15 @@ bool Game::move(SchaakStuk* s, Tile position) {
         set_piece(enpassantTile, nullptr);
         delete get_piece(enpassantTile);
     }
+    // Check king
+    if(s->type() == king){
+        ((Koning*) s)->set_moved(true);
+        // Check if king rokades
+        if(std::abs(s->get_column() - position.second) == 2){
+            SchaakStuk* rook = get_piece({s->get_row(), s->get_column() < position.second ? 7 : 0});
+            move(rook, {s->get_row(), std::abs((s->get_column()+position.second)/2)});
+        }
+    }
     // Delete piece on the target spot from memory
     delete pieceOnTarget;
     // Set the current Tile to a nullptr and the destination to the current piece
@@ -165,13 +174,22 @@ bool Game::move(SchaakStuk* s, Tile position) {
     return true;
 }
 
-SchaakStuk* Game::find_king(ZW color) const {
+Koning* Game::find_king(ZW color) const {
     // Iterate over own pieces
     for(const auto &piece: get_pieces_of_color(color))
         if(piece->type() == king)
-            return piece;
+            return (Koning*) piece;
     // There should always be a black and a white king on the board
     throw KingNotFoundException(color);
+}
+
+std::vector<Toren*> Game::find_rooks(ZW color) const {
+    std::vector<Toren*> rooks;
+    // Iterate over own pieces
+    for(const auto &piece: get_pieces_of_color(color))
+        if(piece->type() == rook)
+            rooks.push_back((Toren*) piece);
+    return rooks;
 }
 
 bool Game::check(ZW color) const {
@@ -199,29 +217,24 @@ bool Game::checkmate(ZW color) {
     // Iterate over the opponents' pieces
     for(const auto &piece: get_pieces_of_color(opposite(color))){
         Tiles positions = piece->get_path_to(this, koning->get_position());
-        if(positions.empty()) {
+        if(positions.empty())
             continue;
-        }
         // Add threat positions to the threats Tiles
-        for(const auto &position: positions) {
+        for(const auto &position: positions)
             threats.push_back(position);
-        }
     }
     // Iterate over own pieces
     for(const auto &piece: get_pieces_of_color(color)) {
-        if(piece->type() == king) {
+        if(piece->type() == king)
             continue;
-        }
         // Iterate over every own pieces' moves
         for (const auto &move: piece->valid_moves(this)) {
             // Return if the piece can't be placed in between the mating piece and the king.
-            if (!std::any_of(threats.begin(), threats.end(), [move](Tile threat) { return move == threat; })) {
+            if (!std::any_of(threats.begin(), threats.end(), [move](Tile threat) { return move == threat; }))
                 continue;
-            }
             // Check if the piece can block the check
-            if (move_prevents_checkmate(piece, move)) {
+            if (move_prevents_checkmate(piece, move))
                 return false;
-            }
         }
     }
     return true;

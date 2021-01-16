@@ -8,6 +8,8 @@
 
 #include "sharedtypes.h"
 
+class Koning;
+class Toren;
 class Game {
 public:
     Game();
@@ -17,7 +19,8 @@ public:
     SchaakStuk* get_piece(Tile) const;
     Pieces get_pieces_on_board() const;
     Pieces get_pieces_of_color(ZW) const;
-    Tiles get_threatening_tiles(ZW);
+    Tiles get_threatened_tiles(ZW color);
+    Tiles get_all_threatened_tiles(ZW color) const;
     Tile get_enpassant_tile(ZW) const;
 
     // Setters
@@ -42,7 +45,8 @@ public:
     // Helper methods
     bool vector_contains_tile(const Tiles&, Tile) const;
     SchaakStuk* piece_from_character(char, Tile) const;
-    SchaakStuk* find_king(ZW) const;
+    Koning* find_king(ZW) const;
+    std::vector<Toren*> find_rooks(ZW) const;
     ZW opposite(ZW) const;
 private:
     // Private members

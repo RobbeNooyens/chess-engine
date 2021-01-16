@@ -97,7 +97,12 @@ public:
     Tiles get_path_to(const Game*, Tile) const override;
     Piece piece() const override;
     PieceType type() const override;
+    std::pair<bool, Tile> can_rokade(const Game*, const Toren*) const;
+    bool safe_at(const Game*, Tile) const;
+    bool has_moved() const;
+    void set_moved(bool);
 private:
+    bool moved_;
     Directions directions_ = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 };
 
