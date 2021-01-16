@@ -8,32 +8,32 @@
 
 #include "sharedtypes.h"
 
-
-typedef char BoardLayout[8][8];
 class Game {
 public:
     Game();
     ~Game();
 
     // Getters
-    schaakstuk* get_piece(Tile) const;
+    SchaakStuk* get_piece(Tile) const;
     Pieces get_pieces_on_board() const;
     Pieces get_pieces_of_color(ZW) const;
     Tiles get_threatening_tiles(ZW);
+    Tile get_enpassant_tile(ZW) const;
 
     // Setters
     void set_start_board();
-    void set_piece(Tile, schaakstuk*);
+    void set_piece(Tile, SchaakStuk*);
+    void set_enpassant_tile(ZW, Tile);
 
     // Game state checks
     bool check(ZW) const;
     bool checkmate(ZW);
     bool stalemate(ZW color);
-    bool move_prevents_checkmate(schaakstuk*, Tile);
+    bool move_prevents_checkmate(SchaakStuk*, Tile);
 
     // Events
     void on_tile_click(ChessBoard*, Tile, VisualOptions);
-    bool move(schaakstuk*, Tile);
+    bool move(SchaakStuk*, Tile);
 
     // Update methods
     void update_tiles(ChessBoard*, VisualOptions);
@@ -41,14 +41,16 @@ public:
 
     // Helper methods
     bool vector_contains_tile(const Tiles&, Tile) const;
-    schaakstuk* piece_from_character(char, Tile) const;
-    schaakstuk* find_king(ZW) const;
+    SchaakStuk* piece_from_character(char, Tile) const;
+    SchaakStuk* find_king(ZW) const;
     ZW opposite(ZW) const;
 private:
     // Private members
-    schaakstuk* bord_[8][8];
+    SchaakStuk* bord_[8][8];
     ZW turn_ = wit;
-    schaakstuk* selectedPiece_ = nullptr;
+    SchaakStuk* selectedPiece_ = nullptr;
+    Tile enpassantWhite;
+    Tile enpassantBlack;
 };
 
 

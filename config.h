@@ -5,9 +5,7 @@
 #ifndef SCHAKEN_CONFIG_H
 #define SCHAKEN_CONFIG_H
 
-typedef char BoardLayout[8][8];
-
-enum BoardLayoutType{standard, endgame, promote, rokade};
+#include "sharedtypes.h"
 
 class GameConfig {
 public:

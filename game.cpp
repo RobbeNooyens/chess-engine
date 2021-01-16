@@ -10,26 +10,31 @@
 #include "game.h"
 #include "config.h"
 #include "mainwindow.h"
-#include "schaakstuk.h"
+#include "chessboard.h"
 
 
 Game::Game() {}
 
 Game::~Game() {
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            if(bord_[i][j] != nullptr)
-                delete bord_[i][j];
-        }
-    }
+    for(auto &i : bord_)
+        for(auto &j: i)
+            delete j;
 }
 
-schaakstuk* Game::get_piece(Tile position) const {
+SchaakStuk* Game::get_piece(Tile position) const {
     return bord_[position.first][position.second];
 }
 
-void Game::set_piece(Tile position, schaakstuk*s) {
+void Game::set_piece(Tile position, SchaakStuk*s) {
     bord_[position.first][position.second] = s;
+}
+
+Tile Game::get_enpassant_tile(ZW color) const { return color == zwart ? enpassantBlack : enpassantWhite;}
+void Game::set_enpassant_tile(ZW color, Tile position) {
+    if(color == zwart)
+        enpassantBlack = position;
+    else
+        enpassantWhite = position;
 }
 
 void Game::set_start_board() {
@@ -40,31 +45,29 @@ void Game::set_start_board() {
             this->set_piece(Tile(i, j), piece_from_character(setup[i][j], Tile(i, j)));
 }
 
-schaakstuk* Game::piece_from_character(char c, Tile position) const{
-    int r = position.first, k = position.second;
-    GameConfig config = GameConfig();
+SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     // Create chesspieces based on their character representation in the initialSetup 2D array
     ZW color = std::islower(c) ? zwart : wit;
     switch (std::tolower(c)) {
         case 'r':
-            return new Toren(color, r, k);
+            return new Toren(color, position);
         case 'n':
-            return new Paard(color, r, k);
+            return new Paard(color, position);
         case 'b':
-            return new Loper(color, r, k);
+            return new Loper(color, position);
         case 'q':
-            return new Koningin(color, r, k);
+            return new Koningin(color, position);
         case 'k':
-            return new Koning(color, r, k);
+            return new Koning(color, position);
         case 'p':
-            return new Pion(color, r, k, std::islower(c) ? up : down);
+            return new Pion(color, position, std::islower(c) ? up : down);
         default:
             return nullptr;
     }
 }
 
 void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options) {
-    schaakstuk* pieceOnTarget = get_piece(position);
+    SchaakStuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
     if(pieceOnTarget != nullptr && pieceOnTarget->get_color() == turn_){
         // Update the scene with visual information
@@ -77,6 +80,9 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
     // No piece has been selected and neither did the Player, so nothing can happen
     if(selectedPiece_ == nullptr)
         return;
+    // Check en passant
+    int rowDifference = std::abs(position.first - selectedPiece_->get_row());
+    bool enpassant = (selectedPiece_->type() == pawn && rowDifference == 2);
     // Try to move the selected piece to the clicked Tile
     if(move(selectedPiece_, position)){
         // Update the scene in case the move was succesfully executed
@@ -86,10 +92,12 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
         // Check for checkmate, check and stalemate
         if(checkmate(opposite(turn_)))
             std::cout << (turn_ == zwart ? "Black" : "White") << " wins!" << std::endl;
-        if(check(opposite(turn_)))
+        else if(check(opposite(turn_)))
             std::cout << "Check!" << std::endl;
-        if(stalemate(opposite(turn_)))
+        else if(stalemate(opposite(turn_)))
             std::cout << "Draw!" << std::endl;
+        // Update enpassant (-1 disables enpassant check)
+        set_enpassant_tile(turn_, (enpassant ? position : Tile(-1,-1)));
         // Switch turn
         turn_ = opposite(turn_);
         // Update threatened pieces
@@ -102,7 +110,7 @@ Tiles Game::get_threatening_tiles(ZW color) {
     Tiles positions;
     for(auto &piece: get_pieces_of_color(color)){
         Tiles moves = piece->valid_moves(this);
-        if(piece->piece().type() == piece->piece().Pawn)
+        if(piece->type() == pawn)
             moves = ((Pion*) piece)->get_threats(this);
         for(const auto &move: moves)
             if(!vector_contains_tile(positions, move))
@@ -136,12 +144,18 @@ void Game::update_threatened_pieces(ChessBoard *scene, VisualOptions options) {
             scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
 }
 
-bool Game::move(schaakstuk* s, Tile position) {
+bool Game::move(SchaakStuk* s, Tile position) {
     // Checks if the move is valid. If not, return false
     if(!vector_contains_tile(s->valid_moves(this), position))
         return false;
-    // Delete de piece on the target spot from memory
-    schaakstuk* pieceOnTarget = get_piece(position);
+    SchaakStuk* pieceOnTarget = get_piece(position);
+    // Delete the en passant piece
+    if(pieceOnTarget == nullptr && s->type() == pawn && s->get_column() != position.second){
+        Tile enpassantTile = Tile(s->get_row(), position.second);
+        set_piece(enpassantTile, nullptr);
+        delete get_piece(enpassantTile);
+    }
+    // Delete piece on the target spot from memory
     delete pieceOnTarget;
     // Set the current Tile to a nullptr and the destination to the current piece
     set_piece(s->get_position(), nullptr);
@@ -151,10 +165,10 @@ bool Game::move(schaakstuk* s, Tile position) {
     return true;
 }
 
-schaakstuk* Game::find_king(ZW color) const {
+SchaakStuk* Game::find_king(ZW color) const {
     // Iterate over own pieces
     for(const auto &piece: get_pieces_of_color(color))
-        if(piece->piece().type() == piece->piece().King)
+        if(piece->type() == king)
             return piece;
     // There should always be a black and a white king on the board
     throw KingNotFoundException(color);
@@ -162,7 +176,7 @@ schaakstuk* Game::find_king(ZW color) const {
 
 bool Game::check(ZW color) const {
     // Find the King of the specified color
-    schaakstuk* king = find_king(color);
+    SchaakStuk* king = find_king(color);
     // Iterate over all pieces with the other color
     for(const auto &piece: get_pieces_of_color(opposite(color)))
         // If at least one piece can take the King, it's check
@@ -177,7 +191,7 @@ bool Game::checkmate(ZW color) {
     if(!check(color)) {
         return false;
     }
-    schaakstuk* koning = find_king(color);
+    SchaakStuk* koning = find_king(color);
     // Check if king can move to a safe place
     if(!koning->valid_moves(this).empty())
         return false;
@@ -195,7 +209,7 @@ bool Game::checkmate(ZW color) {
     }
     // Iterate over own pieces
     for(const auto &piece: get_pieces_of_color(color)) {
-        if(piece->piece().type() == piece->piece().King) {
+        if(piece->type() == king) {
             continue;
         }
         // Iterate over every own pieces' moves
@@ -213,9 +227,9 @@ bool Game::checkmate(ZW color) {
     return true;
 }
 
-bool Game::move_prevents_checkmate(schaakstuk* piece, Tile position) {
+bool Game::move_prevents_checkmate(SchaakStuk* piece, Tile position) {
     // Backup
-    schaakstuk* backupPiece = get_piece(position);
+    SchaakStuk* backupPiece = get_piece(position);
     Tile backupPosition = piece->get_position();
     // Set pieces to simulation positions
     set_piece(backupPosition, nullptr);
@@ -245,7 +259,7 @@ Pieces Game::get_pieces_on_board() const {
     Pieces pieces;
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            schaakstuk* piece = get_piece(Tile(i, j));
+            SchaakStuk* piece = get_piece(Tile(i, j));
             if(piece != nullptr)
                 pieces.push_back(piece);
         }
@@ -255,7 +269,7 @@ Pieces Game::get_pieces_on_board() const {
 
 Pieces Game::get_pieces_of_color(ZW color) const {
     Pieces pieces = get_pieces_on_board();
-    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [color](schaakstuk* piece){return piece->get_color() != color;}), pieces.end());
+    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [color](SchaakStuk* piece){return piece->get_color() != color;}), pieces.end());
     return pieces;
 }
 

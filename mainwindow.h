@@ -8,13 +8,6 @@
 class ChessBoard;
 class QSettings;
 
-struct VisualOptions{
-    bool moves;
-    bool threats;
-    bool threatenedPieces;
-    VisualOptions(bool m, bool t, bool tP): moves(m), threats(t), threatenedPieces(tP){}
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

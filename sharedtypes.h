@@ -7,14 +7,21 @@
 
 #include <vector>
 
-class schaakstuk;
+class SchaakStuk;
 class VisualOptions;
 class ChessBoard;
+class Game;
+class Piece;
+struct Direction;
 
 typedef std::vector<std::pair<int,int>> Tiles;
 typedef std::pair<int,int> Tile;
-typedef std::vector<schaakstuk*> Pieces;
+typedef std::vector<SchaakStuk*> Pieces;
+typedef char BoardLayout[8][8];
+typedef const std::vector<Direction> Directions;
 
+enum BoardLayoutType{standard, endgame, promote, rokade};
+enum PieceType{pawn, rook, knight, bishop, king, queen};
 enum ZW{zwart,wit};
 enum PawnDirection{up, down};
 
@@ -30,6 +37,13 @@ struct Direction {
     bool operator==(const Direction& other) const {
         return rowRelative == other.rowRelative && columnRelative == other.columnRelative;
     }
+};
+
+struct VisualOptions{
+    bool moves;
+    bool threats;
+    bool threatenedPieces;
+    VisualOptions(bool m, bool t, bool tP): moves(m), threats(t), threatenedPieces(tP){}
 };
 
 #endif //SCHAKEN_SHAREDTYPES_H

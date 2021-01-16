@@ -155,6 +155,33 @@ schaken_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken_autogen.dir\build.make CMakeFiles/schaken_autogen.dir/build
 .PHONY : schaken_autogen/fast
 
+SchaakStuk.obj: SchaakStuk.cpp.obj
+
+.PHONY : SchaakStuk.obj
+
+# target to build an object file
+SchaakStuk.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
+.PHONY : SchaakStuk.cpp.obj
+
+SchaakStuk.i: SchaakStuk.cpp.i
+
+.PHONY : SchaakStuk.i
+
+# target to preprocess a source file
+SchaakStuk.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/SchaakStuk.cpp.i
+.PHONY : SchaakStuk.cpp.i
+
+SchaakStuk.s: SchaakStuk.cpp.s
+
+.PHONY : SchaakStuk.s
+
+# target to generate assembly for a file
+SchaakStuk.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/SchaakStuk.cpp.s
+.PHONY : SchaakStuk.cpp.s
+
 chessboard.obj: chessboard.cpp.obj
 
 .PHONY : chessboard.obj
@@ -263,33 +290,6 @@ mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
 
-schaakstuk.obj: schaakstuk.cpp.obj
-
-.PHONY : schaakstuk.obj
-
-# target to build an object file
-schaakstuk.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/schaakstuk.cpp.obj
-.PHONY : schaakstuk.cpp.obj
-
-schaakstuk.i: schaakstuk.cpp.i
-
-.PHONY : schaakstuk.i
-
-# target to preprocess a source file
-schaakstuk.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/schaakstuk.cpp.i
-.PHONY : schaakstuk.cpp.i
-
-schaakstuk.s: schaakstuk.cpp.s
-
-.PHONY : schaakstuk.s
-
-# target to generate assembly for a file
-schaakstuk.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/schaakstuk.cpp.s
-.PHONY : schaakstuk.cpp.s
-
 schaken_autogen/mocs_compilation.obj: schaken_autogen/mocs_compilation.cpp.obj
 
 .PHONY : schaken_autogen/mocs_compilation.obj
@@ -327,6 +327,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... schaken_autogen
 	@echo ... schaken
+	@echo ... SchaakStuk.obj
+	@echo ... SchaakStuk.i
+	@echo ... SchaakStuk.s
 	@echo ... chessboard.obj
 	@echo ... chessboard.i
 	@echo ... chessboard.s
@@ -339,9 +342,6 @@ help:
 	@echo ... mainwindow.obj
 	@echo ... mainwindow.i
 	@echo ... mainwindow.s
-	@echo ... schaakstuk.obj
-	@echo ... schaakstuk.i
-	@echo ... schaakstuk.s
 	@echo ... schaken_autogen/mocs_compilation.obj
 	@echo ... schaken_autogen/mocs_compilation.i
 	@echo ... schaken_autogen/mocs_compilation.s

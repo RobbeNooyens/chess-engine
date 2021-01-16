@@ -1,5 +1,6 @@
 #include "mainwindow.h"
-#include "schaakstuk.h"
+#include "SchaakStuk.h"
+#include "chessboard.h"
 #include <QMessageBox>
 #include <QtWidgets>
 #include <iostream>
@@ -132,7 +133,7 @@ void MainWindow::update() {
     scene->clearBoard();        // Alle stukken weg
     for(int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            schaakstuk* schaakStuk = g.get_piece(Tile(i, j));
+            SchaakStuk* schaakStuk = g.get_piece(Tile(i, j));
             if(schaakStuk != nullptr){
                 scene->setItem(i, j, schaakStuk->piece());
             }

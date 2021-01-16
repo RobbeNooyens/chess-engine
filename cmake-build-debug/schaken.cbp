@@ -114,6 +114,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp">
 			<Option target="schaken"/>
 		</Unit>
@@ -145,12 +151,6 @@
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h">
-			<Option target="schaken"/>
-		</Unit>
-		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/schaakstuk.cpp">
-			<Option target="schaken"/>
-		</Unit>
-		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/schaakstuk.h">
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h">
