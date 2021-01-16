@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/schaken.dir/game.cpp.obj"
   "CMakeFiles/schaken.dir/main.cpp.obj"
   "CMakeFiles/schaken.dir/mainwindow.cpp.obj"
+  "CMakeFiles/schaken.dir/promotepawn.cpp.obj"
   "CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj"
   "libschaken.dll.a"
   "schaken.exe"

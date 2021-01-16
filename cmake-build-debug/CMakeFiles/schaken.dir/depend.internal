@@ -17,8 +17,12 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qconfig.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontainerfwd.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontainertools_impl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontiguouscache.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcoreevent.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qdatastream.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qdebug.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qfile.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qfiledevice.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qflags.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qgenericatomic.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qglobal.h
@@ -29,7 +33,9 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qiterator.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qline.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlist.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlocale.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlogging.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmap.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmargins.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmetatype.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmutex.h
@@ -46,6 +52,7 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qrefcount.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qregexp.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qscopedpointer.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qset.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qshareddata.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsharedpointer.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsharedpointer_impl.h
@@ -60,16 +67,26 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsysinfo.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsystemdetection.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtcore-config.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtextstream.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtypeinfo.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qurl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qurlquery.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvariant.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvarlengtharray.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvector.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qversiontagging.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qbrush.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qcolor.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qcursor.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qevent.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfont.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfontinfo.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfontmetrics.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qimage.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qkeysequence.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qmatrix.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpaintdevice.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpalette.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpen.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixelformat.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixmap.h
@@ -79,17 +96,25 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qrgba64.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtgui-config.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtguiglobal.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtouchdevice.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtransform.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qvector2d.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
 CMakeFiles/schaken.dir/chessboard.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtANGLE/GLES2/gl2.h
@@ -674,8 +699,10 @@ CMakeFiles/schaken.dir/game.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qvector2d.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
@@ -688,6 +715,7 @@ CMakeFiles/schaken.dir/game.cpp.obj
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
 CMakeFiles/schaken.dir/main.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
@@ -795,18 +823,22 @@ CMakeFiles/schaken.dir/main.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QApplication
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qapplication.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdesktopwidget.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/main.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
 CMakeFiles/schaken.dir/mainwindow.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtANGLE/GLES2/gl2.h
@@ -1149,6 +1181,7 @@ CMakeFiles/schaken.dir/mainwindow.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QCommonStyle
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QLayout
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
@@ -1288,14 +1321,144 @@ CMakeFiles/schaken.dir/mainwindow.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwizard.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+CMakeFiles/schaken.dir/promotepawn.cpp.obj
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/QVariant
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qarraydata.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic_bootstrap.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic_cxx11.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qatomic_msvc.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qbasicatomic.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qbytearray.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qbytearraylist.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qchar.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcompilerdetection.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qconfig-bootstrapped.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qconfig.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontainerfwd.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontainertools_impl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcontiguouscache.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcoreapplication.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qcoreevent.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qdatastream.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qdebug.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qeventloop.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qfile.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qfiledevice.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qflags.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qgenericatomic.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qglobal.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qglobalstatic.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qhash.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qhashfunctions.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qiodevice.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qiterator.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qline.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlist.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlocale.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qlogging.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmap.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmargins.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmetatype.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qmutex.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qnamespace.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qnumeric.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qobject.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qobject_impl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qobjectdefs.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qobjectdefs_impl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qpair.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qpoint.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qprocessordetection.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qrect.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qrefcount.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qregexp.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qscopedpointer.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qset.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qshareddata.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsharedpointer.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsharedpointer_impl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsize.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstring.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringalgorithms.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringbuilder.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringlist.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringliteral.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringmatcher.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qstringview.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsysinfo.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qsystemdetection.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtcore-config.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtextstream.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qtypeinfo.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qurl.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qurlquery.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvariant.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvarlengtharray.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qvector.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qversiontagging.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qbrush.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qcolor.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qcursor.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qevent.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfont.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfontinfo.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qfontmetrics.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qguiapplication.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qicon.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qimage.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qinputmethod.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qkeysequence.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qmatrix.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpaintdevice.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpalette.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixelformat.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpixmap.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpolygon.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qregion.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qrgb.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qrgba64.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtgui-config.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtguiglobal.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtouchdevice.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qtransform.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qvector2d.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QApplication
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QLabel
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QPushButton
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qabstractbutton.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qapplication.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdesktopwidget.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qframe.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qlabel.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qpushbutton.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.cpp
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ui_promotepawn.h
 CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj
  ../chessboard.h
+ ../config.h
  ../game.h
  ../mainwindow.h
+ ../promotepawn.h
  ../sharedtypes.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
  C:/Qt64/5.15.2/mingw81_64/include/QtCore/qarraydata.h
@@ -1398,8 +1561,10 @@ CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qvector2d.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs.h
  C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwindowdefs_win.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
@@ -1409,4 +1574,5 @@ CMakeFiles/schaken.dir/schaken_autogen/mocs_compilation.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/schaken_autogen/EWIEGA46WW/moc_chessboard.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/schaken_autogen/EWIEGA46WW/moc_mainwindow.cpp
+ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/schaken_autogen/EWIEGA46WW/moc_promotepawn.cpp
  C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/schaken_autogen/mocs_compilation.cpp

@@ -290,6 +290,33 @@ mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
 
+promotepawn.obj: promotepawn.cpp.obj
+
+.PHONY : promotepawn.obj
+
+# target to build an object file
+promotepawn.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/promotepawn.cpp.obj
+.PHONY : promotepawn.cpp.obj
+
+promotepawn.i: promotepawn.cpp.i
+
+.PHONY : promotepawn.i
+
+# target to preprocess a source file
+promotepawn.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/promotepawn.cpp.i
+.PHONY : promotepawn.cpp.i
+
+promotepawn.s: promotepawn.cpp.s
+
+.PHONY : promotepawn.s
+
+# target to generate assembly for a file
+promotepawn.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/promotepawn.cpp.s
+.PHONY : promotepawn.cpp.s
+
 schaken_autogen/mocs_compilation.obj: schaken_autogen/mocs_compilation.cpp.obj
 
 .PHONY : schaken_autogen/mocs_compilation.obj
@@ -342,6 +369,9 @@ help:
 	@echo ... mainwindow.obj
 	@echo ... mainwindow.i
 	@echo ... mainwindow.s
+	@echo ... promotepawn.obj
+	@echo ... promotepawn.i
+	@echo ... promotepawn.s
 	@echo ... schaken_autogen/mocs_compilation.obj
 	@echo ... schaken_autogen/mocs_compilation.i
 	@echo ... schaken_autogen/mocs_compilation.s

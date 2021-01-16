@@ -8,12 +8,13 @@
 #include <iostream>
 #include <exceptions/KingNotFoundException.h>
 #include "game.h"
-#include "config.h"
 #include "mainwindow.h"
 #include "chessboard.h"
 
 
-Game::Game() {}
+Game::Game() {
+    dialog_.link_game(this);
+}
 
 Game::~Game() { recycle(); }
 
@@ -23,8 +24,8 @@ void Game::recycle() {
         for(auto &j: i)
             delete j;
     turn_ = wit;
-    enpassantWhite = {-1, -1};
-    enpassantBlack = {-1, -1};
+    enpassantWhite_ = {-1, -1};
+    enpassantBlack_ = {-1, -1};
 }
 
 SchaakStuk* Game::get_piece(Tile position) const {
@@ -35,17 +36,21 @@ void Game::set_piece(Tile position, SchaakStuk*s) {
     bord_[position.first][position.second] = s;
 }
 
-Tile Game::get_enpassant_tile(ZW color) const { return color == zwart ? enpassantBlack : enpassantWhite;}
+void Game::update_options(VisualOptions options) {
+    this->options_ = options;
+}
+
+Tile Game::get_enpassant_tile(ZW color) const { return color == zwart ? enpassantBlack_ : enpassantWhite_;}
 void Game::set_enpassant_tile(ZW color, Tile position) {
     if(color == zwart)
-        enpassantBlack = position;
+        enpassantBlack_ = position;
     else
-        enpassantWhite = position;
+        enpassantWhite_ = position;
 }
 
 void Game::set_start_board() {
     // Load game state
-    const BoardLayout& setup = GameConfig().getSetup();
+    const BoardLayout& setup = config_.getBoardSetup();
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
             this->set_piece({i, j}, piece_from_character(setup[i][j], {i, j}));
@@ -72,7 +77,29 @@ SchaakStuk* Game::piece_from_character(char c, Tile position) const{
     }
 }
 
-void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options) {
+void Game::promote_piece_selected(PieceType type, ChessBoard* scene, Tile promoteTile) {
+    SchaakStuk* replacement;
+    switch (type) {
+        case rook:
+            replacement = new Toren(turn_, promoteTile);
+            break;
+        case knight:
+            replacement = new Paard(turn_, promoteTile);
+            break;
+        case bishop:
+            replacement = new Loper(turn_, promoteTile);
+            break;
+        case queen:
+        default:
+            replacement = new Koningin(turn_, promoteTile);
+    }
+    delete get_piece(promoteTile);
+    set_piece(promoteTile, replacement);
+    selectedPiece_ = replacement;
+    piece_moved(scene, promoteTile, false);
+}
+
+void Game::on_tile_click(ChessBoard* scene, Tile position) {
     SchaakStuk* pieceOnTarget = get_piece(position);
     // Player selected one of his own pieces so make it the current selected piece
     if(pieceOnTarget != nullptr && pieceOnTarget->get_color() == turn_){
@@ -80,7 +107,10 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
         scene->removeAllMarking();
         scene->setTileSelect(position.first, position.second, true);
         selectedPiece_ = pieceOnTarget;
-        update_tiles(scene, options);
+        update_tiles(scene);
+        // Update threatened pieces
+        if(options_.threatenedPieces)
+            update_threatened_pieces(scene);
         return;
     }
     // No piece has been selected and neither did the Player, so nothing can happen
@@ -90,26 +120,33 @@ void Game::on_tile_click(ChessBoard* scene, Tile position, VisualOptions options
     int rowDifference = std::abs(position.first - selectedPiece_->get_row());
     bool enpassant = (selectedPiece_->type() == pawn && rowDifference == 2);
     // Try to move the selected piece to the clicked Tile
-    if(move(selectedPiece_, position)){
-        // Update the scene in case the move was succesfully executed
-        scene->update();
-        scene->removeAllMarking();
-        selectedPiece_ = nullptr;
-        // Check for checkmate, check and stalemate
-        if(checkmate(opposite(turn_)))
-            std::cout << (turn_ == zwart ? "Black" : "White") << " wins!" << std::endl;
-        else if(check(opposite(turn_)))
-            std::cout << "Check!" << std::endl;
-        else if(stalemate(opposite(turn_)))
-            std::cout << "Draw!" << std::endl;
-        // Update enpassant (-1 disables enpassant check)
-        set_enpassant_tile(turn_, (enpassant ? position : Tile(-1,-1)));
-        // Switch turn
-        turn_ = opposite(turn_);
-        // Update threatened pieces
-        if(options.threatenedPieces)
-            update_threatened_pieces(scene, options);
+    if(move(selectedPiece_, position))
+        piece_moved(scene, position, enpassant);
+}
+
+void Game::piece_moved(ChessBoard* scene, Tile position, bool enpassant) {
+    // Check for promotion
+    if(selectedPiece_->type() == pawn && selectedPiece_->get_row() % 7 == 0){
+        dialog_.choose_promotion_piece(scene, position);
+        return;
     }
+    // Update the scene in case the move was succesfully executed
+    scene->removeAllMarking();
+    selectedPiece_ = nullptr;
+    // Check for checkmate, check and stalemate
+    if(checkmate(opposite(turn_)))
+        std::cout << (turn_ == zwart ? "Black" : "White") << " wins!" << std::endl;
+    else if(check(opposite(turn_)))
+        std::cout << "Check!" << std::endl;
+    else if(stalemate(opposite(turn_)))
+        std::cout << "Draw!" << std::endl;
+    // Update enpassant (-1 disables enpassant check)
+    set_enpassant_tile(turn_, (enpassant ? position : Tile(-1,-1)));
+    // Switch turn
+    turn_ = opposite(turn_);
+    // Update threatened pieces
+    if(options_.threatenedPieces)
+        update_threatened_pieces(scene);
 }
 
 Tiles Game::get_threatened_tiles(ZW color) {
@@ -125,28 +162,39 @@ Tiles Game::get_threatened_tiles(ZW color) {
     return positions;
 }
 
-void Game::update_tiles(ChessBoard *scene, VisualOptions options) {
+void Game::update_tiles(ChessBoard *scene) {
     if(selectedPiece_ == nullptr)
         return;
     Tiles moves = selectedPiece_->valid_moves(this);
     Tiles threats = get_threatened_tiles(opposite(turn_));
     for(const auto &move: moves){
-        if(options.threats && !selectedPiece_->is_safe_move(this, move)){
+        if(options_.threats && !selectedPiece_->is_safe_move(this, move)){
             scene->setTileFocus(move.first, move.second, true);
             scene->setTileThreat(move.first, move.second, true);
-        } else if(options.moves){
+        } else if(options_.moves){
             scene->setTileFocus(move.first, move.second, true);
         }
     }
 }
 
-void Game::update_threatened_pieces(ChessBoard *scene, VisualOptions options) {
-    if(!options.threatenedPieces)
+void Game::update_threatened_pieces(ChessBoard *scene) {
+    if(!options_.threatenedPieces)
         return;
-    Tiles threats = get_threatened_tiles(opposite(turn_));
-    for(const auto &piece: get_pieces_of_color(turn_))
-        if(vector_contains_tile(threats, piece->get_position()))
-            scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
+    Tiles threats;
+    // Visualize own threatened pieces
+    if(config_.visualizeOwnThreatenedPieces) {
+        threats = get_threatened_tiles(opposite(turn_));
+        for (const auto &piece: get_pieces_of_color(turn_))
+            if (vector_contains_tile(threats, piece->get_position()))
+                scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
+    }
+    // Visualize opponents threatened pieces
+    if(config_.visualizeOpponentThreatenedPieces) {
+        threats = get_threatened_tiles(turn_);
+        for (const auto &piece: get_pieces_of_color(opposite(turn_)))
+            if (vector_contains_tile(threats, piece->get_position()))
+                scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
+    }
 }
 
 bool Game::move(SchaakStuk* s, Tile position) {

@@ -40,6 +40,11 @@
 			"EWIEGA46WW/moc_mainwindow.cpp"
 		],
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h",
+			"Mu",
+			"EWIEGA46WW/moc_promotepawn.cpp"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h",
 			"Mu",
 			"EWIEGA46WW/moc_resources.cpp"
@@ -48,6 +53,11 @@
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h",
 			"Mu",
 			"EWIEGA46WW/moc_sharedtypes.cpp"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ui_promotepawn.h",
+			"Mu",
+			"EWIEGA46WW/moc_ui_promotepawn.cpp"
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -120,6 +130,10 @@
 		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp",
+			"Mu"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.cpp",
 			"Mu"
 		]
 	],

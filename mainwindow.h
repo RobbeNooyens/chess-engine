@@ -7,6 +7,7 @@
 
 class ChessBoard;
 class QSettings;
+class QWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -58,6 +59,8 @@ private:
     QAction* display_moves;
     QAction* display_kills;
     QAction* display_threats;
+
+    QWidget* parent;
 };
 
 #endif // MAINWINDOW_H

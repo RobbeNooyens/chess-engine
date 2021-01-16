@@ -150,10 +150,19 @@
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h">
 			<Option target="schaken"/>
 		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h">
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ui_promotepawn.h">
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/CMakeLists.txt">

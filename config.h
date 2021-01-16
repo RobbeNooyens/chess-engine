@@ -9,8 +9,10 @@
 
 class GameConfig {
 public:
+    const bool visualizeOwnThreatenedPieces = true;
+    const bool visualizeOpponentThreatenedPieces = false;
     const BoardLayoutType boardLayoutType = standard;
-    const BoardLayout& getSetup() {
+    const BoardLayout& getBoardSetup() {
         switch (boardLayoutType) {
             case endgame:
                 return endgameSetup;

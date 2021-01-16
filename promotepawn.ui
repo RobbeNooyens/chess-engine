@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PromotePawnDialog</class>
+ <widget class="QDialog" name="PromotePawnDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>289</width>
+    <height>81</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="rook">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>61</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Rook</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>10</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PROMOTE PAWN</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="knight">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>40</y>
+     <width>61</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Knight</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bishop">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>40</y>
+     <width>61</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Bishop</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="queen">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>40</y>
+     <width>61</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Queen</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

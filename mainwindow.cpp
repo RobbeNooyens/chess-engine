@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "SchaakStuk.h"
 #include "chessboard.h"
+#include "promotepawn.h"
 #include <QMessageBox>
 #include <QtWidgets>
 #include <iostream>
@@ -24,13 +25,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 void MainWindow::initialize_game(){
     options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
     g.fill_board_with_nullpointers();
+    g.update_options(options);
 }
 
 // Deze functie wordt opgeroepen telkens er op het schaakbord
 // geklikt wordt. x,y geeft de positie aan waar er geklikt
 // werd; r is de 0-based rij, k de 0-based kolom
 void MainWindow::clicked(int r, int k) {
-    g.on_tile_click(scene, std::make_pair(r, k), options);
+    g.on_tile_click(scene, std::make_pair(r, k));
     update();
 }
 
@@ -129,8 +131,9 @@ void MainWindow::visualizationChange() {
 //    box.exec();
     options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
     scene->removeAllMarking();
-    g.update_tiles(scene, options);
-    g.update_threatened_pieces(scene, options);
+    g.update_options(options);
+    g.update_tiles(scene);
+    g.update_threatened_pieces(scene);
 }
 
 
