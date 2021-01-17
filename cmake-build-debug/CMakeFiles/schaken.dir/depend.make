@@ -701,9 +701,11 @@ CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtGui/qwi
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
+CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMessageBox
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
+CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h
 CMakeFiles/schaken.dir/game.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h

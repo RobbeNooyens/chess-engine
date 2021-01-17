@@ -33,7 +33,6 @@ void MainWindow::initialize_game(){
 // werd; r is de 0-based rij, k de 0-based kolom
 void MainWindow::clicked(int r, int k) {
     g.on_tile_click(scene, std::make_pair(r, k));
-    update();
 }
 
 void MainWindow::newGame() {
@@ -44,7 +43,7 @@ void MainWindow::newGame() {
 }
 
 void MainWindow::save() {
-    std::cout << "Save: " << g.save() << std::endl;
+//    std::cout << "Save: " << g.save() << std::endl;
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save game"), "",
                                                     tr("Chess File (*.chs);;All Files (*)"));
@@ -61,19 +60,6 @@ void MainWindow::save() {
         QDataStream out(&file);
 
         out << QString(QString::fromStdString(g.save()));
-//        out << QString("Rb") << QString("Hb") << QString("Bb") << QString("Qb") << QString("Kb") << QString("Bb") << QString("Hb") << QString("Rb");
-//        for  (int i=0;i<8;i++) {
-//            out << QString("Pb");
-//        }
-//        for  (int r=3;r<7;r++) {
-//            for (int k=0;k<8;k++) {
-//                out << QString(".");
-//            }
-//        }
-//        for  (int i=0;i<8;i++) {
-//            out << QString("Pw");
-//        }
-//        out << QString("Rw") << QString("Hw") << QString("Bw") << QString("Qw") << QString("Kw") << QString("Bw") << QString("Hw") << QString("Rw");
     }
 }
 
@@ -98,7 +84,7 @@ void MainWindow::open() {
             QString content;
             in >> content;
             std::string strContent = content.toStdString();
-            g.load(strContent);
+            g.load(scene, strContent);
         } catch (QString& Q) {
             QMessageBox::information(this, tr("Error reading file"),
                                      Q);
@@ -109,12 +95,12 @@ void MainWindow::open() {
 
 
 void MainWindow::undo() {
-    QMessageBox box;
-    box.setText(QString("Je hebt undo gekozen"));
-    box.exec();
+    g.undo(scene);
 }
 
-void MainWindow::redo() {}
+void MainWindow::redo() {
+    g.redo(scene);
+}
 
 
 void MainWindow::visualizationChange() {
@@ -133,15 +119,7 @@ void MainWindow::visualizationChange() {
 // Update de inhoud van de grafische weergave van het schaakbord (scene)
 // en maak het consistent met de game state in variabele g.
 void MainWindow::update() {
-    scene->clearBoard();        // Alle stukken weg
-    for(int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            SchaakStuk* schaakStuk = g.get_piece(Tile(i, j));
-            if(schaakStuk != nullptr){
-                scene->setItem(i, j, schaakStuk->piece());
-            }
-        }
-    }
+    g.update_board(scene);
 }
 
 

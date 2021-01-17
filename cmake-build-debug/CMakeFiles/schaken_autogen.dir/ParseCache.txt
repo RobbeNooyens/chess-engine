@@ -519,7 +519,6 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  mdp:C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
  mmc:Q_OBJECT
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
@@ -800,11 +799,12 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/resources.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/schaakstuk.cpp
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.cpp
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/main.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h

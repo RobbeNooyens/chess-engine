@@ -16,10 +16,14 @@ class Koning;
 class Toren;
 class Game {
 public:
+    // Constructor and destructor
     Game();
     ~Game();
+
+    // Recycling
     void recycle();
     void recycle_board();
+    void fill_board_with_nullpointers();
 
     // Getters
     SchaakStuk* get_piece(Tile) const;
@@ -27,6 +31,7 @@ public:
     Pieces get_pieces_of_color(ZW) const;
     Tiles get_threatened_tiles(ZW color);
     Tile get_enpassant_tile(ZW) const;
+    bool king_moved(ZW) const;
 
     // Setters
     void set_start_board();
@@ -34,52 +39,67 @@ public:
     void set_enpassant_tile(ZW, Tile);
     void set_king_moved(ZW, bool);
 
-    // Game state checks
+    // Game mechanics
     bool check(ZW) const;
     bool checkmate(ZW);
     bool stalemate(ZW);
     bool move_prevents_checkmate(SchaakStuk*, Tile);
-    bool king_moved(ZW) const;
+    bool move(SchaakStuk*, Tile);
 
     // Events
     void on_tile_click(ChessBoard*, Tile);
     void piece_moved(ChessBoard*, Tile, bool);
+    void undo(ChessBoard*);
+    void redo(ChessBoard*);
 
     // Update methods
     void update_tiles(ChessBoard*);
     void update_threatened_pieces(ChessBoard*);
     void update_options(VisualOptions);
+    void update_board(ChessBoard*) const;
 
     // Helper methods
-    bool vector_contains_tile(const Tiles&, Tile) const;
-    SchaakStuk* character_to_piece(char, Tile) const;
-    char piece_to_character(SchaakStuk*) const;
+    static bool vector_contains_tile(const Tiles&, Tile);
+    static ZW opposite(ZW);
+    static void popup(std::string&);
+    void push_game_to_stack();
+
+    // Mapping methods
+    static SchaakStuk* character_to_piece(char, Tile);
+    static char piece_to_character(SchaakStuk*);
+    static std::string tile_to_string(Tile);
+    static Tile string_to_tile(std::string&);
+    static std::string map_to_string(JSON&);
+    static JSON string_to_map(std::string&);
+
+    // Search
     Koning* find_king(ZW) const;
     std::vector<Toren*> find_rooks(ZW) const;
-    ZW opposite(ZW) const;
-    void fill_board_with_nullpointers();
+
+    // Callback
     void promote_piece_selected(PieceType, ChessBoard*, Tile);
-    bool move(SchaakStuk*, Tile);
+
+    // Save and load
     std::string save() const;
-    void load(std::string&);
-    std::string saveBoard() const;
-    void loadBoard(std::string&);
-    std::string tile_to_string(Tile) const;
-    Tile string_to_tile(std::string&) const;
-    std::string map_to_string(JSON&) const;
-    JSON string_to_map(std::string&) const;
+    void load(ChessBoard*, std::string&, bool=true);
 private:
-    // Private members
-    SchaakStuk* bord_[8][8];
+
     ZW turn_ = wit;
-    SchaakStuk* selectedPiece_ = nullptr;
-    Tile enpassantWhite_;
-    Tile enpassantBlack_;
     bool whiteKingMoved_ = false;
     bool blackKingMoved_ = false;
+    Tile enpassantWhite_;
+    Tile enpassantBlack_;
+    SchaakStuk* bord_[8][8]{};
+    SchaakStuk* selectedPiece_ = nullptr;
     GameConfig config_;
+    VisualOptions options_ = {false, false, false};
     PromotePawnDialog dialog_;
-    VisualOptions options_ = VisualOptions(false, false, false);
+    std::vector<std::string> redoStack_;
+    std::vector<std::string> undoStack_;
+    std::string currentState;
+    // Save and load board
+    std::string saveBoard() const;
+    void loadBoard(std::string&);
 };
 
 

@@ -10,9 +10,9 @@
 
 class SchaakStuk {
 public:
-    // Constructor
+    // Constructor en destructor
     SchaakStuk(ZW, Tile);
-    virtual ~SchaakStuk() {};
+    virtual ~SchaakStuk() = default;
 
     // Getters
     ZW get_color() const;
@@ -26,21 +26,22 @@ public:
     void set_position(Tile);
 
     // Verify methods
-    bool can_move_to(const Game*, Tile) const;
+    static bool can_move_to(const Game*, Tile) ;
     bool can_take_at(const Game*, Tile) const;
     bool is_pinned(Game*, Tile);
     bool is_safe_move(Game*, Tile);
 
     // Helper methods
-    void remove_pinned_moves(Game*, Tiles&);
+    virtual Tiles geldige_zetten(const Game*) const= 0;
     Tiles valid_moves(Game*);
     Tiles moves_from_directions(const Game*, Directions&) const;
     Tiles moves_from_positions(const Game*, Directions &) const;
     Tiles path_to_target(const Game*, Tile, Directions&) const;
-    virtual Tiles geldige_zetten(const Game*) const= 0;
+    void remove_pinned_moves(Game*, Tiles&);
 
     // Wrappers
     virtual Piece piece() const=0;
+
 private:
     Tile position_;
     ZW kleur_;
@@ -49,12 +50,15 @@ private:
 class Pion:public SchaakStuk {
 public:
     Pion(ZW, Tile, PawnDirection);
-    ~Pion() override {}
+    ~Pion() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
     Tiles get_threats(const Game* game);
+
     Piece piece() const override;
     PieceType type() const override;
+
 private:
     PawnDirection moveDirection;
 };
@@ -62,11 +66,14 @@ private:
 class Toren:public SchaakStuk {
 public:
     Toren(ZW, Tile);
-    ~Toren() override {}
+    ~Toren() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+
     Piece piece() const override;
     PieceType type() const override;
+
 private:
     Directions directions_ = {{1,0},{-1,0},{0,1},{0,-1}};
 };
@@ -74,11 +81,14 @@ private:
 class Paard:public SchaakStuk {
 public:
     Paard(ZW, Tile);
-    ~Paard() override {}
+    ~Paard() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+
     Piece piece() const override;
     PieceType type() const override;
+
 private:
     Directions directions_ = {{-2,1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1}};
 };
@@ -86,11 +96,14 @@ private:
 class Loper:public SchaakStuk {
 public:
     Loper(ZW, Tile);
-    ~Loper() override {}
+    ~Loper() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+
     Piece piece() const override;
     PieceType type() const override;
+
 private:
     Directions directions_ = {{1,1},{1,-1},{-1,-1},{-1,1}};
 };
@@ -98,13 +111,17 @@ private:
 class Koning:public SchaakStuk {
 public:
     Koning(ZW, Tile);
-    ~Koning() override {}
+    ~Koning() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+
     Piece piece() const override;
     PieceType type() const override;
+
     std::pair<bool, Tile> can_rokade(const Game*, const Toren*) const;
     bool safe_at(const Game*, Tile) const;
+
 private:
     Directions directions_ = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 };
@@ -112,11 +129,14 @@ private:
 class Koningin:public SchaakStuk {
 public:
     Koningin(ZW, Tile);
-    ~Koningin() override {}
+    ~Koningin() override = default;
+
     Tiles geldige_zetten(const Game*) const override;
     Tiles get_path_to(const Game*, Tile) const override;
+
     Piece piece() const override;
     PieceType type() const override;
+
 private:
     Directions directions_ = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1}};
 };

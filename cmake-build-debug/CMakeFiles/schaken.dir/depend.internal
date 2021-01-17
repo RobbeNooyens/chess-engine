@@ -702,9 +702,11 @@ CMakeFiles/schaken.dir/game.cpp.obj
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMessageBox
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
+ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h
  C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
