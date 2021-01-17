@@ -26,6 +26,7 @@ void MainWindow::initialize_game(){
     options = VisualOptions(display_moves->isChecked(), display_kills->isChecked(), display_threats->isChecked());
     g.fill_board_with_nullpointers();
     g.update_options(options);
+    g.set_chessbot(scene);
 }
 
 // Deze functie wordt opgeroepen telkens er op het schaakbord

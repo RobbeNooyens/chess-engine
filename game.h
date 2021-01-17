@@ -9,6 +9,7 @@
 #include "sharedtypes.h"
 #include "config.h"
 #include "promotepawn.h"
+#include "ChessBot.h"
 
 typedef std::map<std::string, std::string> JSON;
 
@@ -41,6 +42,7 @@ public:
     void set_piece(Tile, SchaakStuk*);
     void set_enpassant_tile(ZW, Tile);
     void set_king_moved(ZW, bool);
+    void set_chessbot(ChessBoard*);
 
     // Game mechanics
     bool check(ZW) const;
@@ -65,6 +67,7 @@ public:
     static bool vector_contains_tile(const Tiles&, Tile);
     static ZW opposite(ZW);
     static void popup(std::string&);
+    static void pointerRequireNonNull(void*);
 
     // Mapping methods
     static SchaakStuk* character_to_piece(char, Tile);
@@ -99,6 +102,7 @@ private:
     std::vector<std::string> redoStack_;
     std::vector<std::string> undoStack_;
     std::string currentState;
+    ChessBot bot;
     // Save and load board
     std::string save_board() const;
     void load_board(std::string&);

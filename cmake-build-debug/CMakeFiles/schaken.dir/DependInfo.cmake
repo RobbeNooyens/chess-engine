@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/ChessBot.cpp.obj"
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/SchaakStuk.cpp.obj"
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/chessboard.cpp.obj"
+  "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/exceptions/NullPointerException.cpp.obj"
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/game.cpp.obj"
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/main.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/main.cpp.obj"
   "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp" "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir/mainwindow.cpp.obj"

@@ -7,6 +7,7 @@
 #include <exceptions/KingNotFoundException.h>
 #include <sstream>
 #include <QtWidgets/QMessageBox>
+#include <exceptions/NullPointerException.h>
 #include "game.h"
 #include "mainwindow.h"
 #include "chessboard.h"
@@ -147,6 +148,11 @@ void Game::set_start_board() {
     redoStack_.clear();
 }
 
+void Game::set_chessbot(ChessBoard* scene) {
+    Game::pointerRequireNonNull(scene);
+    bot = ChessBot(this, scene);
+}
+
 // Update methods
 
 void Game::update_options(VisualOptions options) {
@@ -217,6 +223,11 @@ void Game::popup(std::string &text) {
     QMessageBox box;
     box.setText(QString::fromStdString(text));
     box.exec();
+}
+
+void Game::pointerRequireNonNull(void* pointer) {
+    if(!pointer)
+        throw NullPointerException();
 }
 
 // Mapping methods
@@ -470,6 +481,9 @@ void Game::piece_moved(ChessBoard* scene, Tile tile, bool enpassant) {
         popup(message);
         std::cout << message << std::endl;
     }
+    // Let bot do a move if it's black move
+    if(config_.enableBot && turn_ == zwart)
+        bot.ai_move(turn_);
 }
 
 void Game::undo(ChessBoard* scene) {

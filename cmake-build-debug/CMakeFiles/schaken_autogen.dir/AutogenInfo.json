@@ -40,6 +40,11 @@
 			"RHBJBCZP5P/moc_KingNotFoundException.cpp"
 		],
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.h",
+			"Mu",
+			"RHBJBCZP5P/moc_NullPointerException.cpp"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h",
 			"Mu",
 			"EWIEGA46WW/moc_game.cpp"
@@ -132,6 +137,10 @@
 		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp",
+			"Mu"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.cpp",
 			"Mu"
 		],
 		[

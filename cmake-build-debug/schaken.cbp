@@ -144,6 +144,12 @@
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h">
 			<Option target="schaken"/>
 		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp">
 			<Option target="schaken"/>
 		</Unit>

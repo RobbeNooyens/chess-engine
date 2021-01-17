@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/schaken.dir/ChessBot.cpp.obj"
   "CMakeFiles/schaken.dir/SchaakStuk.cpp.obj"
   "CMakeFiles/schaken.dir/chessboard.cpp.obj"
+  "CMakeFiles/schaken.dir/exceptions/NullPointerException.cpp.obj"
   "CMakeFiles/schaken.dir/game.cpp.obj"
   "CMakeFiles/schaken.dir/main.cpp.obj"
   "CMakeFiles/schaken.dir/mainwindow.cpp.obj"

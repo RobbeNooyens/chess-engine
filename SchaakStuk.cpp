@@ -248,12 +248,11 @@ Tiles Koning::get_path_to(const Game* game, Tile position) const {return {get_po
 
 // Get numeric value
 int Pion::get_numeric_value() const {return 1;}
-// Knights' numeric value is 3 but I think 2 is more beneficial for the AI
-int Paard::get_numeric_value() const {return 2;}
-int Toren::get_numeric_value() const {return 5;}
+int Paard::get_numeric_value() const {return 3;}
 int Loper::get_numeric_value() const {return 3;}
-int Koningin::get_numeric_value() const {return 10;}
-int Koning::get_numeric_value() const {return 9;}
+int Toren::get_numeric_value() const {return 5;}
+int Koningin::get_numeric_value() const {return 9;}
+int Koning::get_numeric_value() const {return 10;}
 
 // Specific subclass methods
 Tiles Pion::get_threats(const Game *game) {
