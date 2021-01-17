@@ -109,6 +109,7 @@ CMakeFiles/schaken.dir/ChessBot.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWid
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../ChessBot.cpp
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../ChessBot.h
+CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../MoveSimulation.h
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../config.h
 CMakeFiles/schaken.dir/ChessBot.cpp.obj: ../game.h

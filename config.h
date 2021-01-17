@@ -9,7 +9,7 @@
 
 class GameConfig {
 public:
-    const bool enableBot = false;
+    const bool enableBot = true;
     const bool visualizeOwnThreatenedPieces = true;
     const bool visualizeOpponentThreatenedPieces = false;
     const BoardLayoutType boardLayoutType = standard;

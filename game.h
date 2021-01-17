@@ -35,7 +35,7 @@ public:
     Tiles get_threatened_tiles(ZW color);
     Tile get_enpassant_tile(ZW) const;
     bool king_moved(ZW) const;
-    bool is_enpassant(SchaakStuk*, Tile) const;
+    static bool is_enpassant(SchaakStuk*, Tile) ;
 
     // Setters
     void set_start_board();
@@ -53,7 +53,7 @@ public:
 
     // Events
     void on_tile_click(ChessBoard*, Tile);
-    void piece_moved(ChessBoard*, Tile, bool);
+    void piece_moved(ChessBoard*, SchaakStuk*, Tile, bool);
     void undo(ChessBoard*);
     void redo(ChessBoard*);
 

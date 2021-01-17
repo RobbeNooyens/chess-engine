@@ -13,16 +13,17 @@ class ChessBot {
 public:
     ChessBot(Game*, ChessBoard*);
     bool ai_move(ZW);
+private:
+    static void debug(const std::string&, int=0);
     bool ai_resolve_check(ZW);
     bool ai_move_piece(Move);
     bool ai_move_leads_to_mate(Move);
     bool ai_move_leads_to_check(Move);
     int ai_count_tiles_after_move(Move);
     Move ai_can_take_attacker(SchaakStuk*);
-
-private:
     ChessBoard* scene_;
     Game* game_;
+
 };
 
 

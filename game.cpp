@@ -112,9 +112,9 @@ Pieces Game::get_pieces_with_numeric_value(ZW color, int value) const {
     return pieces;
 }
 
-bool Game::is_enpassant(SchaakStuk* piece, Tile tile) const {
-    int rowDifference = std::abs(tile.first - selectedPiece_->get_row());
-    return (selectedPiece_->type() == pawn && rowDifference == 2);
+bool Game::is_enpassant(SchaakStuk* piece, Tile tile) {
+    int rowDifference = std::abs(tile.first - piece->get_row());
+    return (piece->type() == pawn && rowDifference == 2);
 }
 
 // Setters
@@ -432,12 +432,12 @@ void Game::on_tile_click(ChessBoard* scene, Tile tile) {
     bool enpassant = is_enpassant(selectedPiece_, tile);
     // Try to move the selected piece to the clicked Tile
     if(move(selectedPiece_, tile))
-        piece_moved(scene, tile, enpassant);
+        piece_moved(scene, selectedPiece_, tile, enpassant);
 }
 
-void Game::piece_moved(ChessBoard* scene, Tile tile, bool enpassant) {
+void Game::piece_moved(ChessBoard* scene, SchaakStuk* piece, Tile tile, bool enpassant) {
     // Check for promotion
-    if(selectedPiece_->type() == pawn && selectedPiece_->get_row() % 7 == 0){
+    if(piece->type() == pawn && piece->get_row() % 7 == 0){
         dialog_.choose_promotion_piece(scene, tile);
         return;
     }
@@ -518,7 +518,7 @@ void Game::promote_piece_selected(PieceType type, ChessBoard* scene, Tile promot
     delete get_piece(promoteTile);
     set_piece(promoteTile, replacement);
     selectedPiece_ = replacement;
-    piece_moved(scene, promoteTile, false);
+    piece_moved(scene, selectedPiece_, promoteTile, false);
 }
 
 // Search
