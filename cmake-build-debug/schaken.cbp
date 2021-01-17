@@ -120,6 +120,12 @@
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h">
 			<Option target="schaken"/>
 		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp">
 			<Option target="schaken"/>
 		</Unit>
@@ -142,9 +148,6 @@
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h">
-			<Option target="schaken"/>
-		</Unit>
-		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.cpp">
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.h">

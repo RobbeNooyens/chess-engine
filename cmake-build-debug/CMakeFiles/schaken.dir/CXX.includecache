@@ -18,6 +18,10 @@ string
 SchaakStuk.h
 -
 
+../exceptions/NullPointerException.h
+exception
+-
+
 C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
 QtCore/qglobal.h
 -
@@ -1146,6 +1150,14 @@ QtGui/qkeysequence.h
 QtGui/qevent.h
 -
 
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
+sharedtypes.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
+utility
+-
+
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
 QGraphicsScene
 -
@@ -1163,12 +1175,16 @@ sstream
 -
 QtWidgets/QMessageBox
 -
+exceptions/NullPointerException.h
+-
 game.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 mainwindow.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
 chessboard.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
+MoveSimulation.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 sharedtypes.h
@@ -1177,6 +1193,8 @@ config.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
 promotepawn.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
+ChessBot.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
 QMainWindow

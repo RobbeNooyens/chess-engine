@@ -15,6 +15,11 @@
 			"EWIEGA46WW/moc_ChessBot.cpp"
 		],
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h",
+			"Mu",
+			"EWIEGA46WW/moc_MoveSimulation.cpp"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h",
 			"Mu",
 			"EWIEGA46WW/moc_SchaakStuk.cpp"
@@ -132,15 +137,15 @@
 			"Mu"
 		],
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.cpp",
+			"Mu"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp",
 			"Mu"
 		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.cpp",
-			"Mu"
-		],
-		[
-			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.cpp",
 			"Mu"
 		],
 		[

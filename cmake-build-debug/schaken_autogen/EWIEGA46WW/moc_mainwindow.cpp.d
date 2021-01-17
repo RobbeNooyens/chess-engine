@@ -272,6 +272,7 @@ C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/cmake-build-debug/s
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h \
   C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h \
+  C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/ChessBot.h \
   C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/config.h \
   C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/game.h \
   C:/Users/robbe/Documents/University/Bachelor\ 1/IP/C++/Chess/promotepawn.h \

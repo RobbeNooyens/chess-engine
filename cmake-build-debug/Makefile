@@ -182,6 +182,33 @@ ChessBot.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/ChessBot.cpp.s
 .PHONY : ChessBot.cpp.s
 
+MoveSimulation.obj: MoveSimulation.cpp.obj
+
+.PHONY : MoveSimulation.obj
+
+# target to build an object file
+MoveSimulation.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/MoveSimulation.cpp.obj
+.PHONY : MoveSimulation.cpp.obj
+
+MoveSimulation.i: MoveSimulation.cpp.i
+
+.PHONY : MoveSimulation.i
+
+# target to preprocess a source file
+MoveSimulation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/MoveSimulation.cpp.i
+.PHONY : MoveSimulation.cpp.i
+
+MoveSimulation.s: MoveSimulation.cpp.s
+
+.PHONY : MoveSimulation.s
+
+# target to generate assembly for a file
+MoveSimulation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/MoveSimulation.cpp.s
+.PHONY : MoveSimulation.cpp.s
+
 SchaakStuk.obj: SchaakStuk.cpp.obj
 
 .PHONY : SchaakStuk.obj
@@ -235,33 +262,6 @@ chessboard.s: chessboard.cpp.s
 chessboard.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/chessboard.cpp.s
 .PHONY : chessboard.cpp.s
-
-exceptions/NullPointerException.obj: exceptions/NullPointerException.cpp.obj
-
-.PHONY : exceptions/NullPointerException.obj
-
-# target to build an object file
-exceptions/NullPointerException.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/exceptions/NullPointerException.cpp.obj
-.PHONY : exceptions/NullPointerException.cpp.obj
-
-exceptions/NullPointerException.i: exceptions/NullPointerException.cpp.i
-
-.PHONY : exceptions/NullPointerException.i
-
-# target to preprocess a source file
-exceptions/NullPointerException.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/exceptions/NullPointerException.cpp.i
-.PHONY : exceptions/NullPointerException.cpp.i
-
-exceptions/NullPointerException.s: exceptions/NullPointerException.cpp.s
-
-.PHONY : exceptions/NullPointerException.s
-
-# target to generate assembly for a file
-exceptions/NullPointerException.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/exceptions/NullPointerException.cpp.s
-.PHONY : exceptions/NullPointerException.cpp.s
 
 game.obj: game.cpp.obj
 
@@ -411,15 +411,15 @@ help:
 	@echo ... ChessBot.obj
 	@echo ... ChessBot.i
 	@echo ... ChessBot.s
+	@echo ... MoveSimulation.obj
+	@echo ... MoveSimulation.i
+	@echo ... MoveSimulation.s
 	@echo ... SchaakStuk.obj
 	@echo ... SchaakStuk.i
 	@echo ... SchaakStuk.s
 	@echo ... chessboard.obj
 	@echo ... chessboard.i
 	@echo ... chessboard.s
-	@echo ... exceptions/NullPointerException.obj
-	@echo ... exceptions/NullPointerException.i
-	@echo ... exceptions/NullPointerException.s
 	@echo ... game.obj
 	@echo ... game.i
 	@echo ... game.s

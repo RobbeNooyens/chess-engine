@@ -16,20 +16,20 @@ bool ChessBot::ai_move(ZW color) {
     if(game_->check(color))
         return ai_resolve_check(color);
     // Check for mate
-    for(const auto &piece: game_->get_pieces_of_color(color))
+    for(SchaakStuk* piece: game_->get_pieces_of_color(color))
         for(const auto &move: piece->valid_moves(game_))
             if(ai_move_leads_to_mate({piece, move}))
                 return ai_move_piece({piece, move});
     // Check for check
     for(int i = 1; i <= 9; i++)
-        for(const auto &piece: game_->get_pieces_with_numeric_value(color, i))
+        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i))
             for(const auto &move: piece->valid_moves(game_))
                 if(piece->is_safe_move(game_, move) && ai_move_leads_to_check({piece, move}))
                     return ai_move_piece({piece, move});
     // Check if any high value piece is being attacked
     Tiles threats = game_->get_threatened_tiles(Game::opposite(color));
     for(int i = 9; i >= 2; i++){
-        for(const auto &piece: game_->get_pieces_with_numeric_value(color, i)){
+        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i)){
             if(Game::vector_contains_tile(threats, piece->get_position())){
                 // Check if a smaller own piece can take the attacker
                 Move defense = ai_can_take_attacker(piece);
@@ -48,7 +48,7 @@ bool ChessBot::ai_move(ZW color) {
     Tile targetTile = {};
     int numericDifference = 0;
     for(int i = 1; i <= 9; i++){
-        for(const auto &piece: game_->get_pieces_with_numeric_value(color, i)){
+        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i)){
             for(const auto &move: piece->valid_moves(game_)){
                 SchaakStuk* target = game_->get_piece(move);
                 if(target == nullptr)
@@ -67,7 +67,7 @@ bool ChessBot::ai_move(ZW color) {
     // Move random piece
     int attackingTiles = 0;
     Move currentBestMove;
-    for(const auto &piece: game_->get_pieces_of_color(color)){
+    for(SchaakStuk* piece: game_->get_pieces_of_color(color)){
         for(const auto &move: piece->valid_moves(game_)){
             int tiles = ai_count_tiles_after_move({piece, move});
             if(tiles > attackingTiles){
@@ -82,10 +82,10 @@ bool ChessBot::ai_move(ZW color) {
 
 Move ChessBot::ai_can_take_attacker(SchaakStuk* piece) {
     Game::pointerRequireNonNull(piece);
-    for(const auto &attacker: game_->get_pieces_of_color(Game::opposite(piece->get_color())))
+    for(SchaakStuk* attacker: game_->get_pieces_of_color(Game::opposite(piece->get_color())))
         if(Game::vector_contains_tile(piece->valid_moves(game_), piece->get_position()))
             for(int i = 1; i <= attacker->get_numeric_value(); i++)
-                for(const auto &defender: game_->get_pieces_with_numeric_value(piece->get_color(), i))
+                for(SchaakStuk* defender: game_->get_pieces_with_numeric_value(piece->get_color(), i))
                     if(Game::vector_contains_tile(defender->valid_moves(game_), attacker->get_position()))
                         return {defender, attacker->get_position()};
     return {nullptr, {}};
@@ -95,7 +95,7 @@ bool ChessBot::ai_resolve_check(ZW color) {
     SchaakStuk* koning = game_->find_king(color);
     Tiles threats = game_->get_tiles_to_king(koning);
     for(int i = 1; i <= 9; i++)
-        for(const auto &piece: game_->get_pieces_with_numeric_value(color, i))
+        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i))
             for(const auto &move: piece->valid_moves(game_))
                 if(Game::vector_contains_tile(threats, move) && ai_move_piece({koning, move}))
                     return true;

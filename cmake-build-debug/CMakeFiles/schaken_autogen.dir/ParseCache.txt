@@ -796,6 +796,7 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
  mdp:C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
  mdp:C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
  mdp:C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
+ mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
@@ -809,6 +810,7 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/main.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.cpp
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/dialogtest.h
  mmc:Q_OBJECT
  mdp:C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/dialogtest.h
@@ -1095,3 +1097,5 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ui_promotepawn.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/BotCantResolveCheck.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.cpp
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/NullPointerException.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.cpp

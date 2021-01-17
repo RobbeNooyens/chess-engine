@@ -11,13 +11,13 @@
 #include "game.h"
 #include "mainwindow.h"
 #include "chessboard.h"
+#include "MoveSimulation.h"
 
 
 // Constructor and Destructor
 
-Game::Game() {
+Game::Game():bot(ChessBot(this, nullptr)) {
     dialog_.link_game(this);
-//    redoStackPointer_ = redoStack_.end();
 }
 
 Game::~Game() { recycle(); }
@@ -402,21 +402,10 @@ bool Game::move(SchaakStuk* s, Tile tile) {
     return true;
 }
 
-// TODO: replace with save() move() load()
 bool Game::move_prevents_checkmate(SchaakStuk* piece, Tile tile) {
-    // Backup
-    SchaakStuk* backupPiece = get_piece(tile);
-    Tile backupPosition = piece->get_position();
-    // Set pieces to simulation positions
-    set_piece(backupPosition, nullptr);
-    set_piece(tile, piece);
-    piece->set_position(tile);
-    // Check if it's still check
+    MoveSimulation backup = {this, piece, tile};
     bool stillCheck = check(piece->get_color());
-    // Reset to initial positions
-    set_piece(tile, backupPiece);
-    set_piece(backupPosition, piece);
-    piece->set_position(backupPosition);
+    backup.restore();
     return !stillCheck;
 }
 
