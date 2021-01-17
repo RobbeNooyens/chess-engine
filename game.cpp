@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
 //  Student: Robbe Nooyens
 //  Rolnummer: 20201010
 //  Opmerkingen: (bvb aanpassingen van de opgave)
@@ -21,6 +19,7 @@ Game::~Game() { recycle(); }
 
 void Game::recycle() {
     recycle_board();
+    fill_board_with_nullpointers();
     selectedPiece_ = nullptr;
     turn_ = wit;
     enpassantWhite_ = {-1, -1};
@@ -30,9 +29,9 @@ void Game::recycle() {
 }
 
 void Game::recycle_board() {
-    for(auto &i: bord_)
-        for(auto &j: i)
-            delete j;
+    for(int i = 0; i < 8; i++)
+        for(int j = 0; j < 8; j++)
+            delete bord_[i][j];
 }
 
 SchaakStuk* Game::get_piece(Tile position) const {
@@ -434,10 +433,12 @@ std::string Game::save() const {
 void Game::load(std::string &input) {
     recycle();
     JSON data = string_to_map(input);
-    if(data.count("board"))
-        loadBoard(data["board"]);
-    else
+    if(data.count("board")){
+        std::string boardData = data["board"];
+        loadBoard(boardData);
+    } else {
         set_start_board();
+    }
     turn_ = data.count("turn") ? (data["turn"] == "white" ? wit : zwart) : wit;
     enpassantWhite_ = data.count("EPW") ?  string_to_tile(data["EPW"]) : Tile(-1, -1);
     enpassantBlack_ = data.count("EPB") ?  string_to_tile(data["EPB"]) : Tile(-1, -1);
@@ -456,11 +457,9 @@ Tile Game::string_to_tile(std::string &tile) const {
 
 std::string Game::map_to_string(JSON &map) const {
     std::string output;
-    std::string convrt;
-    std::string result;
     for (const auto & it : map)
         output += (it.first) + ":" + it.second + ",";
-    return result;
+    return output;
 }
 
 JSON Game::string_to_map(std::string &input) const {
@@ -493,4 +492,3 @@ void Game::fill_board_with_nullpointers() {
         for(int j = 0; j < 8; j++)
             bord_[i][j] = nullptr;
 }
-#pragma clang diagnostic pop

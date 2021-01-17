@@ -44,7 +44,7 @@ void MainWindow::newGame() {
 }
 
 void MainWindow::save() {
-    std::cout << g.save() << std::endl;
+    std::cout << "Save: " << g.save() << std::endl;
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save game"), "",
                                                     tr("Chess File (*.chs);;All Files (*)"));
@@ -59,19 +59,21 @@ void MainWindow::save() {
             return;
         }
         QDataStream out(&file);
-        out << QString("Rb") << QString("Hb") << QString("Bb") << QString("Qb") << QString("Kb") << QString("Bb") << QString("Hb") << QString("Rb");
-        for  (int i=0;i<8;i++) {
-            out << QString("Pb");
-        }
-        for  (int r=3;r<7;r++) {
-            for (int k=0;k<8;k++) {
-                out << QString(".");
-            }
-        }
-        for  (int i=0;i<8;i++) {
-            out << QString("Pw");
-        }
-        out << QString("Rw") << QString("Hw") << QString("Bw") << QString("Qw") << QString("Kw") << QString("Bw") << QString("Hw") << QString("Rw");
+
+        out << QString(QString::fromStdString(g.save()));
+//        out << QString("Rb") << QString("Hb") << QString("Bb") << QString("Qb") << QString("Kb") << QString("Bb") << QString("Hb") << QString("Rb");
+//        for  (int i=0;i<8;i++) {
+//            out << QString("Pb");
+//        }
+//        for  (int r=3;r<7;r++) {
+//            for (int k=0;k<8;k++) {
+//                out << QString(".");
+//            }
+//        }
+//        for  (int i=0;i<8;i++) {
+//            out << QString("Pw");
+//        }
+//        out << QString("Rw") << QString("Hw") << QString("Bw") << QString("Qw") << QString("Kw") << QString("Bw") << QString("Hw") << QString("Rw");
     }
 }
 
@@ -93,20 +95,10 @@ void MainWindow::open() {
 
         try {
             QDataStream in(&file);
-            QString debugstring;
-            for (int r=0;r<8;r++) {
-                for (int k=0;k<8;k++) {
-                    QString piece;
-                    in >> piece;
-                    debugstring += "\t" + piece;
-                    if (in.status()!=QDataStream::Ok) {
-                        throw QString("Error reading file "+fileName);
-                    }
-                }
-                debugstring += "\n";
-            }
-            QMessageBox::information(this, tr("Debug"),
-                                     debugstring);
+            QString content;
+            in >> content;
+            std::string strContent = content.toStdString();
+            g.load(strContent);
         } catch (QString& Q) {
             QMessageBox::information(this, tr("Error reading file"),
                                      Q);
