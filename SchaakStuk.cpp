@@ -246,6 +246,15 @@ Tiles Loper::get_path_to(const Game* game, Tile position) const { return path_to
 Tiles Koningin::get_path_to(const Game* game, Tile position) const { return path_to_target(game, position, directions_); }
 Tiles Koning::get_path_to(const Game* game, Tile position) const {return {get_position()}; }
 
+// Get numeric value
+int Pion::get_numeric_value() const {return 1;}
+// Knights' numeric value is 3 but I think 2 is more beneficial for the AI
+int Paard::get_numeric_value() const {return 2;}
+int Toren::get_numeric_value() const {return 5;}
+int Loper::get_numeric_value() const {return 3;}
+int Koningin::get_numeric_value() const {return 10;}
+int Koning::get_numeric_value() const {return 9;}
+
 // Specific subclass methods
 Tiles Pion::get_threats(const Game *game) {
     int row = this->get_row(), column = this->get_column();

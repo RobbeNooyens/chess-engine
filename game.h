@@ -29,9 +29,12 @@ public:
     SchaakStuk* get_piece(Tile) const;
     Pieces get_pieces_on_board() const;
     Pieces get_pieces_of_color(ZW) const;
+    Pieces get_pieces_with_numeric_value(ZW, int) const;
+    Tiles get_tiles_to_king(SchaakStuk*) const;
     Tiles get_threatened_tiles(ZW color);
     Tile get_enpassant_tile(ZW) const;
     bool king_moved(ZW) const;
+    bool is_enpassant(SchaakStuk*, Tile) const;
 
     // Setters
     void set_start_board();
@@ -62,7 +65,6 @@ public:
     static bool vector_contains_tile(const Tiles&, Tile);
     static ZW opposite(ZW);
     static void popup(std::string&);
-    void push_game_to_stack();
 
     // Mapping methods
     static SchaakStuk* character_to_piece(char, Tile);
@@ -82,8 +84,8 @@ public:
     // Save and load
     std::string save() const;
     void load(ChessBoard*, std::string&, bool=true);
-private:
 
+private:
     ZW turn_ = wit;
     bool whiteKingMoved_ = false;
     bool blackKingMoved_ = false;
@@ -98,8 +100,8 @@ private:
     std::vector<std::string> undoStack_;
     std::string currentState;
     // Save and load board
-    std::string saveBoard() const;
-    void loadBoard(std::string&);
+    std::string save_board() const;
+    void load_board(std::string&);
 };
 
 

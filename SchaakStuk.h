@@ -21,6 +21,7 @@ public:
     Tile get_position() const;
     virtual Tiles get_path_to(const Game*, Tile) const = 0;
     virtual PieceType type() const = 0;
+    virtual int get_numeric_value() const = 0;
 
     // Setters
     void set_position(Tile);
@@ -59,6 +60,8 @@ public:
     Piece piece() const override;
     PieceType type() const override;
 
+    int get_numeric_value() const override;
+
 private:
     PawnDirection moveDirection;
 };
@@ -73,6 +76,8 @@ public:
 
     Piece piece() const override;
     PieceType type() const override;
+
+    int get_numeric_value() const override;
 
 private:
     Directions directions_ = {{1,0},{-1,0},{0,1},{0,-1}};
@@ -89,6 +94,8 @@ public:
     Piece piece() const override;
     PieceType type() const override;
 
+    int get_numeric_value() const override;
+
 private:
     Directions directions_ = {{-2,1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1}};
 };
@@ -103,6 +110,8 @@ public:
 
     Piece piece() const override;
     PieceType type() const override;
+
+    int get_numeric_value() const override;
 
 private:
     Directions directions_ = {{1,1},{1,-1},{-1,-1},{-1,1}};
@@ -122,6 +131,8 @@ public:
     std::pair<bool, Tile> can_rokade(const Game*, const Toren*) const;
     bool safe_at(const Game*, Tile) const;
 
+    int get_numeric_value() const override;
+
 private:
     Directions directions_ = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 };
@@ -136,6 +147,8 @@ public:
 
     Piece piece() const override;
     PieceType type() const override;
+
+    int get_numeric_value() const override;
 
 private:
     Directions directions_ = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1}};

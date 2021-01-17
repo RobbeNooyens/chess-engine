@@ -155,6 +155,33 @@ schaken_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken_autogen.dir\build.make CMakeFiles/schaken_autogen.dir/build
 .PHONY : schaken_autogen/fast
 
+ChessBot.obj: ChessBot.cpp.obj
+
+.PHONY : ChessBot.obj
+
+# target to build an object file
+ChessBot.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/ChessBot.cpp.obj
+.PHONY : ChessBot.cpp.obj
+
+ChessBot.i: ChessBot.cpp.i
+
+.PHONY : ChessBot.i
+
+# target to preprocess a source file
+ChessBot.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/ChessBot.cpp.i
+.PHONY : ChessBot.cpp.i
+
+ChessBot.s: ChessBot.cpp.s
+
+.PHONY : ChessBot.s
+
+# target to generate assembly for a file
+ChessBot.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\schaken.dir\build.make CMakeFiles/schaken.dir/ChessBot.cpp.s
+.PHONY : ChessBot.cpp.s
+
 SchaakStuk.obj: SchaakStuk.cpp.obj
 
 .PHONY : SchaakStuk.obj
@@ -354,6 +381,9 @@ help:
 	@echo ... rebuild_cache
 	@echo ... schaken_autogen
 	@echo ... schaken
+	@echo ... ChessBot.obj
+	@echo ... ChessBot.i
+	@echo ... ChessBot.s
 	@echo ... SchaakStuk.obj
 	@echo ... SchaakStuk.i
 	@echo ... SchaakStuk.s

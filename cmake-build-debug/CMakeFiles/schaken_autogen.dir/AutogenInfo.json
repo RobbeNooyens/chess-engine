@@ -10,6 +10,11 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h",
+			"Mu",
+			"EWIEGA46WW/moc_ChessBot.cpp"
+		],
+		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h",
 			"Mu",
 			"EWIEGA46WW/moc_SchaakStuk.cpp"
@@ -23,6 +28,11 @@
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h",
 			"Mu",
 			"EWIEGA46WW/moc_config.cpp"
+		],
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/BotCantResolveCheck.h",
+			"Mu",
+			"RHBJBCZP5P/moc_BotCantResolveCheck.cpp"
 		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h",
@@ -112,6 +122,10 @@
 	"SETTINGS_FILE" : "C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.cpp",
+			"Mu"
+		],
 		[
 			"C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp",
 			"Mu"

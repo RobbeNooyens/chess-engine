@@ -114,6 +114,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.cpp">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h">
+			<Option target="schaken"/>
+		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.cpp">
 			<Option target="schaken"/>
 		</Unit>
@@ -130,6 +136,9 @@
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h">
+			<Option target="schaken"/>
+		</Unit>
+		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/BotCantResolveCheck.h">
 			<Option target="schaken"/>
 		</Unit>
 		<Unit filename="C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/exceptions/KingNotFoundException.h">
