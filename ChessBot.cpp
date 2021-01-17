@@ -32,7 +32,7 @@ bool ChessBot::ai_move(ZW color) {
     for(int i = 1; i <= 9; i++)
         for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i))
             for(const auto &move: piece->valid_moves(game_))
-                if(piece->is_safe_move(game_, move) && ai_move_leads_to_check({piece, move}))
+                if(piece->is_safe_move(game_, move) && ai_move_leads_to_check({piece, move}, Game::opposite(color)))
                     return ai_move_piece({piece, move});
     ChessBot::debug("It's not possible to safely check opponents king", 1);
     // Check if any high value piece is being attacked
@@ -41,6 +41,7 @@ bool ChessBot::ai_move(ZW color) {
     for(int i = 9; i >= 2; i--){
         for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i)){
             if(Game::vector_contains_tile(threats, piece->get_position())){
+                ChessBot::debug("Found a piece in danger", 1);
                 // Check if a smaller own piece can take the attacker
                 Move defense = ai_can_take_attacker(piece);
                 if(defense.first != nullptr)
@@ -48,7 +49,7 @@ bool ChessBot::ai_move(ZW color) {
                 // Check if the piece can flee to a safe field
                 for(const auto &move: piece->valid_moves(game_))
                     if(piece->is_safe_move(game_, move))
-                        return game_->move(piece, move);
+                        return ai_move_piece({piece, move});
             }
         }
     }
@@ -77,11 +78,21 @@ bool ChessBot::ai_move(ZW color) {
     if(foundTarget)
         return ai_move_piece({ownPiece, targetTile});
     ChessBot::debug("Can't taken an opponents piece safely", 1);
+    // Rokade if possible
+    Koning* koning = game_->find_king(color);
+    for(Toren* rook: game_->find_rooks(color)){
+        std::pair<bool, Tile> rokade = koning->can_rokade(game_, rook);
+        if(rokade.first)
+            return ai_move_piece({koning, rokade.second});
+    }
     // Move random piece
     ChessBot::debug("Searching for the best random move");
+    bool canMoveQueen = ai_count_empty_start_tiles(color) >= 5;
     int attackingTiles = 0;
     Move currentBestMove;
     for(SchaakStuk* piece: game_->get_pieces_of_color(color)){
+        if(piece->type() == king || (!canMoveQueen && piece->type() == queen))
+            continue;
         for(const auto &move: piece->valid_moves(game_)){
             if(!piece->is_safe_move(game_, move))
                 continue;
@@ -92,9 +103,6 @@ bool ChessBot::ai_move(ZW color) {
             }
         }
     }
-    std::cout << "Bot has chosen a random move: moving " << currentBestMove.first->get_row() << "," <<
-    currentBestMove.first->get_column() << " to " << currentBestMove.second.first << ","
-    << currentBestMove.second.second << std::endl;
     return ai_move_piece(currentBestMove);
 
 }
@@ -116,8 +124,12 @@ bool ChessBot::ai_resolve_check(ZW color) {
     for(int i = 1; i <= 9; i++)
         for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i))
             for(const auto &move: piece->valid_moves(game_))
-                if(Game::vector_contains_tile(threats, move) && ai_move_piece({koning, move}))
-                    return true;
+                if(Game::vector_contains_tile(threats, move) && !ai_move_leads_to_check({piece, move}, color))
+                    return ai_move_piece({piece, move});
+    // Check if king can take the piece
+    for(const auto &move: koning->valid_moves(game_))
+        if(!ai_move_leads_to_check({koning, move}, color))
+            return ai_move_piece({koning, move});
     throw BotCantResolveCheck(color);
 }
 
@@ -137,10 +149,10 @@ bool ChessBot::ai_move_leads_to_mate(Move move) {
     return checkmate;
 }
 
-bool ChessBot::ai_move_leads_to_check(Move move) {
+bool ChessBot::ai_move_leads_to_check(Move move, ZW color) {
     Game::pointerRequireNonNull(move.first);
     MoveSimulation backup = {game_, move.first, move.second};
-    bool check = game_->check(Game::opposite(move.first->get_color()));
+    bool check = game_->check(color);
     backup.restore();
     return check;
 }
@@ -153,8 +165,24 @@ int ChessBot::ai_count_tiles_after_move(Move move) {
     return count;
 }
 
-void ChessBot::debug(const std::string& message, int depth) {
+int ChessBot::ai_count_empty_start_tiles(ZW color) {
+    int count = 0;
+    int startRow = color == zwart ? 0 : 6;
+    for(int i = startRow; i <= startRow+1; i++)
+        for(int j = 0; j < 8; j++)
+            if(game_->get_piece({i, j}) == nullptr)
+                count++;
+    return count;
+}
+
+int ChessBot::ai_sum_of_threatened_pieces(ZW color) {
+
+}
+
+void ChessBot::debug(const std::string& message, int depth) const{
+    if(!debugBot_)
+        return;
     for(int i = 0; i < depth; i++)
-        std::cout << "\t";
+        std::cout << ">>";
     std::cout << message << std::endl;
 }

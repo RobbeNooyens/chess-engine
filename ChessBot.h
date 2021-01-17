@@ -14,16 +14,18 @@ public:
     ChessBot(Game*, ChessBoard*);
     bool ai_move(ZW);
 private:
-    static void debug(const std::string&, int=0);
+    void debug(const std::string&, int=0) const;
     bool ai_resolve_check(ZW);
     bool ai_move_piece(Move);
     bool ai_move_leads_to_mate(Move);
-    bool ai_move_leads_to_check(Move);
+    bool ai_move_leads_to_check(Move, ZW);
     int ai_count_tiles_after_move(Move);
+    int ai_count_empty_start_tiles(ZW);
+    int ai_sum_of_threatened_pieces(ZW);
     Move ai_can_take_attacker(SchaakStuk*);
     ChessBoard* scene_;
     Game* game_;
-
+    bool debugBot_ = false;
 };
 
 

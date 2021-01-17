@@ -10,6 +10,8 @@
 class GameConfig {
 public:
     const bool enableBot = true;
+    const bool showPopups = false;
+    const ZW botColor = zwart;
     const bool visualizeOwnThreatenedPieces = true;
     const bool visualizeOpponentThreatenedPieces = false;
     const BoardLayoutType boardLayoutType = standard;

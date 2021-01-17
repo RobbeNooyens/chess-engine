@@ -146,6 +146,8 @@ void Game::set_start_board() {
     currentState = save();
     undoStack_.clear();
     redoStack_.clear();
+    if(config_.enableBot && config_.botColor == wit)
+        bot.ai_move(config_.botColor);
 }
 
 void Game::set_chessbot(ChessBoard* scene) {
@@ -188,7 +190,7 @@ void Game::update_threatened_pieces(ChessBoard *scene) {
     // Visualize opponents threatened pieces
     if(config_.visualizeOpponentThreatenedPieces) {
         threats = get_threatened_tiles(turn_);
-        for (const auto &piece: get_pieces_of_color(opposite(turn_)))
+        for (SchaakStuk* piece: get_pieces_of_color(opposite(turn_)))
             if (vector_contains_tile(threats, piece->get_position()))
                 scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
     }
@@ -345,7 +347,7 @@ bool Game::checkmate(ZW color) {
         return false;
     Tiles threats = get_tiles_to_king(koning);
     // Iterate over own pieces
-    for(const auto &piece: get_pieces_of_color(color)) {
+    for(SchaakStuk* piece: get_pieces_of_color(color)) {
         if(piece->type() == king)
             continue;
         // Iterate over every own pieces' moves
@@ -366,7 +368,7 @@ bool Game::stalemate(ZW color) {
     if(check(color))
         return false;
     // Check if at least one piece can still move
-    for(const auto &piece: get_pieces_of_color(color))
+    for(SchaakStuk* piece: get_pieces_of_color(color))
         if(!piece->valid_moves(this).empty())
             return false;
     return true;
@@ -451,7 +453,7 @@ void Game::piece_moved(ChessBoard* scene, SchaakStuk* piece, Tile tile, bool enp
     else if(check(opposite(turn_)))
         message = "Check!";
     else if(stalemate(opposite(turn_)))
-        std::cout << "Draw!" << std::endl;
+        message = "Draw!";
     // Update enpassant (-1 disables enpassant check)
     set_enpassant_tile(turn_, (enpassant ? tile : Tile(-1,-1)));
     // Switch turn
@@ -467,12 +469,13 @@ void Game::piece_moved(ChessBoard* scene, SchaakStuk* piece, Tile tile, bool enp
     update_board(scene);
     // Send state message
     if(!message.empty()){
-        popup(message);
+        if(config_.showPopups)
+            popup(message);
         std::cout << message << std::endl;
     }
     // Let bot do a move if it's black move
-    if(config_.enableBot && turn_ == zwart)
-        bot.ai_move(turn_);
+    if(config_.enableBot && turn_ == config_.botColor)
+        bot.ai_move(config_.botColor);
 }
 
 void Game::undo(ChessBoard* scene) {
@@ -484,6 +487,8 @@ void Game::undo(ChessBoard* scene) {
     undoStack_.pop_back();
     load(scene, currentState, false);
     update_board(scene);
+    update_tiles(scene);
+    update_threatened_pieces(scene);
 }
 
 void Game::redo(ChessBoard* scene){
@@ -495,6 +500,8 @@ void Game::redo(ChessBoard* scene){
     redoStack_.pop_back();
     load(scene, currentState, false);
     update_board(scene);
+    update_tiles(scene);
+    update_threatened_pieces(scene);
 }
 
 // Callback
@@ -525,7 +532,7 @@ void Game::promote_piece_selected(PieceType type, ChessBoard* scene, Tile promot
 
 Koning* Game::find_king(ZW color) const {
     // Iterate over own pieces
-    for(const auto &piece: get_pieces_of_color(color))
+    for(SchaakStuk* piece: get_pieces_of_color(color))
         if(piece->type() == king)
             return (Koning*) piece;
     // There should always be a black and a white king on the board
@@ -535,7 +542,7 @@ Koning* Game::find_king(ZW color) const {
 std::vector<Toren*> Game::find_rooks(ZW color) const {
     std::vector<Toren*> rooks;
     // Iterate over own pieces
-    for(const auto &piece: get_pieces_of_color(color))
+    for(SchaakStuk* piece: get_pieces_of_color(color))
         if(piece->type() == rook)
             rooks.push_back((Toren*) piece);
     return rooks;
@@ -546,7 +553,7 @@ std::vector<Toren*> Game::find_rooks(ZW color) const {
 std::string Game::save_board() const {
     std::string output;
     for(const auto &row: bord_)
-        for(const auto &piece: row)
+        for(SchaakStuk* piece: row)
             if(piece != nullptr)
                 output.push_back(piece_to_character(piece));
             else

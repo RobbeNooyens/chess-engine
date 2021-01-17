@@ -20,7 +20,7 @@ typedef std::vector<SchaakStuk*> Pieces;
 typedef char BoardLayout[8][8];
 typedef const std::vector<Direction> Directions;
 
-enum BoardLayoutType{standard, endgame, promote, rokade};
+enum BoardLayoutType{standard, endgame, promote};
 enum PieceType{pawn, rook, knight, bishop, king, queen};
 enum ZW{zwart,wit};
 enum PawnDirection{up, down};
