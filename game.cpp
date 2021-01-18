@@ -155,6 +155,10 @@ void Game::set_chessbot(ChessBoard* scene) {
     bot = ChessBot(this, scene);
 }
 
+void Game::set_selected_piece(SchaakStuk* piece) {
+    selectedPiece_ = piece;
+}
+
 // Update methods
 
 void Game::update_options(VisualOptions options) {

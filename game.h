@@ -43,6 +43,7 @@ public:
     void set_enpassant_tile(ZW, Tile);
     void set_king_moved(ZW, bool);
     void set_chessbot(ChessBoard*);
+    void set_selected_piece(SchaakStuk*);
 
     // Game mechanics
     bool check(ZW) const;
