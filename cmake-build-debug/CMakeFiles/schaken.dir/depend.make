@@ -336,6 +336,7 @@ CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtW
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qwidget.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../ChessBot.h
+CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../MoveSimulation.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../SchaakStuk.cpp
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../SchaakStuk.h
 CMakeFiles/schaken.dir/SchaakStuk.cpp.obj: ../chessboard.h

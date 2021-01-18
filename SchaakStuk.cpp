@@ -6,6 +6,7 @@
 #include "SchaakStuk.h"
 #include "game.h"
 #include "chessboard.h"
+#include "MoveSimulation.h"
 
 /// Superclass methods
 
@@ -43,34 +44,24 @@ bool SchaakStuk::is_pinned(Game* game, Tile targetPos) {
     // Piece isn't pinned if it can take the opponents king first
     if(game->find_king(Game::opposite(get_color()))->get_position() == targetPos)
         return false;
-    // Backup
-    SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
-    Tile initPosition = get_position();
-    // Simulate move
-    game->set_piece(initPosition, nullptr);
-    game->set_piece(targetPos, this);
-    set_position(targetPos);
+    MoveSimulation backup = {game, this, targetPos};
     bool pin = game->check(kleur_);
-    // Reset state
-    game->set_piece(targetPos, pieceOnTarget);
-    game->set_piece(initPosition, this);
-    set_position(initPosition);
+    backup.restore();
     return pin;
 }
 bool SchaakStuk::is_safe_move(Game* game, Tile targetPos) {
-    // Backup
-    SchaakStuk* pieceOnTarget = game->get_piece(targetPos);
-    Tile initPosition = get_position();
-    // Simulate move
-    game->set_piece(initPosition, nullptr);
-    game->set_piece(targetPos, this);
-    set_position(targetPos);
+    MoveSimulation backup = {game, this, targetPos};
     bool safe = !Game::vector_contains_tile(game->get_threatened_tiles(get_color() == zwart ? wit : zwart), targetPos);
-    // Reset state
-    game->set_piece(targetPos, pieceOnTarget);
-    game->set_piece(initPosition, this);
-    set_position(initPosition);
+    backup.restore();
     return safe;
+}
+bool SchaakStuk::is_covered(Game* game) {
+    Toren* dummyPiece = new Toren(Game::opposite(get_color()), get_position());
+    game->set_piece(get_position(), dummyPiece);
+    bool covered = Game::vector_contains_tile(game->get_threatened_tiles(get_color()), get_position());
+    game->set_piece(get_position(), this);
+    delete dummyPiece;
+    return covered;
 }
 
 // Helper methods
@@ -140,6 +131,14 @@ Tiles SchaakStuk::valid_moves(Game* game) {
 void SchaakStuk::remove_pinned_moves(Game* game, Tiles& moves) {
     // Remove moves that lead to check
     moves.erase(std::remove_if(moves.begin(), moves.end(), [this, game](Tile move){return is_pinned(game, move);}), moves.end());
+}
+Pieces SchaakStuk::get_attackers(Game* game) {
+    Game::pointerRequireNonNull(game);
+    Pieces attackers;
+    for(SchaakStuk* attacker: game->get_pieces_of_color(Game::opposite(get_color())))
+        if(Game::vector_contains_tile(attacker->valid_moves(game), get_position()))
+            attackers.push_back(attacker);
+    return attackers;
 }
 
 /// Methods specific to subclasses

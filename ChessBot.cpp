@@ -38,20 +38,18 @@ bool ChessBot::ai_move(ZW color) {
     // Check if any high value piece is being attacked
     ChessBot::debug("Checking if any high value piece is being threatened");
     Tiles threats = game_->get_threatened_tiles(Game::opposite(color));
-    for(int i = 9; i >= 2; i--){
-        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i)){
-            if(Game::vector_contains_tile(threats, piece->get_position())){
-                ChessBot::debug("Found a piece in danger", 1);
-                // Check if a smaller own piece can take the attacker
-                Move defense = ai_can_take_attacker(piece);
-                if(defense.first != nullptr)
-                    return game_->move(defense.first, defense.second);
-                // Check if the piece can flee to a safe field
-                for(const auto &move: piece->valid_moves(game_))
-                    if(piece->is_safe_move(game_, move))
-                        return ai_move_piece({piece, move});
-            }
-        }
+    Pieces threatened;
+    // Add highest threatened pieces to the list
+    for(int i = 9; i >= 2 && threatened.empty(); i--)
+        for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i))
+            if(Game::vector_contains_tile(threats, piece->get_position()))
+                threatened.push_back(piece);
+    // Resolve threatened pieces that arent covered
+    if(!threatened.empty()) {
+        for(SchaakStuk* piece: threatened)
+            if(!ai_piece_covered(piece))
+                if(ai_resolve_threatened_piece(piece))
+                    return true;
     }
     ChessBot::debug("No high value piece is being threathened or can escape safely", 1);
     // Check if bot can take an enemy piece
@@ -78,16 +76,20 @@ bool ChessBot::ai_move(ZW color) {
     if(foundTarget)
         return ai_move_piece({ownPiece, targetTile});
     ChessBot::debug("Can't taken an opponents piece safely", 1);
+    int emptyTiles = ai_count_empty_start_tiles(color);
     // Rokade if possible
-    Koning* koning = game_->find_king(color);
-    for(Toren* rook: game_->find_rooks(color)){
-        std::pair<bool, Tile> rokade = koning->can_rokade(game_, rook);
-        if(rokade.first)
-            return ai_move_piece({koning, rokade.second});
+    if(emptyTiles >= 8){
+        Koning* koning = game_->find_king(color);
+        for(Toren* rook: game_->find_rooks(color)){
+            std::pair<bool, Tile> rokade = koning->can_rokade(game_, rook);
+            if(rokade.first)
+                return ai_move_piece({koning, rokade.second});
+        }
     }
     // Move random piece
     ChessBot::debug("Searching for the best random move");
-    bool canMoveQueen = ai_count_empty_start_tiles(color) >= 5;
+
+    bool canMoveQueen = ai_count_empty_start_tiles(color) >= 6;
     int attackingTiles = 0;
     Move currentBestMove;
     for(SchaakStuk* piece: game_->get_pieces_of_color(color)){
@@ -107,15 +109,50 @@ bool ChessBot::ai_move(ZW color) {
 
 }
 
-Move ChessBot::ai_can_take_attacker(SchaakStuk* piece) {
+bool ChessBot::ai_resolve_threatened_piece(SchaakStuk* piece) {
+    // Check if a smaller own piece can take the attacker
+    Pieces attackers = piece->get_attackers(game_);
+    SchaakStuk* highestAttacker = attackers.front();
+    for(SchaakStuk* attacker: attackers)
+        if(ai_can_take_attacker(piece, attacker))
+            return ai_move_piece({piece, attacker->get_position()});
+        else if(highestAttacker == nullptr || attacker->get_numeric_value() > highestAttacker->get_numeric_value())
+            highestAttacker = attacker;
+    // Check if the piece can flee to a safe field
+    for(const auto &move: piece->valid_moves(game_))
+        if(ai_safe_move({piece, move}))
+            return ai_move_piece({piece, move});
+    // Take most value attacker
+    if(highestAttacker)
+        return ai_move_piece({piece, highestAttacker->get_position()});
+    return false;
+}
+
+bool ChessBot::ai_safe_move(Move move) {
+    if(move.first->is_safe_move(game_, move.second))
+        return true;
+    MoveSimulation backup = {game_, move.first, move.second};
+    bool safe = ai_piece_covered(move.first);
+    backup.restore();
+    return safe;
+}
+
+bool ChessBot::ai_piece_covered(SchaakStuk* piece) {
+    if(!piece->is_covered(game_))
+        return false;
+    for(SchaakStuk* attacker: piece->get_attackers(game_))
+        if(attacker->get_numeric_value() < piece->get_numeric_value())
+            return false;
+    return true;
+}
+
+bool ChessBot::ai_can_take_attacker(SchaakStuk* piece, SchaakStuk* attacker) {
     Game::pointerRequireNonNull(piece);
-    for(SchaakStuk* attacker: game_->get_pieces_of_color(Game::opposite(piece->get_color())))
-        if(Game::vector_contains_tile(piece->valid_moves(game_), piece->get_position()))
-            for(int i = 1; i <= attacker->get_numeric_value(); i++)
-                for(SchaakStuk* defender: game_->get_pieces_with_numeric_value(piece->get_color(), i))
-                    if(Game::vector_contains_tile(defender->valid_moves(game_), attacker->get_position()))
-                        return {defender, attacker->get_position()};
-    return {nullptr, {}};
+    for(int i = 1; i <= attacker->get_numeric_value(); i++)
+        for(SchaakStuk* defender: game_->get_pieces_with_numeric_value(piece->get_color(), i))
+            if(Game::vector_contains_tile(defender->valid_moves(game_), attacker->get_position()))
+                return true;
+    return false;
 }
 
 bool ChessBot::ai_resolve_check(ZW color) {
@@ -176,7 +213,7 @@ int ChessBot::ai_count_empty_start_tiles(ZW color) {
 }
 
 int ChessBot::ai_sum_of_threatened_pieces(ZW color) {
-
+    return 0;
 }
 
 void ChessBot::debug(const std::string& message, int depth) const{

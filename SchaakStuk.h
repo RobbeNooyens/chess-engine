@@ -31,6 +31,7 @@ public:
     bool can_take_at(const Game*, Tile) const;
     bool is_pinned(Game*, Tile);
     bool is_safe_move(Game*, Tile);
+    bool is_covered(Game*);
 
     // Helper methods
     virtual Tiles geldige_zetten(const Game*) const= 0;
@@ -39,6 +40,7 @@ public:
     Tiles moves_from_positions(const Game*, Directions &) const;
     Tiles path_to_target(const Game*, Tile, Directions&) const;
     void remove_pinned_moves(Game*, Tiles&);
+    Pieces get_attackers(Game*);
 
     // Wrappers
     virtual Piece piece() const=0;
