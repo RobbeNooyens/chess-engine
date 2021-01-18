@@ -1,4 +1,0 @@
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken.dir
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/cmake-build-debug/CMakeFiles/schaken_autogen.dir
