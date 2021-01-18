@@ -106,13 +106,14 @@ Tiles Game::get_tiles_to_king(SchaakStuk* koning) const {
 
 Pieces Game::get_pieces_with_numeric_value(ZW color, int value) const {
     Pieces pieces;
+    // Add all pieces of the given color that have the same numeric value to the pieces vector
     for(const auto &piece: get_pieces_of_color(color))
         if(piece->get_numeric_value() == value)
             pieces.push_back(piece);
     return pieces;
 }
 
-bool Game::is_enpassant(SchaakStuk* piece, Tile tile) {
+bool Game::pawn_moved_two_rows(SchaakStuk* piece, Tile tile) {
     int rowDifference = std::abs(tile.first - piece->get_row());
     return (piece->type() == pawn && rowDifference == 2);
 }
@@ -187,7 +188,7 @@ void Game::update_threatened_pieces(ChessBoard *scene) {
     // Visualize own threatened pieces
     if(config_.visualizeOwnThreatenedPieces) {
         threats = get_threatened_tiles(opposite(turn_));
-        for (const auto &piece: get_pieces_of_color(turn_))
+        for (SchaakStuk* piece: get_pieces_of_color(turn_))
             if (vector_contains_tile(threats, piece->get_position()))
                 scene->setPieceThreat(piece->get_row(), piece->get_column(), true);
     }
@@ -207,9 +208,8 @@ void Game::update_board(ChessBoard* scene) const {
     for(int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             SchaakStuk* schaakStuk = get_piece(Tile(i, j));
-            if(schaakStuk != nullptr){
+            if(schaakStuk != nullptr)
                 scene->setItem(i, j, schaakStuk->piece());
-            }
         }
     }
 }
@@ -435,7 +435,7 @@ void Game::on_tile_click(ChessBoard* scene, Tile tile) {
     if(selectedPiece_ == nullptr)
         return;
     // Check en passant
-    bool enpassant = is_enpassant(selectedPiece_, tile);
+    bool enpassant = pawn_moved_two_rows(selectedPiece_, tile);
     // Try to move the selected piece to the clicked Tile
     if(move(selectedPiece_, tile))
         piece_moved(scene, selectedPiece_, tile, enpassant);

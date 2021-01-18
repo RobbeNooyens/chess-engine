@@ -35,7 +35,7 @@ public:
     Tiles get_threatened_tiles(ZW color);
     Tile get_enpassant_tile(ZW) const;
     bool king_moved(ZW) const;
-    static bool is_enpassant(SchaakStuk*, Tile) ;
+    static bool pawn_moved_two_rows(SchaakStuk*, Tile) ;
 
     // Setters
     void set_start_board();
@@ -88,6 +88,8 @@ public:
     // Save and load
     std::string save() const;
     void load(ChessBoard*, std::string&, bool=true);
+    std::string save_board() const;
+    void load_board(std::string&);
 
 private:
     ZW turn_ = wit;
@@ -104,9 +106,6 @@ private:
     std::vector<std::string> undoStack_;
     std::string currentState;
     ChessBot bot;
-    // Save and load board
-    std::string save_board() const;
-    void load_board(std::string&);
 };
 
 

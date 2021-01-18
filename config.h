@@ -9,7 +9,7 @@
 
 class GameConfig {
 public:
-    const ZW botColor = zwart;
+    const ZW botColor = wit;
     const bool enableBot = true;
     const bool showCheckPopup = false, showMatePopup = true;
     const bool visualizeOwnThreatenedPieces = true, visualizeOpponentThreatenedPieces = false;

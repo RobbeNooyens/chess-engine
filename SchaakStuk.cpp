@@ -56,7 +56,7 @@ bool SchaakStuk::is_safe_move(Game* game, Tile targetPos) {
     return safe;
 }
 bool SchaakStuk::is_covered(Game* game) {
-    Toren* dummyPiece = new Toren(Game::opposite(get_color()), get_position());
+    auto* dummyPiece = new Toren(Game::opposite(get_color()), get_position());
     game->set_piece(get_position(), dummyPiece);
     bool covered = Game::vector_contains_tile(game->get_threatened_tiles(get_color()), get_position());
     game->set_piece(get_position(), this);
@@ -119,9 +119,8 @@ Tiles SchaakStuk::valid_moves(Game* game) {
     if(type() == king){
         for(const auto &rook: game->find_rooks(get_color())){
             std::pair<bool, Tile> rokade = ((Koning*) this)->can_rokade(game, rook);
-            if(rokade.first) {
+            if(rokade.first)
                 moves.push_back(rokade.second);
-            }
         }
     }
     // Filters out all moves that will lead to check
@@ -132,7 +131,7 @@ void SchaakStuk::remove_pinned_moves(Game* game, Tiles& moves) {
     // Remove moves that lead to check
     moves.erase(std::remove_if(moves.begin(), moves.end(), [this, game](Tile move){return is_pinned(game, move);}), moves.end());
 }
-Pieces SchaakStuk::get_attackers(Game* game) {
+Pieces SchaakStuk::get_attackers(Game* game) const {
     Game::pointerRequireNonNull(game);
     Pieces attackers;
     for(SchaakStuk* attacker: game->get_pieces_of_color(Game::opposite(get_color())))

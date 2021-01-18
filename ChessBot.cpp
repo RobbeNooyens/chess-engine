@@ -187,7 +187,7 @@ bool ChessBot::ai_move_piece(Move move) const{
     game_->set_selected_piece(move.first);
     if(!game_->move(move.first, move.second))
         return false;
-    game_->piece_moved(scene_, move.first, move.second, Game::is_enpassant(move.first, move.second));
+    game_->piece_moved(scene_, move.first, move.second, Game::pawn_moved_two_rows(move.first, move.second));
     return true;
 }
 
