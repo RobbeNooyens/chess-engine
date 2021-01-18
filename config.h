@@ -9,11 +9,10 @@
 
 class GameConfig {
 public:
-    const bool enableBot = true;
-    const bool showPopups = false;
     const ZW botColor = zwart;
-    const bool visualizeOwnThreatenedPieces = true;
-    const bool visualizeOpponentThreatenedPieces = false;
+    const bool enableBot = true;
+    const bool showCheckPopup = false, showMatePopup = true;
+    const bool visualizeOwnThreatenedPieces = true, visualizeOpponentThreatenedPieces = false;
     const BoardLayoutType boardLayoutType = standard;
     const BoardLayout& getBoardSetup() {
         switch (boardLayoutType) {

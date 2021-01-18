@@ -14,6 +14,9 @@ ChessBot::ChessBot(Game* game, ChessBoard* scene):game_(game), scene_(scene) {}
 bool ChessBot::ai_move(ZW color) {
     Game::pointerRequireNonNull(game_);
     Game::pointerRequireNonNull(scene_);
+    // Check if own king is mated
+    if(game_->checkmate(color))
+        return true;
     ChessBot::debug("============[ ChessBot is trying to find the best move ]===========");
     // Check if own king is checked
     ChessBot::debug("Checking if own king is checked");
@@ -57,18 +60,18 @@ bool ChessBot::ai_move(ZW color) {
     bool foundTarget = false;
     SchaakStuk* ownPiece = nullptr;
     Tile targetTile = {};
-    int numericDifference = 0;
+    int targetValue = 0;
     for(int i = 1; i <= 9; i++){
         for(SchaakStuk* piece: game_->get_pieces_with_numeric_value(color, i)){
             for(const auto &move: piece->valid_moves(game_)){
                 SchaakStuk* target = game_->get_piece(move);
                 if(target == nullptr)
                     continue;
-                int difference = std::abs(piece->get_numeric_value() - target->get_numeric_value());
-                if(target->get_numeric_value() >= i && difference >= numericDifference){
+                if(target->get_numeric_value() >= i && target->get_numeric_value() >= targetValue){
                     foundTarget = true;
                     ownPiece = piece;
                     targetTile = target->get_position();
+                    targetValue = target->get_numeric_value();
                 }
             }
         }
@@ -109,7 +112,6 @@ bool ChessBot::ai_move(ZW color) {
         }
     }
     return ai_move_piece(currentBestMove);
-
 }
 
 bool ChessBot::ai_resolve_threatened_piece(SchaakStuk* piece) {
@@ -131,7 +133,7 @@ bool ChessBot::ai_resolve_threatened_piece(SchaakStuk* piece) {
     return false;
 }
 
-bool ChessBot::ai_safe_move(Move move) {
+bool ChessBot::ai_safe_move(Move move) const {
     if(move.first->is_safe_move(game_, move.second))
         return true;
     MoveSimulation backup = {game_, move.first, move.second};
@@ -140,7 +142,7 @@ bool ChessBot::ai_safe_move(Move move) {
     return safe;
 }
 
-bool ChessBot::ai_piece_covered(SchaakStuk* piece) {
+bool ChessBot::ai_piece_covered(SchaakStuk* piece) const {
     if(!piece->is_covered(game_))
         return false;
     for(SchaakStuk* attacker: piece->get_attackers(game_))
@@ -149,7 +151,7 @@ bool ChessBot::ai_piece_covered(SchaakStuk* piece) {
     return true;
 }
 
-bool ChessBot::ai_can_take_attacker(SchaakStuk* piece, SchaakStuk* attacker) {
+bool ChessBot::ai_can_take_attacker(SchaakStuk* piece, SchaakStuk* attacker) const {
     Game::pointerRequireNonNull(piece);
     for(int i = 1; i <= attacker->get_numeric_value(); i++)
         for(SchaakStuk* defender: game_->get_pieces_with_numeric_value(piece->get_color(), i))
@@ -173,7 +175,7 @@ bool ChessBot::ai_resolve_check(ZW color) {
     throw BotCantResolveCheck(color);
 }
 
-bool ChessBot::ai_move_piece(Move move){
+bool ChessBot::ai_move_piece(Move move) const{
     Game::pointerRequireNonNull(move.first);
     if(!game_->move(move.first, move.second))
         return false;
@@ -181,7 +183,7 @@ bool ChessBot::ai_move_piece(Move move){
     return true;
 }
 
-bool ChessBot::ai_move_leads_to_mate(Move move) {
+bool ChessBot::ai_move_leads_to_mate(Move move) const{
     Game::pointerRequireNonNull(move.first);
     MoveSimulation backup = {game_, move.first, move.second};
     bool checkmate = game_->checkmate(Game::opposite(move.first->get_color()));
@@ -189,7 +191,7 @@ bool ChessBot::ai_move_leads_to_mate(Move move) {
     return checkmate;
 }
 
-bool ChessBot::ai_move_leads_to_check(Move move, ZW color) {
+bool ChessBot::ai_move_leads_to_check(Move move, ZW color) const{
     Game::pointerRequireNonNull(move.first);
     MoveSimulation backup = {game_, move.first, move.second};
     bool check = game_->check(color);
@@ -197,7 +199,7 @@ bool ChessBot::ai_move_leads_to_check(Move move, ZW color) {
     return check;
 }
 
-int ChessBot::ai_count_empty_start_tiles(ZW color) {
+int ChessBot::ai_count_empty_start_tiles(ZW color) const{
     int count = 0;
     int startRow = color == zwart ? 0 : 6;
     for(int i = startRow; i <= startRow+1; i++)
@@ -207,10 +209,10 @@ int ChessBot::ai_count_empty_start_tiles(ZW color) {
     return count;
 }
 
-int ChessBot::ai_sum_of_threatened_pieces(ZW color) {
+int ChessBot::ai_sum_of_threatened_pieces(ZW color) const {
     int sum = 0;
     for(SchaakStuk* piece: game_->get_pieces_of_color(color))
-        if(piece->get_attackers(game_).size() > 0)
+        if(!piece->get_attackers(game_).empty())
             sum += piece->get_numeric_value();
     return sum;
 }

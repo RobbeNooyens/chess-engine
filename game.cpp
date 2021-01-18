@@ -448,11 +448,11 @@ void Game::piece_moved(ChessBoard* scene, SchaakStuk* piece, Tile tile, bool enp
     selectedPiece_ = nullptr;
     // Check for checkmate, check and stalemate
     std::string message;
-    if(checkmate(opposite(turn_)))
+    if(config_.showMatePopup && checkmate(opposite(turn_)))
         message.append(turn_ == zwart ? "Black" : "White").append(" wins!");
-    else if(check(opposite(turn_)))
+    else if(config_.showCheckPopup && check(opposite(turn_)))
         message = "Check!";
-    else if(stalemate(opposite(turn_)))
+    else if(config_.showMatePopup && stalemate(opposite(turn_)))
         message = "Draw!";
     // Update enpassant (-1 disables enpassant check)
     set_enpassant_tile(turn_, (enpassant ? tile : Tile(-1,-1)));
@@ -469,8 +469,7 @@ void Game::piece_moved(ChessBoard* scene, SchaakStuk* piece, Tile tile, bool enp
     update_board(scene);
     // Send state message
     if(!message.empty()){
-        if(config_.showPopups)
-            popup(message);
+        popup(message);
         std::cout << message << std::endl;
     }
     // Let bot do a move if it's black move

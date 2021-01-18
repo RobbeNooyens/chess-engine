@@ -6,16 +6,20 @@
 
 #IncludeRegexTransform: 
 
-../exceptions/BotCantResolveCheck.h
+../SchaakStuk.h
+sharedtypes.h
+../sharedtypes.h
+
+../exceptions/KingNotFoundException.h
 exception
 -
 string
 -
-sharedtypes.h
-../exceptions/sharedtypes.h
+SchaakStuk.h
+-
 
-../sharedtypes.h
-vector
+../exceptions/NullPointerException.h
+exception
 -
 
 C:/Qt64/5.15.2/mingw81_64/include/QtCore/qalgorithms.h
@@ -738,6 +742,10 @@ C:/Qt64/5.15.2/mingw81_64/include/QtCore/qversiontagging.h
 QtCore/qglobal.h
 -
 
+C:/Qt64/5.15.2/mingw81_64/include/QtGui/QCloseEvent
+qevent.h
+C:/Qt64/5.15.2/mingw81_64/include/QtGui/qevent.h
+
 C:/Qt64/5.15.2/mingw81_64/include/QtGui/qbrush.h
 QtGui/qtguiglobal.h
 -
@@ -840,6 +848,16 @@ QtCore/qsharedpointer.h
 QtCore/qrect.h
 -
 
+C:/Qt64/5.15.2/mingw81_64/include/QtGui/qicon.h
+QtGui/qtguiglobal.h
+-
+QtCore/qsize.h
+-
+QtCore/qlist.h
+-
+QtGui/qpixmap.h
+-
+
 C:/Qt64/5.15.2/mingw81_64/include/QtGui/qimage.h
 QtGui/qtguiglobal.h
 -
@@ -898,6 +916,14 @@ C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpalette.h
 QtGui/qtguiglobal.h
 -
 QtGui/qwindowdefs.h
+-
+QtGui/qcolor.h
+-
+QtGui/qbrush.h
+-
+
+C:/Qt64/5.15.2/mingw81_64/include/QtGui/qpen.h
+QtGui/qtguiglobal.h
 -
 QtGui/qcolor.h
 -
@@ -1018,10 +1044,54 @@ C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QDialog
 qdialog.h
 C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
 
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QGraphicsScene
+qgraphicsscene.h
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMainWindow
+qmainwindow.h
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/QMessageBox
+qmessagebox.h
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h
+
 C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qdialog.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qwidget.h
+-
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qgraphicsscene.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtCore/qobject.h
+-
+QtCore/qpoint.h
+-
+QtCore/qrect.h
+-
+QtGui/qbrush.h
+-
+QtGui/qfont.h
+-
+QtGui/qtransform.h
+-
+QtGui/qpen.h
+-
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmainwindow.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtWidgets/qwidget.h
+-
+QtWidgets/qtabwidget.h
+-
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtWidgets/qdialog.h
 -
 
 C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qsizepolicy.h
@@ -1030,6 +1100,14 @@ QtWidgets/qtwidgetsglobal.h
 QtCore/qobject.h
 -
 QtCore/qalgorithms.h
+-
+
+C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtWidgets/qwidget.h
+-
+QtGui/qicon.h
 -
 
 C:/Qt64/5.15.2/mingw81_64/include/QtWidgets/qtwidgets-config.h
@@ -1072,20 +1150,6 @@ QtGui/qkeysequence.h
 QtGui/qevent.h
 -
 
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.cpp
-exceptions/BotCantResolveCheck.h
--
-iostream
--
-ChessBot.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
-game.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
-SchaakStuk.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
-MoveSimulation.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
-
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
 sharedtypes.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
@@ -1094,13 +1158,33 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
 utility
 -
 
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/SchaakStuk.h
-sharedtypes.h
-C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
+QGraphicsScene
+-
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/config.h
 sharedtypes.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.cpp
+iostream
+-
+exceptions/KingNotFoundException.h
+-
+sstream
+-
+QtWidgets/QMessageBox
+-
+exceptions/NullPointerException.h
+-
+game.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+mainwindow.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
+chessboard.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/chessboard.h
+MoveSimulation.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/MoveSimulation.h
 
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
 sharedtypes.h
@@ -1112,7 +1196,19 @@ C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
 ChessBot.h
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/ChessBot.h
 
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/mainwindow.h
+QMainWindow
+-
+QCloseEvent
+-
+game.h
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/game.h
+
 C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/promotepawn.h
 QDialog
+-
+
+C:/Users/robbe/Documents/University/Bachelor 1/IP/C++/Chess/sharedtypes.h
+vector
 -
 
