@@ -81,7 +81,7 @@ bool ChessBot::ai_move(ZW color) {
     ChessBot::debug("Can't taken an opponents piece safely", 1);
     const int emptyTiles = ai_count_empty_start_tiles(color);
     // Rokade if possible
-    if(emptyTiles >= 8){
+    if(emptyTiles >= 5){
         Koning* koning = game_->find_king(color);
         for(Toren* rook: game_->find_rooks(color)){
             std::pair<bool, Tile> rokade = koning->can_rokade(game_, rook);
@@ -91,12 +91,12 @@ bool ChessBot::ai_move(ZW color) {
     }
     // Move random piece
     ChessBot::debug("Searching for the best random move");
-    const bool canMoveQueen = ai_count_empty_start_tiles(color) >= 6;
+    const bool canMoveQueen = ai_count_empty_start_tiles(color) >= 7;
     const int initialThreatenedSum = ai_sum_of_threatened_pieces(color);
     int attackingTiles = 0;
     Move currentBestMove;
     for(SchaakStuk* piece: game_->get_pieces_of_color(color)){
-        if(piece->type() == king || (!canMoveQueen && piece->type() == queen))
+        if(piece->type() == king || piece->type() == rook || (!canMoveQueen && piece->type() == queen))
             continue;
         for(const auto &move: piece->valid_moves(game_)){
             if(!ai_safe_move({piece, move}))
@@ -119,7 +119,7 @@ bool ChessBot::ai_resolve_threatened_piece(SchaakStuk* piece) {
     Pieces attackers = piece->get_attackers(game_);
     SchaakStuk* highestAttacker = attackers.front();
     for(SchaakStuk* attacker: attackers)
-        if(ai_can_take_attacker(piece, attacker))
+        if(attacker->get_numeric_value() > piece->get_numeric_value() && ai_can_take_attacker(piece, attacker))
             return ai_move_piece({piece, attacker->get_position()});
         else if(highestAttacker == nullptr || attacker->get_numeric_value() > highestAttacker->get_numeric_value())
             highestAttacker = attacker;
