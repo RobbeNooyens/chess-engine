@@ -76,7 +76,7 @@ bool ChessBot::ai_move(ZW color) {
     if(foundTarget)
         return ai_move_piece({ownPiece, targetTile});
     ChessBot::debug("Can't taken an opponents piece safely", 1);
-    int emptyTiles = ai_count_empty_start_tiles(color);
+    const int emptyTiles = ai_count_empty_start_tiles(color);
     // Rokade if possible
     if(emptyTiles >= 8){
         Koning* koning = game_->find_king(color);
@@ -88,18 +88,21 @@ bool ChessBot::ai_move(ZW color) {
     }
     // Move random piece
     ChessBot::debug("Searching for the best random move");
-
-    bool canMoveQueen = ai_count_empty_start_tiles(color) >= 6;
+    const bool canMoveQueen = ai_count_empty_start_tiles(color) >= 6;
+    const int initialThreatenedSum = ai_sum_of_threatened_pieces(color);
     int attackingTiles = 0;
     Move currentBestMove;
     for(SchaakStuk* piece: game_->get_pieces_of_color(color)){
         if(piece->type() == king || (!canMoveQueen && piece->type() == queen))
             continue;
         for(const auto &move: piece->valid_moves(game_)){
-            if(!piece->is_safe_move(game_, move))
+            if(!ai_safe_move({piece, move}))
                 continue;
-            int tiles = ai_count_tiles_after_move({piece, move});
-            if(tiles > attackingTiles){
+            MoveSimulation backup = {game_, piece, move};
+            int tiles = game_->get_threatened_tiles(piece->get_color()).size();
+            int threatenedSum = ai_sum_of_threatened_pieces(color);
+            backup.restore();
+            if(tiles > attackingTiles && threatenedSum <= initialThreatenedSum){
                 currentBestMove = {piece, move};
                 attackingTiles = tiles;
             }
@@ -194,14 +197,6 @@ bool ChessBot::ai_move_leads_to_check(Move move, ZW color) {
     return check;
 }
 
-int ChessBot::ai_count_tiles_after_move(Move move) {
-    Game::pointerRequireNonNull(move.first);
-    MoveSimulation backup = {game_, move.first, move.second};
-    int count = game_->get_threatened_tiles(move.first->get_color()).size();
-    backup.restore();
-    return count;
-}
-
 int ChessBot::ai_count_empty_start_tiles(ZW color) {
     int count = 0;
     int startRow = color == zwart ? 0 : 6;
@@ -213,7 +208,11 @@ int ChessBot::ai_count_empty_start_tiles(ZW color) {
 }
 
 int ChessBot::ai_sum_of_threatened_pieces(ZW color) {
-    return 0;
+    int sum = 0;
+    for(SchaakStuk* piece: game_->get_pieces_of_color(color))
+        if(piece->get_attackers(game_).size() > 0)
+            sum += piece->get_numeric_value();
+    return sum;
 }
 
 void ChessBot::debug(const std::string& message, int depth) const{

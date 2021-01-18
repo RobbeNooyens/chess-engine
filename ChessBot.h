@@ -20,7 +20,6 @@ private:
     bool ai_move_leads_to_mate(Move);
     bool ai_move_leads_to_check(Move, ZW);
     bool ai_resolve_threatened_piece(SchaakStuk*);
-    int ai_count_tiles_after_move(Move);
     int ai_count_empty_start_tiles(ZW);
     int ai_sum_of_threatened_pieces(ZW);
     int ai_random_move_score(ZW);
